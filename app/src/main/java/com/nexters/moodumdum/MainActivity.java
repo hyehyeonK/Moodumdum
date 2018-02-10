@@ -6,20 +6,29 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.nexters.moodumdum.model.Contents;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
+    Contents contentsData;
 
     @BindView(R.id.stack_layout)
-    FrameLayout stack_layout;
+    LinearLayout stack_layout;
 
-    @BindView(R.id.startContents)
+    @BindView(R.id.firstContents)
     TextView contents;
+
+    @BindView(R.id.firstBackground)
+    ImageView backImgUrl;
+
+    @BindView(nick)
 
 
     @Override
@@ -28,7 +37,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
+        initData();
+
+    }
+
+    private void initData() {
+
         contents.setText("하하하하하하");
+        //api test data좀 주세요 호동님... ㅠㅠ
+//        Glide.with(this).load(contentsData.getImage_url()).into(backImgUrl);
+//        contents.setText(contentsData.getDescription());
+
 
 
     }

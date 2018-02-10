@@ -28,6 +28,8 @@ public class MainCardActivity extends AppCompatActivity {
 
     Adapter stackViewAdapter;
     List<String> mData;
+    TextView mTextView;
+    TextView mTextView2;
 
     @BindView(R.id.constraintMain)
     ConstraintLayout constraintLayoutMain;
@@ -44,6 +46,7 @@ public class MainCardActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String contents = intent.getStringExtra("contents");
 
+//        mTextView.setText(contents);
 
         initView();
         loadData(0);
@@ -69,7 +72,7 @@ public class MainCardActivity extends AppCompatActivity {
         });
     }
 
-    private void loadData(final  int page) {
+    private void loadData(final int page) {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -108,8 +111,7 @@ public class MainCardActivity extends AppCompatActivity {
         public int getItemCount() {
             return mData.size();
         }
-        TextView mTextView;
-        TextView mTextView2;
+
         public  class ViewHolder extends  StackLayout.ViewHolder{
             public  ViewHolder(View itemView) {
                 super (itemView);
