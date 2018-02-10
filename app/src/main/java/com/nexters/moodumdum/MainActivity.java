@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.firstBackground)
     ImageView backImgUrl;
 
-    @BindView(nick)
 
 
     @Override
