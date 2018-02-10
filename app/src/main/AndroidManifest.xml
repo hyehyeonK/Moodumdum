@@ -16,6 +16,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".StartActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name=".MainCardActivity">
+
+        </activity>
     </application>
 
 </manifest>

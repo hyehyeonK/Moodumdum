@@ -1,44 +1,25 @@
 package com.nexters.moodumdum;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.transition.AutoTransition;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
-    // In your activity
-    ConstraintSet constraint;
-    AutoTransition transition;
-    int parentHeight;
-    int childHeight;
-    float childScaleFactor;
-
-    @BindView(R.id.constraintMain)
-    ConstraintLayout constraintLayoutMain;
-
-    @BindView(R.id.imageViewLogo)
-    ImageView logoImg;
-
-    @BindView(R.id.imageViewBottom)
-    ImageView bottomImg;
-
-    @BindView(R.id.bottomLayout)
-    FrameLayout bottomLayout;
-
-    @BindView(R.id.textBottom)
-    TextView bottomText;
 
 
+    @BindView(R.id.stack_layout)
+    FrameLayout stack_layout;
 
-
+    @BindView(R.id.startContents)
+    TextView contents;
 
 
     @Override
@@ -47,25 +28,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
-        initData();
+        contents.setText("하하하하하하");
+
 
     }
 
-    private void initData() {{
-        bottomText.setText("으에에에에에엥 글짜아아아아아아 Testttttt");
-    }}
-
-    @Override
     public boolean onTouchEvent(MotionEvent event) {
-
-        constraint = new ConstraintSet();
-        constraint.clone(constraintLayoutMain);
-
-        transition = new AutoTransition();
-        transition.setDuration(1500);
-
+        Intent intent = new Intent(this, MainCardActivity.class);
+        intent.putExtra("contents", contents.getText());
+        ActivityOptionsCompat options = ActivityOptionsCompat.
+                makeSceneTransitionAnimation(this, (View)stack_layout, "cardStack");
+        startActivity(intent, options.toBundle());
         return true;
+
     }
+
+
 
 
 }

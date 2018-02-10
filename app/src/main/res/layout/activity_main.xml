@@ -5,24 +5,32 @@
     android:id="@+id/constraintMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.nexters.moodumdum.MainActivity"
     tools:layout_editor_absoluteY="25dp">
 
-    <ImageView
-        android:id="@+id/imageViewLogo"
-        android:layout_width="wrap_content"
-        android:layout_height="151dp"
-        app:srcCompat="@drawable/back_3" />
+    <FrameLayout
+        android:id="@+id/top"
+        android:background="#ffffff"
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+        <ImageView
+            android:id="@+id/imageViewLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/start_top" />
+    </FrameLayout>
+
 
     <FrameLayout
-        android:id="@+id/bottomLayout"
+        android:id="@+id/stack_layout"
+        android:transitionName="cardStack"
         android:layout_width="match_parent"
         android:layout_height="391dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewLogo">
+        app:layout_constraintTop_toBottomOf="@+id/top">
 
         <TextView
-            android:id="@+id/textBottom"
+            android:id="@+id/startContents"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -32,7 +40,7 @@
             android:id="@+id/imageViewBottom"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:srcCompat="@drawable/back_2"
+            app:srcCompat="@drawable/back_1"
             tools:layout_editor_absoluteY="183dp" />
     </FrameLayout>
 </android.support.constraint.ConstraintLayout>

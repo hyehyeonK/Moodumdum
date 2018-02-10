@@ -4,7 +4,7 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.nexters.moodumdum"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -39,4 +39,9 @@ dependencies {
 
     // RecyclerView
     compile 'com.android.support:recyclerview-v7:26.1.0'
+
+    // StackLayout
+    compile 'com.github.fashare2015:StackLayout:1.0.0'
+    compile project(':stack-layout')
 }
+

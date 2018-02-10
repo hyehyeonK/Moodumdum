@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Moodumdum.iml" filepath="$PROJECT_DIR$/Moodumdum.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/stack-layout/stack-layout.iml" filepath="$PROJECT_DIR$/stack-layout/stack-layout.iml" />
     </modules>
   </component>
 </project>
