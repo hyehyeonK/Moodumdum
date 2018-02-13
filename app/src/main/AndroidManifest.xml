@@ -23,6 +23,7 @@
         <activity android:name=".MainCardActivity">
 
         </activity>
+        <activity android:name=".Mypage"></activity>
     </application>
 
 </manifest>

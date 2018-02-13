@@ -61,7 +61,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-
-
+    public void onClickToMyPage(View view) {
+        Intent intent = new Intent( this, Mypage.class );
+        startActivity( intent );
+    }
 }

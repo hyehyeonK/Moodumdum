@@ -28,8 +28,8 @@ public class MainCardActivity extends AppCompatActivity {
 
     Adapter stackViewAdapter;
     List<String> mData;
-    TextView mTextView;
-    TextView mTextView2;
+    TextView mContents;
+    TextView mWriter;
 
     @BindView(R.id.constraintMain)
     ConstraintLayout constraintLayoutMain;
@@ -115,8 +115,8 @@ public class MainCardActivity extends AppCompatActivity {
         public  class ViewHolder extends  StackLayout.ViewHolder{
             public  ViewHolder(View itemView) {
                 super (itemView);
-                mTextView = (TextView) itemView.findViewById(R.id.contents);
-                mTextView2 = (TextView) itemView.findViewById(R.id.writer);
+                mContents = (TextView) itemView.findViewById(R.id.contents);
+                mWriter = (TextView) itemView.findViewById(R.id.writer);
             }
 
         }
