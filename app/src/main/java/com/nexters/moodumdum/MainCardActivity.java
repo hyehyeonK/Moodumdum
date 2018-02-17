@@ -3,11 +3,11 @@ package com.nexters.moodumdum;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fashare.stack_layout.StackLayout;
@@ -31,8 +31,8 @@ public class MainCardActivity extends AppCompatActivity {
     TextView mContents;
     TextView mWriter;
 
-    @BindView(R.id.constraintMain)
-    ConstraintLayout constraintLayoutMain;
+    @BindView(R.id.mainLayoutForCardView)
+    LinearLayout constraintLayoutMain;
 
     @BindView(R.id.stack_layout)
     StackLayout mainStackLayout;
@@ -40,7 +40,7 @@ public class MainCardActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_anim);
+        setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
         Intent intent = getIntent();
