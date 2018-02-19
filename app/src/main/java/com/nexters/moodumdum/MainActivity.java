@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fashare.stack_layout.StackLayout;
 import com.fashare.stack_layout.transformer.AngleTransformer;
@@ -59,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         DeviceUuidFactory uuidFactory = new DeviceUuidFactory(this);
         UUID uuid = uuidFactory.getDeviceUuid();
         Log.d("UUID_Check", "" + uuid);
-        //-> uuid 존재 -> 바로 actuvuty_main 띄우기
+        // -> uuid 존재 -> 바로 activity_main 띄우기
         // 존재하지 않을 경우 새로 db에 등록 및 intro 화면 띄우기
         
         initView();
@@ -163,13 +162,14 @@ public class MainActivity extends AppCompatActivity {
     }
     @OnClick(R.id.onClickToMyPage)
     void onClickToMyPage() {
-        Toast.makeText (MainActivity.this, "onClickToMyPage 누름", Toast.LENGTH_SHORT).show();
 
-        Intent intent = new Intent(getApplicationContext(), Mypage.class); // 다음 넘어갈 클래스 지정
+        Intent intent = new Intent(getApplicationContext(), Mypage.class);
         startActivity(intent);
     }
-//    @OnClick(R.id.onClickToMenu)
-//    void onClickToMenu() {
-//        Toast.makeText (getApplicationContext(), "onClickToMenu 누름", Toast.LENGTH_SHORT).show();
-//    }
+
+    @OnClick(R.id.onClickToMenu)
+    void onClickToMenu() {
+        Intent intent = new Intent(getApplicationContext(), CategoryActivity.class);
+        startActivity(intent);
+    }
 }

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffff">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="70dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent"
+        app:srcCompat="@drawable/category_title" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="10dp"
+        android:textColor="#4a4a4a"
+        android:text="당신과 같은 고민이 여기에 있어요."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="200dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="2dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/category_love"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/category_back_1"
+                android:padding="35dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/category_1" />
+
+            <ImageButton
+                android:id="@+id/category_job"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/category_back_2"
+                android:padding="35dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/category_2" />
+
+            <ImageButton
+                android:id="@+id/category_badHistory"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginLeft="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/category_back_3"
+                android:padding="35dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/category_3" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/category_selfEsteem"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/category_back_4"
+                android:padding="35dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/category_4" />
+
+            <ImageButton
+                android:id="@+id/category_family"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/category_back_5"
+                android:padding="35dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/category_5" />
+
+            <ImageButton
+                android:id="@+id/category_etc"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginLeft="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/category_back_6"
+                android:padding="35dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/category_6" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+    <include
+        android:id="@+id/include"
+        layout="@layout/fragment_top"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <include
+        android:id="@+id/include3"
+        layout="@layout/fragment_bottom"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

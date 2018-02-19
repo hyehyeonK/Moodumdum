@@ -8,7 +8,7 @@
         android:layout_height="24dp"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="16dp"
-        android:background="@drawable/category" />
+        android:background="@drawable/btn_category" />
 
     <Button
         android:id="@+id/onClickToMyPage"

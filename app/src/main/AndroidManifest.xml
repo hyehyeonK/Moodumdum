@@ -24,6 +24,7 @@
 
         </activity>
         <activity android:name=".Mypage"></activity>
+        <activity android:name=".CategoryActivity"></activity>
     </application>
 
 </manifest>
