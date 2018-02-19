@@ -44,11 +44,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate( savedInstanceState );
-        setContentView( R.layout.activity_main );
 
-        ButterKnife.bind( this );
-        TopBarActivity.setHeader( this, getApplicationContext() );
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        startActivity(new Intent(this, SplashActivity.class));
+        ButterKnife.bind(this);
+        TopBarActivity.setHeader(this, getApplicationContext());
+
         Intent intent = getIntent();
         String contents = intent.getStringExtra( "contents" );
 
