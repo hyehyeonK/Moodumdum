@@ -36,20 +36,21 @@
 
         <EditText
             android:id="@+id/contentOfPlus"
-            android:textSize="20dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="51dp"
             android:layout_below="@id/test"
             android:background="@null"
             android:gravity="center"
-            android:textColor="#747474"
             android:hint="당신의 잊고 싶은 기억,\n여기에 적어두세요."
-            android:textColorHint="#848484"
             android:inputType="textMultiLine"
+            android:textColor="#747474"
+            android:textColorHint="#848484"
+            android:textSize="20dp"
             app:layout_constraintBottom_toTopOf="@+id/horizontalScrollView"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/test" />
+            app:layout_constraintTop_toBottomOf="@+id/test"
+            app:layout_constraintVertical_bias="0.49" />
 
         <HorizontalScrollView
             android:id="@+id/horizontalScrollView"
@@ -81,6 +82,7 @@
                             android:background="@null"
                             android:scaleType="centerInside"
                             android:src="@drawable/btn_family_unact" />
+
                         <ImageButton
                             android:layout_width="92dp"
                             android:layout_height="30dp"
