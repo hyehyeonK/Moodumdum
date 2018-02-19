@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#ffffff"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.nexters.moodumdum.PlusActivity">
+
+        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/test"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@null">
+
+                <Button
+                    android:id="@+id/onClickToCancle"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/btn_cancle" />
+
+                <TextView
+                    android:id="@+id/onClickToNext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="24dp"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="20dp"
+                    android:text="다음"
+                    android:textColor="#747474" />
+
+
+        </FrameLayout>
+
+
+
+        <EditText
+            android:id="@+id/contentOfPlus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/test"
+            android:background="@null"
+            android:gravity="center"
+            android:textColor="#747474"
+            android:hint="당신의 잊고 싶은 기억,\n여기에 적어두세요."
+            android:textColorHint="#848484"
+            android:inputType="textMultiLine"
+            app:layout_constraintBottom_toTopOf="@+id/horizontalScrollView"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/test" />
+
+        <HorizontalScrollView
+            android:id="@+id/horizontalScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="#747474"
+            android:scrollbars="none"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/category_love"
+                            android:layout_width="75dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="연애" />
+
+                        <TextView
+                            android:layout_width="75dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="가정" />
+
+                        <TextView
+                            android:layout_width="75dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="직장" />
+
+                        <TextView
+                            android:layout_width="75dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="자존감" />
+
+                        <TextView
+                            android:layout_width="75dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="흑역사" />
+
+                        <TextView
+                            android:layout_width="75dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="기타" />
+                </LinearLayout>
+
+        </HorizontalScrollView>
+
+
+</android.support.constraint.ConstraintLayout>
