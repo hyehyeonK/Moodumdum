@@ -2,7 +2,10 @@ package com.nexters.moodumdum;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.GridView;
@@ -24,7 +27,10 @@ public class PlusBackimgActivity extends AppCompatActivity {
     TextView onClickToFinish;
     @BindView(R.id.gridViewImages)
     GridView gridViewImages;
+    @BindView(R.id.plusBackimgLayout)
+    ConstraintLayout plusBackimgLayout;
 
+    // 임시 이미지
     private int[] imageIDs = new int[]{
             R.drawable.back_1,
             R.drawable.back_2,
@@ -54,8 +60,16 @@ public class PlusBackimgActivity extends AppCompatActivity {
 
         contentOfPlusBackimg.setText( contentOfPlus );
 
-        PlusBackimgAdapter plusBackimgAdapter = new PlusBackimgAdapter(this,imageIDs);
+        PlusBackimgAdapter plusBackimgAdapter = new PlusBackimgAdapter( this, imageIDs );
         gridViewImages.setAdapter( plusBackimgAdapter );
+
+        gridViewImages.setOnItemClickListener( new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                plusBackimgLayout.setBackground(getDrawable( imageIDs[i]));
+            }
+        } );
+        
     }
 
     @OnClick(R.id.onClickToCancle)

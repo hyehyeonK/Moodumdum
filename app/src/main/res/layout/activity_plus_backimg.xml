@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:background="#ffffff"
     tools:context="com.nexters.moodumdum.PlusBackimgActivity"
-    tools:layout_editor_absoluteY="25dp">
+    tools:layout_editor_absoluteY="25dp"
+    android:id="@+id/plusBackimgLayout">
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/test"
@@ -54,6 +55,7 @@
         app:layout_constraintVertical_bias="0.277" />
 
     <GridView
+        android:background="#ffffff"
         android:id="@+id/gridViewImages"
         android:layout_width="match_parent"
         android:layout_height="240dp"

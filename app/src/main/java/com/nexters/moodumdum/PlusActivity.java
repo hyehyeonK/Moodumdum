@@ -37,6 +37,8 @@ public class PlusActivity extends AppCompatActivity {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_plus );
         ButterKnife.bind( this );
+
+
     }
 
     @OnClick(R.id.onClickToCancle)
