@@ -14,7 +14,7 @@
             android:background="@null">
 
                 <Button
-                    android:id="@+id/onClickToCancle"
+                    android:id="@+id/onClickToCancel"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginLeft="16dp"
@@ -63,54 +63,71 @@
             app:layout_constraintStart_toStartOf="parent">
 
                 <LinearLayout
+                    android:id="@+id/categorySelLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
-                        <ImageButton
-                            android:layout_width="92dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="center"
-                            android:background="@null"
-                            android:scaleType="centerInside"
-                            android:src="@drawable/btn_relationship_act"/>
+                    <Button
+                        android:id="@+id/btn_relationship"
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_gravity="center"
+                        android:scaleType="centerInside"
+                        android:background="@drawable/btn_relationship_state"/>
 
-                        <ImageButton
-                            android:layout_width="92dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="center"
-                            android:background="@null"
-                            android:scaleType="centerInside"
-                            android:src="@drawable/btn_family_unact" />
+                    <Button
+                        android:id="@+id/btn_family"
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_gravity="center"
+                        android:scaleType="centerInside"
+                        android:background="@drawable/btn_family_state"/>
 
-                        <ImageButton
-                            android:layout_width="92dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="center"
-                            android:background="@null"
-                            android:scaleType="centerInside"
-                            android:src="@drawable/btn_job_unact" />
-                        <ImageButton
-                            android:layout_width="92dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="center"
-                            android:background="@null"
-                            android:scaleType="centerInside"
-                            android:src="@drawable/btn_selfesteem_unact" />
-                        <ImageButton
-                            android:layout_width="92dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="center"
-                            android:background="@null"
-                            android:scaleType="centerInside"
-                            android:src="@drawable/btn_darkhistory_unact" />
-                        <ImageButton
-                            android:layout_width="92dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="center"
-                            android:background="@null"
-                            android:scaleType="centerInside"
-                            android:src="@drawable/btn_ect_unact" />
+                    <Button
+                        android:id="@+id/btn_job"
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_gravity="center"
+                        android:scaleType="centerInside"
+                        android:background="@drawable/btn_job_state"/>
+
+                    <Button
+                        android:id="@+id/btn_selfesteem"
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_gravity="center"
+                        android:scaleType="centerInside"
+                        android:background="@drawable/btn_selfesteem_state"/>
+
+                    <Button
+                        android:id="@+id/btn_darkhistory"
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_gravity="center"
+                        android:scaleType="centerInside"
+                        android:background="@drawable/btn_darkhistory_state"/>
+
+                    <Button
+                        android:id="@+id/btn_ect"
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_gravity="center"
+                        android:scaleType="centerInside"
+                        android:background="@drawable/btn_ect_state"/>
+
                 </LinearLayout>
 
         </HorizontalScrollView>

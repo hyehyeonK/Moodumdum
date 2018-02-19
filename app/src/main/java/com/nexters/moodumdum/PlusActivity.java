@@ -3,10 +3,12 @@ package com.nexters.moodumdum;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -14,8 +16,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class PlusActivity extends AppCompatActivity {
-    @BindView(R.id.onClickToCancle)
-    Button onClickToCancle;
+    @BindView(R.id.onClickToCancel)
+    Button onClickToCancel;
 
     @BindView(R.id.onClickToNext)
     TextView onClickToNext;
@@ -28,6 +30,21 @@ public class PlusActivity extends AppCompatActivity {
 
     @BindView(R.id.contentOfPlus)
     EditText contentOfPlus;
+    @BindView(R.id.categorySelLayout)
+    LinearLayout categorySelLayout;
+    @BindView(R.id.btn_relationship)
+    Button btnRelationship;
+    @BindView(R.id.btn_family)
+    Button btnFamily;
+    @BindView(R.id.btn_job)
+    Button btnJob;
+    @BindView(R.id.btn_selfesteem)
+    Button btnSelfesteem;
+    @BindView(R.id.btn_darkhistory)
+    Button btnDarkhistory;
+    @BindView(R.id.btn_ect)
+    Button btnEct;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +57,10 @@ public class PlusActivity extends AppCompatActivity {
 //        imm.showSoftInput(contentOfPlus, InputMethodManager.SHOW_FORCED);
 
 
-
     }
 
-    @OnClick(R.id.onClickToCancle)
-    public void onOnClickToCancleClicked() {
+    @OnClick(R.id.onClickToCancel)
+    public void onOnClickToCancelClicked() {
         this.finish();
     }
 
@@ -53,5 +69,18 @@ public class PlusActivity extends AppCompatActivity {
         Intent intent = new Intent( this, PlusBackimgActivity.class );
         intent.putExtra( "contentOfPlus", contentOfPlus.getText().toString() );
         startActivity( intent );
+    }
+
+
+    @OnClick({R.id.btn_relationship, R.id.btn_family, R.id.btn_job, R.id.btn_selfesteem, R.id.btn_darkhistory, R.id.btn_ect})
+    public void onViewClicked(View view) {
+        btnRelationship.setSelected( false );
+        btnFamily.setSelected( false );
+        btnJob.setSelected( false );
+        btnSelfesteem.setSelected( false );
+        btnDarkhistory.setSelected( false );
+        btnEct.setSelected( false );
+
+        view.setSelected( true );
     }
 }
