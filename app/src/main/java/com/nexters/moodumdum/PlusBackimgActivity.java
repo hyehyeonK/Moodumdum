@@ -40,13 +40,11 @@ public class PlusBackimgActivity extends AppCompatActivity {
             R.drawable.category_back_3,
             R.drawable.category_back_4,
             R.drawable.category_back_5,
-            R.drawable.category_back_6,
-            R.drawable.category_back_6,
-            R.drawable.category_back_6,
-            R.drawable.category_back_6,
-            R.drawable.category_back_6,
-            R.drawable.category_back_6,
-            R.drawable.category_back_6,
+            R.drawable.category_back_1,
+            R.drawable.category_back_2,
+            R.drawable.category_back_3,
+            R.drawable.category_back_4,
+            R.drawable.category_back_5,
     };
 
     @Override
@@ -69,7 +67,7 @@ public class PlusBackimgActivity extends AppCompatActivity {
                 plusBackimgLayout.setBackground(getDrawable( imageIDs[i]));
             }
         } );
-        
+
     }
 
     @OnClick(R.id.onClickToCancle)

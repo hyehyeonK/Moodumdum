@@ -27,7 +27,7 @@
         <activity android:name=".CategoryActivity" />
         <activity
             android:name=".PlusActivity"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="stateAlwaysVisible|adjustResize" />
         <activity android:name=".PlusBackimgActivity"></activity>
     </application>
 

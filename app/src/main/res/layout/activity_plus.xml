@@ -34,10 +34,9 @@
 
         </FrameLayout>
 
-
-
         <EditText
             android:id="@+id/contentOfPlus"
+            android:textSize="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/test"
@@ -55,8 +54,8 @@
         <HorizontalScrollView
             android:id="@+id/horizontalScrollView"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="#747474"
+            android:layout_height="48dp"
+            android:background="#4a4a4a"
             android:scrollbars="none"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -67,42 +66,49 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/category_love"
-                            android:layout_width="75dp"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="연애" />
+                        <ImageButton
+                            android:layout_width="92dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:background="@null"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/btn_relationship_act"/>
 
-                        <TextView
-                            android:layout_width="75dp"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="가정" />
-
-                        <TextView
-                            android:layout_width="75dp"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="직장" />
-
-                        <TextView
-                            android:layout_width="75dp"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="자존감" />
-
-                        <TextView
-                            android:layout_width="75dp"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="흑역사" />
-
-                        <TextView
-                            android:layout_width="75dp"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:text="기타" />
+                        <ImageButton
+                            android:layout_width="92dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:background="@null"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/btn_family_unact" />
+                        <ImageButton
+                            android:layout_width="92dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:background="@null"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/btn_job_unact" />
+                        <ImageButton
+                            android:layout_width="92dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:background="@null"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/btn_selfesteem_unact" />
+                        <ImageButton
+                            android:layout_width="92dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:background="@null"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/btn_darkhistory_unact" />
+                        <ImageButton
+                            android:layout_width="92dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:background="@null"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/btn_ect_unact" />
                 </LinearLayout>
 
         </HorizontalScrollView>

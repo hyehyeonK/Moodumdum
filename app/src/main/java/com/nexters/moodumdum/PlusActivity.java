@@ -23,9 +23,6 @@ public class PlusActivity extends AppCompatActivity {
     @BindView(R.id.test)
     FrameLayout test;
 
-    @BindView(R.id.category_love)
-    TextView categoryLove;
-
     @BindView(R.id.horizontalScrollView)
     HorizontalScrollView horizontalScrollView;
 
@@ -37,6 +34,11 @@ public class PlusActivity extends AppCompatActivity {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_plus );
         ButterKnife.bind( this );
+
+        // 키보드 강제 올리기
+//        InputMethodManager imm = (InputMethodManager) getSystemService( Context.INPUT_METHOD_SERVICE);
+//        imm.showSoftInput(contentOfPlus, InputMethodManager.SHOW_FORCED);
+
 
 
     }
