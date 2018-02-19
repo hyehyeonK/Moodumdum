@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,10 +16,12 @@ import android.widget.Toast;
 
 import com.fashare.stack_layout.StackLayout;
 import com.fashare.stack_layout.transformer.AngleTransformer;
+import com.nexters.moodumdum.factory.DeviceUuidFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,7 +54,14 @@ public class MainActivity extends AppCompatActivity {
         String contents = intent.getStringExtra("contents");
 
 //        mTextView.setText(contents);
-
+        
+        //디바이스 UUID 가져오기
+        DeviceUuidFactory uuidFactory = new DeviceUuidFactory(this);
+        UUID uuid = uuidFactory.getDeviceUuid();
+        Log.d("UUID_Check", "" + uuid);
+        //-> uuid 존재 -> 바로 actuvuty_main 띄우기
+        // 존재하지 않을 경우 새로 db에 등록 및 intro 화면 띄우기
+        
         initView();
         loadData(0);
 
@@ -137,19 +147,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
     private ValueAnimator getToggleAnimation(final android.view.View view , int startHeight , int endHeight) {
-        //We create the animator and setup the starting height and the final height. The animator
-        //Will create smooth itnermediate values (based on duration) to go across these two values.
         ValueAnimator animator = ValueAnimator.ofInt(startHeight,endHeight);
-        //Overriding updateListener so that we can tell the animator what to do at each update.
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                //We get the value of the animatedValue, this will be between [startHeight,endHeight]
                 int val = (Integer)animation.getAnimatedValue();
-                //We retrieve the layout parameters and pick up the height of the View.
                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) view.getLayoutParams();
                 params.height = val;
-                //Once we have updated the height all we need to do is to call the set method.
                 view.setLayoutParams(params);
             }
         });
