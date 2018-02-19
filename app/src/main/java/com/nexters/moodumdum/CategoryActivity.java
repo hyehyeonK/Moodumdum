@@ -1,9 +1,11 @@
 package com.nexters.moodumdum;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by kimhyehyeon on 2018. 2. 19..
@@ -20,11 +22,11 @@ public class CategoryActivity extends AppCompatActivity {
     }
 
 
-//    @OnClick(R.id.category_love)
-//    void onClickToLoveOfCategory(){
-//        Intent intent = new Intent(getApplicationContext(), Mypage.class);
-//        startActivity(intent);
-//    }
+    @OnClick(R.id.category_love)
+    void onClickToLoveOfCategory(){
+        Intent intent = new Intent(getApplicationContext(), CategorySelectedActivity.class);
+        startActivity(intent);
+    }
 //    @OnClick(R.id.category_job)
 //    void onClickToJobOfCategory(){
 //        Intent intent = new Intent(getApplicationContext(), Mypage.class);
