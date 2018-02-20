@@ -70,7 +70,7 @@
 
                     <Button
                         android:id="@+id/btn_relationship"
-                        android:layout_width="80dp"
+                        android:layout_width="78dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="5dp"
                         android:layout_marginEnd="5dp"
@@ -80,7 +80,7 @@
 
                     <Button
                         android:id="@+id/btn_family"
-                        android:layout_width="80dp"
+                        android:layout_width="78dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="5dp"
                         android:layout_marginEnd="5dp"
@@ -90,7 +90,7 @@
 
                     <Button
                         android:id="@+id/btn_job"
-                        android:layout_width="80dp"
+                        android:layout_width="78dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="5dp"
                         android:layout_marginEnd="5dp"
@@ -100,7 +100,7 @@
 
                     <Button
                         android:id="@+id/btn_selfesteem"
-                        android:layout_width="80dp"
+                        android:layout_width="78dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="5dp"
                         android:layout_marginEnd="5dp"
@@ -110,7 +110,7 @@
 
                     <Button
                         android:id="@+id/btn_darkhistory"
-                        android:layout_width="80dp"
+                        android:layout_width="78dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="5dp"
                         android:layout_marginEnd="5dp"
@@ -120,7 +120,7 @@
 
                     <Button
                         android:id="@+id/btn_ect"
-                        android:layout_width="80dp"
+                        android:layout_width="78dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="5dp"
                         android:layout_marginEnd="5dp"

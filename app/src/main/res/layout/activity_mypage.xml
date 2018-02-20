@@ -10,10 +10,12 @@
 
 
     <android.support.constraint.ConstraintLayout
+        android:layout_marginTop="56dp"
         android:id="@+id/layout_con"
         android:layout_width="match_parent"
-        android:layout_height="190dp"
-        android:orientation="vertical">
+        android:layout_height="140dp"
+        android:orientation="vertical"
+        android:background="@drawable/mypageback">
 
 
         <ImageView
@@ -21,10 +23,10 @@
             android:layout_width="65dp"
             android:layout_height="65dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="20dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="0dp"
             android:src="@drawable/icon_round"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -35,12 +37,38 @@
             android:id="@+id/myName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="10dp"
             android:gravity="center_horizontal"
             android:text="지나가던 영혼"
+            android:textColor="#000000"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/myProfilePic" />
+
+        <ImageView
+            android:id="@+id/myPost"
+            android:layout_width="80dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="40dp"
+            android:src="@drawable/mypost"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.15" />
+
+
+        <ImageView
+            android:id="@+id/myReceived"
+            android:layout_width="80dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="40dp"
+            android:src="@drawable/received"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.15" />
 
 
     </android.support.constraint.ConstraintLayout>
@@ -90,17 +118,14 @@
 
     <include
         android:id="@+id/include"
-        layout="@layout/fragment_top"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        layout="@layout/fragment_top3" />
 
 
     <include
         android:id="@+id/include3"
         layout="@layout/fragment_bottom"
         app:layout_constraintBottom_toBottomOf="parent" />
+
 
 
 
