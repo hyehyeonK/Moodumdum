@@ -16,7 +16,7 @@ public class MooDumDumService {
     }
 
     private MooDumDumService() {
-        api = RetrofitFactory.createJusoRetrofit().create(MooDumDumAPI.class);
+        api = RetrofitFactory.createMoodumdumRetrofit().create(MooDumDumAPI.class);
     }
 
     public static MooDumDumService of() { return  InsanceHolder.INSTANCE; }

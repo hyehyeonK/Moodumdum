@@ -8,15 +8,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class RetrofitFactory {
-    public static Retrofit createReadRetrofit() {
-        return new Retrofit.Builder()
-//                .baseUrl(ReadApplication.globalApplicationContext.getText(R.string.base_url).toString())
-                .addConverterFactory(GsonConverterFactory.create())
-//                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build();
-    }
 
-    public static Retrofit createJusoRetrofit() {
+    public static Retrofit createMoodumdumRetrofit() {
         return new Retrofit.Builder()
                 .baseUrl("http://13.125.76.112:8000/")
                 .addConverterFactory(GsonConverterFactory.create())

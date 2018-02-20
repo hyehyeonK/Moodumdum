@@ -40,6 +40,7 @@ public class CategorySelectedActivity extends AppCompatActivity {
         linearLayoutManager = new LinearLayoutManager(this);
         selectedCategoryAdapter = new SelectedCategoryAdapter(CategorySelectedActivity.this);
         recyclerView.setAdapter(selectedCategoryAdapter);
+        recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

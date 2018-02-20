@@ -52,12 +52,17 @@
                     android:text="인기순"
                     android:background="#00000000"/>
             </FrameLayout>
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_contents"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:nestedScrollingEnabled="false"/>
+                android:layout_height="wrap_content"
+                android:descendantFocusability="blocksDescendants">
 
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_contents"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
         </LinearLayout>
 
     </com.amar.library.ui.StickyScrollView>
