@@ -23,11 +23,11 @@ public class MyPageTabAdapter extends FragmentStatePagerAdapter{
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                FragmentMyJomun fragmentMyJomun= new FragmentMyJomun();
-                return fragmentMyJomun;
-            case 1:
-                FragmentMyWrite fragmentMyWrite = new FragmentMyWrite();
+                FragmentMyWrite fragmentMyWrite= new FragmentMyWrite();
                 return fragmentMyWrite;
+            case 1:
+                FragmentMyJomun fragmentMyJomun = new FragmentMyJomun();
+                return fragmentMyJomun;
         }
 
         return null;

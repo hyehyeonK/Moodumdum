@@ -13,12 +13,18 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 public class FragmentMyJomun extends Fragment {
 
-    private RecyclerView mRecyclerView;
-    private MypageAdapter mMypageAdapter;
+    @BindView(R.id.myjomunRecyclerview)
+    RecyclerView myjomunRecyclerview;
+    Unbinder unbinder;
+    private MypageMyjomunAdapter mMypageAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private ArrayList<MyData> mMyData;
+    private ArrayList<MyjomunData> mMyData;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,30 +39,37 @@ public class FragmentMyJomun extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate( R.layout.fragment_myjomun, container, false );
 
-        mRecyclerView = (RecyclerView) view.findViewById( R.id.recyclerView );
-        mRecyclerView.setHasFixedSize( true );
+        myjomunRecyclerview = (RecyclerView) view.findViewById( R.id.myjomunRecyclerview );
+        myjomunRecyclerview.setHasFixedSize( true );
         mLayoutManager = new GridLayoutManager( getActivity(), 2 );
-        mRecyclerView.setLayoutManager( mLayoutManager );
-        mRecyclerView.scrollToPosition( 0 );
-        mMypageAdapter = new MypageAdapter( mMyData );
-        mRecyclerView.setAdapter( mMypageAdapter );
-        mRecyclerView.setItemAnimator( new DefaultItemAnimator() );
+        myjomunRecyclerview.setLayoutManager( mLayoutManager );
+        myjomunRecyclerview.scrollToPosition( 0 );
+        mMypageAdapter = new MypageMyjomunAdapter( mMyData );
+        myjomunRecyclerview.setAdapter( mMypageAdapter );
+        myjomunRecyclerview.setItemAnimator( new DefaultItemAnimator() );
+        unbinder = ButterKnife.bind( this, view );
         return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+        super.onActivityCreated( savedInstanceState );
     }
 
 
     private void initDataset() {
         //for Test
-        mMyData = new ArrayList<>(  );
-        mMyData.add(new MyData( "오늘 비도 오고 완전 우울함ㅠㅠ" ));
-        mMyData.add(new MyData( "내용2" ));
-        mMyData.add(new MyData( "내용3" ));
+        mMyData = new ArrayList<>();
+        mMyData.add( new MyjomunData( "오늘 비도 오고 완전 우울함ㅠㅠ" ) );
+        mMyData.add( new MyjomunData( "내용2" ) );
+        mMyData.add( new MyjomunData( "내용3" ) );
 
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     public interface OnFragmentInteractionListener {
