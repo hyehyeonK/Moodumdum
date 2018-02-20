@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -22,9 +24,13 @@ public class FragmentMyJomun extends Fragment {
     @BindView(R.id.myjomunRecyclerview)
     RecyclerView myjomunRecyclerview;
     Unbinder unbinder;
+    @BindView(R.id.nullJomunImg)
+    ImageView nullJomunImg;
+    @BindView(R.id.nullJomunText)
+    TextView nullJomunText;
     private MypageMyjomunAdapter mMypageAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private ArrayList<MyjomunData> mMyData;
+    private ArrayList<MyjomunData> MyjomunData;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,10 +50,15 @@ public class FragmentMyJomun extends Fragment {
         mLayoutManager = new GridLayoutManager( getActivity(), 2 );
         myjomunRecyclerview.setLayoutManager( mLayoutManager );
         myjomunRecyclerview.scrollToPosition( 0 );
-        mMypageAdapter = new MypageMyjomunAdapter( mMyData );
+        mMypageAdapter = new MypageMyjomunAdapter( MyjomunData );
         myjomunRecyclerview.setAdapter( mMypageAdapter );
         myjomunRecyclerview.setItemAnimator( new DefaultItemAnimator() );
         unbinder = ButterKnife.bind( this, view );
+
+        if (MyjomunData.isEmpty()) {
+            nullJomunImg.setVisibility(View.VISIBLE);
+            nullJomunText.setVisibility( View.VISIBLE );
+        }
         return view;
     }
 
@@ -59,10 +70,10 @@ public class FragmentMyJomun extends Fragment {
 
     private void initDataset() {
         //for Test
-        mMyData = new ArrayList<>();
-        mMyData.add( new MyjomunData( "오늘 비도 오고 완전 우울함ㅠㅠ" ) );
-        mMyData.add( new MyjomunData( "내용2" ) );
-        mMyData.add( new MyjomunData( "내용3" ) );
+        MyjomunData = new ArrayList<>();
+        MyjomunData.add( new MyjomunData( "오늘 비도 오고 완전 우울함ㅠㅠ" ) );
+        MyjomunData.add( new MyjomunData( "내용2" ) );
+        MyjomunData.add( new MyjomunData( "내용3" ) );
 
     }
 

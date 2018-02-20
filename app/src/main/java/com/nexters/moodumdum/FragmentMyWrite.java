@@ -10,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -24,6 +26,10 @@ public class FragmentMyWrite extends Fragment {
     @BindView(R.id.mywriteRecyclerView)
     RecyclerView mywriteRecyclerView;
     Unbinder unbinder;
+    @BindView(R.id.nullWriteImg)
+    ImageView nullWriteImg;
+    @BindView(R.id.nullWriteText)
+    TextView nullWriteText;
 
     private MypageMywriteAdapter mMypageMywriteAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -51,6 +57,11 @@ public class FragmentMyWrite extends Fragment {
         mywriteRecyclerView.setAdapter( mMypageMywriteAdapter );
         mywriteRecyclerView.setItemAnimator( new DefaultItemAnimator() );
         unbinder = ButterKnife.bind( this, view );
+
+        if (mMywriteData.isEmpty()) {
+            nullWriteImg.setVisibility(View.VISIBLE);
+            nullWriteText.setVisibility( View.VISIBLE );
+        }
         return view;
     }
 
@@ -63,7 +74,8 @@ public class FragmentMyWrite extends Fragment {
     private void initDataset() {
         //for Test
         mMywriteData = new ArrayList<>();
-        mMywriteData.add( new MywriteData( "오늘 비도 오고 완전 우울함ㅠㅠ" ) );
+        //mMywriteData.add( new MywriteData( "오늘 비도 오고 완전 우울함ㅠㅠ" ) );
+
 
     }
 

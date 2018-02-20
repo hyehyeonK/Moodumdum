@@ -11,4 +11,24 @@
             android:id="@+id/myjomunRecyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+    <ImageView
+        android:id="@+id/nullJomunImg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/nulljomun"
+        android:foregroundGravity="center_vertical"
+        android:scaleType="center"
+        android:visibility="invisible"/>
+
+    <TextView
+        android:id="@+id/nullJomunText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="-95dp"
+        android:gravity="center"
+        android:text="아직 조문한 글이 없어요 :)"
+        android:textColor="#d3d3d3"
+        android:visibility="invisible"/>
+
 </FrameLayout>
