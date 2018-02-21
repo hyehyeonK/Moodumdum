@@ -11,6 +11,9 @@ import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -30,19 +33,7 @@ public class PlusBackimgActivity extends AppCompatActivity {
     @BindView(R.id.plusBackimgLayout)
     ConstraintLayout plusBackimgLayout;
 
-    // 임시 이미지
-    private int[] imageIDs = new int[]{
-            R.drawable.back_1,
-            R.drawable.back_2,
-            R.drawable.back_3,
-            R.drawable.category_back_1,
-            R.drawable.category_back_2,
-            R.drawable.category_back_3,
-            R.drawable.category_back_4,
-            R.drawable.category_back_5,
-            R.drawable.category_back_1,
-            R.drawable.category_back_2,
-    };
+    ArrayList<Integer> imageIDs = new ArrayList<Integer>(  );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,13 +46,28 @@ public class PlusBackimgActivity extends AppCompatActivity {
 
         contentOfPlusBackimg.setText( contentOfPlus );
 
+        imageIDs.add( R.drawable.back_1 );
+        imageIDs.add( R.drawable.back_2 );
+        imageIDs.add( R.drawable.back_3 );
+        imageIDs.add( R.drawable.back_1 );
+        imageIDs.add( R.drawable.back_2 );
+        imageIDs.add( R.drawable.back_3 );
+        imageIDs.add( R.drawable.back_1 );
+        imageIDs.add( R.drawable.back_2 );
+        imageIDs.add( R.drawable.back_3 );
+        imageIDs.add( R.drawable.back_1 );
+
+        // 이미지 랜덤
+        Collections.shuffle( imageIDs );
+
         PlusBackimgAdapter plusBackimgAdapter = new PlusBackimgAdapter( this, imageIDs );
         gridViewImages.setAdapter( plusBackimgAdapter );
 
+        // 이미지 클릭 시 배경 적용
         gridViewImages.setOnItemClickListener( new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                plusBackimgLayout.setBackground(getDrawable( imageIDs[i]));
+                plusBackimgLayout.setBackground(getDrawable( imageIDs.get( i )));
             }
         } );
 
@@ -80,4 +86,3 @@ public class PlusBackimgActivity extends AppCompatActivity {
 //        startActivity( intent );
     }
 }
-

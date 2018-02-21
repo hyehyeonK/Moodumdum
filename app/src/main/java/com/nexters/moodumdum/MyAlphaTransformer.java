@@ -25,11 +25,8 @@ public class MyAlphaTransformer extends StackLayout.PageTransformer{
     public void transformPage(View view, float position, boolean isSwipeLeft) {
 
         View contentView = view.findViewById(R.id.mainCard);
-        // View ivLike = view.findViewById( R.id.iv_like );
 
-        //ivLike.setAlpha( mMinAlpha );
         contentView.setAlpha(mMaxAlpha);
-
 
         if (position > -1 && position <= 0) { // [-1,0]
             contentView.setVisibility( View.VISIBLE);
