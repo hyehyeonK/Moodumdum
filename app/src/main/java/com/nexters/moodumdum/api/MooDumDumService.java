@@ -1,6 +1,8 @@
 package com.nexters.moodumdum.api;
 
-import com.nexters.moodumdum.model.Contents;
+import com.nexters.moodumdum.model.ContentsModel;
+import com.nexters.moodumdum.model.PostContentsModel;
+import com.nexters.moodumdum.model.ServerResponse;
 
 import retrofit2.Call;
 
@@ -21,7 +23,12 @@ public class MooDumDumService {
 
     public static MooDumDumService of() { return  InsanceHolder.INSTANCE; }
 
-    public Call<Contents> getContents(Long userId) {
-        return  api.getContents(userId);
+    public Call<ServerResponse> postContents(PostContentsModel contents) {
+        return  api.postContents(contents);
+    }
+
+    public Call<ContentsModel> getContents() { return api.getContents();}
+    public Call<ContentsModel> getMyContents(Long userId) {
+        return  api.getMyContents(userId);
     }
 }

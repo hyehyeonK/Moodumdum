@@ -50,13 +50,5 @@
     </LinearLayout>
 
     <include
-        layout="@layout/fragment_top"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
-    <include
         layout="@layout/fragment_bottom"/>
 </android.support.constraint.ConstraintLayout>

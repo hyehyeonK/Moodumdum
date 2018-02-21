@@ -1,31 +1,27 @@
 package com.nexters.moodumdum.model;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 
 /**
- * Created by kimhyehyeon on 2018. 2. 11..
+ * Created by kimhyehyeon on 2018. 2. 22..
  */
 
-public class Contents implements Serializable {
-
-//    @SerializedName(category_id)
-//            String category_id;
-
-    private String category_id;
-    private String email; //not null
+public class PostContentsModel implements Serializable{
+    private BigInteger category_id;
+    private String email; //uuid
     private String name; //not null
-    private String title;
     private String description; //not null
-    private String views;
+//    private int views; -뭐지이게
     private String image_url;
     private String background_color;
     private String color;
 
-    public String getCategory_id() {
+    public BigInteger getCategory_id() {
         return category_id;
     }
 
-    public void setCategory_id(String category_id) {
+    public void setCategory_id(BigInteger category_id) {
         this.category_id = category_id;
     }
 
@@ -45,14 +41,6 @@ public class Contents implements Serializable {
         this.name = name;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -61,13 +49,13 @@ public class Contents implements Serializable {
         this.description = description;
     }
 
-    public String getViews() {
-        return views;
-    }
-
-    public void setViews(String views) {
-        this.views = views;
-    }
+//    public int getViews() {
+//        return views;
+//    }
+//
+//    public void setViews(int views) {
+//        this.views = views;
+//    }
 
     public String getImage_url() {
         return image_url;

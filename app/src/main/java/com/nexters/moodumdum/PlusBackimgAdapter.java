@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.nexters.moodumdum.model.ContentsModel;
+
 import java.util.ArrayList;
 
 /**
@@ -15,7 +17,7 @@ import java.util.ArrayList;
  */
 
 public class PlusBackimgAdapter extends BaseAdapter {
-
+    ContentsModel contentsModel = new ContentsModel();
     Context context = null;
 
     //int[] imageIDs = null;

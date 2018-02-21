@@ -11,11 +11,17 @@ import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.nexters.moodumdum.model.PostContentsModel;
+
+import java.math.BigInteger;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class PlusActivity extends AppCompatActivity {
+
+    PostContentsModel contentsModel = new PostContentsModel();
     @BindView(R.id.onClickToCancel)
     Button onClickToCancel;
 
@@ -66,8 +72,11 @@ public class PlusActivity extends AppCompatActivity {
 
     @OnClick(R.id.onClickToNext)
     public void onOnClickToNextClicked() {
+        contentsModel.setDescription(contentOfPlus.getText() + "");
+        contentsModel.setEmail("khh");//uuid
+        contentsModel.setName("고통받는혠영혼");
         Intent intent = new Intent( this, PlusBackimgActivity.class );
-        intent.putExtra( "contentOfPlus", contentOfPlus.getText().toString() );
+        intent.putExtra( "newContents", contentsModel);
         startActivity( intent );
     }
 
@@ -81,6 +90,11 @@ public class PlusActivity extends AppCompatActivity {
         btnDarkhistory.setSelected( false );
         btnEct.setSelected( false );
 
+
+        contentsModel.setCategory_id(BigInteger.ONE);
+        //여기 선택했을때 contentsModel.setImage_url() 추가하기
         view.setSelected( true );
     }
+
+
 }
