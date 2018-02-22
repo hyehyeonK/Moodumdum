@@ -3,6 +3,7 @@ package com.nexters.moodumdum;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ImageButton;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -22,34 +23,11 @@ public class CategoryActivity extends AppCompatActivity {
     }
 
 
-    @OnClick(R.id.category_love)
-    void onClickToLoveOfCategory(){
+    @OnClick({R.id.category_love, R.id.category_job, R.id.category_badHistory, R.id.category_selfEsteem, R.id.category_family, R.id.category_etc})
+    void onClickToLoveOfCategory(ImageButton button){
         Intent intent = new Intent(getApplicationContext(), CategorySelectedActivity.class);
+        String selectBtn = button.getTag() + "";//카테고리 태그
+        intent.putExtra("categoryID", selectBtn);
         startActivity(intent);
     }
-//    @OnClick(R.id.category_job)
-//    void onClickToJobOfCategory(){
-//        Intent intent = new Intent(getApplicationContext(), Mypage.class);
-//        startActivity(intent);
-//    }
-//    @OnClick(R.id.category_badHistory)
-//    void onClickToBadHistoryOfCategory(){
-//        Intent intent = new Intent(getApplicationContext(), Mypage.class);
-//        startActivity(intent);
-//    }
-//    @OnClick(R.id.category_selfEsteem)
-//    void onClickToSelfEsteemOfCategory(){
-//        Intent intent = new Intent(getApplicationContext(), Mypage.class);
-//        startActivity(intent);
-//    }
-//    @OnClick(R.id.category_family)
-//    void onClickToFamilyOfCategory(){
-//        Intent intent = new Intent(getApplicationContext(), Mypage.class);
-//        startActivity(intent);
-//    }
-//    @OnClick(R.id.category_etc)
-//    void onClickToEtcOfCategory(){
-//        Intent intent = new Intent(getApplicationContext(), Mypage.class);
-//        startActivity(intent);
-//    }
 }

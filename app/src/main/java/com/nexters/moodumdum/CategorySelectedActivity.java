@@ -1,12 +1,12 @@
 package com.nexters.moodumdum;
 
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import com.amar.library.ui.StickyScrollView;
@@ -27,6 +27,7 @@ import retrofit2.Response;
 public class CategorySelectedActivity extends AppCompatActivity {
     private SelectedCategoryAdapter selectedCategoryAdapter;
     LinearLayoutManager linearLayoutManager;
+    String categoryID ="";
     @BindView(R.id.scrollView)
     StickyScrollView scrollView;
 
@@ -53,12 +54,12 @@ public class CategorySelectedActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(new RecyclerViwDecoraiton(12));
     }
     private void getPost() {
-        MooDumDumService.of().getContents().enqueue(new Callback<ContentsModel>() {
+        Intent intent = getIntent();
+        categoryID = intent.getStringExtra("categoryID");
+        MooDumDumService.of().getCategoryContentsInOrderOfPriority(categoryID).enqueue(new Callback<ContentsModel>() {
             @Override
             public void onResponse(Call<ContentsModel> call, Response<ContentsModel> response) {
                 if (response.isSuccessful()) {
-                    Log.d("APIresult", response.message());
-                    Log.d("APIresult", response.body() + "");
                     final ContentsModel items = response.body();
                     selectedCategoryAdapter.setPostList(items.getResult());
                 }

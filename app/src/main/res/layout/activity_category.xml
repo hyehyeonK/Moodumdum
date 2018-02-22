@@ -50,6 +50,7 @@
 
             <ImageButton
                 android:id="@+id/category_love"
+                android:tag="4"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
@@ -62,6 +63,7 @@
 
             <ImageButton
                 android:id="@+id/category_job"
+                android:tag="6"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
@@ -73,6 +75,7 @@
 
             <ImageButton
                 android:id="@+id/category_badHistory"
+                android:tag="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
@@ -93,6 +96,7 @@
 
             <ImageButton
                 android:id="@+id/category_selfEsteem"
+                android:tag="5"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
@@ -105,6 +109,7 @@
 
             <ImageButton
                 android:id="@+id/category_family"
+                android:tag="3"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
@@ -116,6 +121,7 @@
 
             <ImageButton
                 android:id="@+id/category_etc"
+                android:tag="2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"

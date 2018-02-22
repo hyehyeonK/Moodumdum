@@ -31,4 +31,7 @@ public class MooDumDumService {
     public Call<ContentsModel> getMyContents(Long userId) {
         return  api.getMyContents(userId);
     }
+    public Call<ContentsModel> getCategoryContentsInOrderOfPriority (String category_id) {
+        return  api.getCategoryContentsInOrderOfPriority(category_id);
+    }
 }

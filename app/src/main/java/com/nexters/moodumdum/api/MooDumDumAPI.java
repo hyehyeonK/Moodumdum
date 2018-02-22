@@ -8,6 +8,7 @@ import retrofit2.Call;
 import retrofit2.http.FieldMap;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 /**
  * Created by kimhyehyeon on 2018. 2. 11..
@@ -30,7 +31,10 @@ public interface MooDumDumAPI {
     @GET("api/board")
     Call<ContentsModel> getMyContents (@Query("userId") long userId);
 
-//    //카테고리 가져오기
-//    @GET("api/board")
+//    //카테고리별 컨텐츠 가져오기 ( 최신순 )
+    @GET("api/board/search/category/{category_id}")
+    Call<ContentsModel> getCategoryContentsInOrderOfPriority (@Path("category_id") String category_id);
+
+    //getCategoryContentsInOrderOfPopularity 인기순 함수명 할꼬
 
 }
