@@ -117,7 +117,8 @@ public class MainActivity extends AppCompatActivity {
         mainStackLayout.setOnSwipeListener( new StackLayout.OnSwipeListener() {
             @Override
             public void onSwiped(View swipedView, int swipedItemPos, boolean isSwipeLeft, int itemLeft) {
-                if (itemLeft < 5) {
+                if (itemLeft < 3) {
+                    getPost();
                     loadData( ++curPage );
                 }
             }
@@ -218,18 +219,18 @@ public class MainActivity extends AppCompatActivity {
         return animator;
     }
 
-//    @OnClick(R.id.onClickToMyPage)
-//    void onClickToMyPage() {
-//
-//        Intent intent = new Intent( getApplicationContext(), Mypage.class );
-//        startActivity( intent );
-//    }
-//
-//    @OnClick(R.id.onClickToMenu)
-//    void onClickToMenu() {
-//        Intent intent = new Intent( getApplicationContext(), CategoryActivity.class );
-//        startActivity( intent );
-//    }
+    @OnClick(R.id.onClickToMyPage)
+    void onClickToMyPage() {
+
+        Intent intent = new Intent( getApplicationContext(), Mypage.class );
+        startActivity( intent );
+    }
+
+    @OnClick(R.id.onClickToMenu)
+    void onClickToMenu() {
+        Intent intent = new Intent( getApplicationContext(), CategoryActivity.class );
+        startActivity( intent );
+    }
 
     @OnClick(R.id.onClickToPlus)
     public void onViewClicked() {
@@ -238,8 +239,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getPost() {
-
-
         MooDumDumService.of().getContents().enqueue(new Callback<ContentsModel>() {
             @Override
             public void onResponse(Call<ContentsModel> call, Response<ContentsModel> response) {

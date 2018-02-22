@@ -50,5 +50,7 @@
     </LinearLayout>
 
     <include
+        layout="@layout/fragment_top"/>
+    <include
         layout="@layout/fragment_bottom"/>
 </android.support.constraint.ConstraintLayout>

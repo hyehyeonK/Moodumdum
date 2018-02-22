@@ -8,6 +8,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.nexters.moodumdum.R;
+import com.nexters.moodumdum.model.ContentsModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,6 +24,8 @@ public class SelectedCategoryAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     private Context context;
 
+    private List<ContentsModel.Result> results = new ArrayList<>();
+
     public SelectedCategoryAdapter(Context context) { this.context = context; }
 
     @Override
@@ -30,17 +36,21 @@ public class SelectedCategoryAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final ItemViewHolder viewHolder = (ItemViewHolder) holder;
-        viewHolder.nickName.setText("지나가는 영혼");
-        viewHolder.contents.setText("나 어제 ㄹㅇ 개 쪽팔린 일 있었음 궁금함? 일단 밥 먹고 오겠음 ㅇㅇ 좀만 기다리셈");
-        viewHolder.commentsCount.setText("120");
-        viewHolder.likeCount.setText("231");
+        ContentsModel.Result item = results.get(position);
+        viewHolder.nickName.setText(item.getName());
+        viewHolder.contents.setText(item.getDescription());
+        viewHolder.commentsCount.setText(item.getComment_count()+"");
+        viewHolder.likeCount.setText(item.getLike_count()+"");
     }
 
     @Override
     public int getItemCount() {
-        return 100;
+        return results.size();
     }
-
+    public void setPostList(List<ContentsModel.Result> results) {
+        this.results = results;
+        notifyDataSetChanged();
+    }
     public static class ItemViewHolder extends  RecyclerView.ViewHolder {
         View view;
 

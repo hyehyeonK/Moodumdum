@@ -6,13 +6,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.amar.library.ui.StickyScrollView;
 import com.nexters.moodumdum.adpater.SelectedCategoryAdapter;
+import com.nexters.moodumdum.api.MooDumDumService;
+import com.nexters.moodumdum.model.ContentsModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by kimhyehyeon on 2018. 2. 19..
@@ -21,7 +27,6 @@ import butterknife.ButterKnife;
 public class CategorySelectedActivity extends AppCompatActivity {
     private SelectedCategoryAdapter selectedCategoryAdapter;
     LinearLayoutManager linearLayoutManager;
-
     @BindView(R.id.scrollView)
     StickyScrollView scrollView;
 
@@ -34,6 +39,7 @@ public class CategorySelectedActivity extends AppCompatActivity {
         setContentView(R.layout.activity_category_selected);
         ButterKnife.bind(this);
         initView();
+        getPost();
     }
 
     private void initView() {
@@ -45,6 +51,24 @@ public class CategorySelectedActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new RecyclerViwDecoraiton(12));
+    }
+    private void getPost() {
+        MooDumDumService.of().getContents().enqueue(new Callback<ContentsModel>() {
+            @Override
+            public void onResponse(Call<ContentsModel> call, Response<ContentsModel> response) {
+                if (response.isSuccessful()) {
+                    Log.d("APIresult", response.message());
+                    Log.d("APIresult", response.body() + "");
+                    final ContentsModel items = response.body();
+                    selectedCategoryAdapter.setPostList(items.getResult());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ContentsModel> call, Throwable t) {
+
+            }
+        });
     }
 
 }
@@ -59,4 +83,5 @@ class RecyclerViwDecoraiton extends RecyclerView.ItemDecoration {
         super.getItemOffsets(outRect, view, parent, state);
         outRect.top =divHeight;
     }
+
 }

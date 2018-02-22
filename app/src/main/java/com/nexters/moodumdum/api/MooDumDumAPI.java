@@ -22,13 +22,15 @@ public interface MooDumDumAPI {
 //                                       @Field("user") String user,
 //                                       @Field("name") String name,
 //                                       @Field("description") String description);
-    //글가져오기
-
+    //글가져오기 --> 성공
     @GET("api/board")
     Call<ContentsModel> getContents ();
 
     //내가 쓴 글 가져오기
     @GET("api/board")
     Call<ContentsModel> getMyContents (@Query("userId") long userId);
+
+//    //카테고리 가져오기
+//    @GET("api/board")
 
 }
