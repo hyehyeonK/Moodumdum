@@ -6,21 +6,19 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.fashare.stack_layout.StackLayout;
 import com.fashare.stack_layout.transformer.AngleTransformer;
+import com.google.gson.Gson;
+import com.nexters.moodumdum.adpater.StackCardAdapter;
 import com.nexters.moodumdum.api.MooDumDumService;
 import com.nexters.moodumdum.factory.DeviceUuidFactory;
 import com.nexters.moodumdum.model.ContentsModel;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,9 +31,11 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     public static boolean isFirst = true;
-    Adapter stackViewAdapter;
+    private StackCardAdapter stackCardAdapter;
+//    Adapter stackViewAdapter;
     List<String> mData;
     List<ContentsModel.Result> results = new ArrayList<>();
+    List<String> paramToAdaptor = new ArrayList<>();
     ContentsModel contentsModel = new ContentsModel();
 
     @BindView(R.id.linearLayout)
@@ -81,7 +81,9 @@ public class MainActivity extends AppCompatActivity {
     int curPage = 0;
 
     private void initView() {
-        mainStackLayout.setAdapter( stackViewAdapter = new Adapter( mData = new ArrayList<>() ) );
+        stackCardAdapter = new StackCardAdapter(MainActivity.this);
+//        mainStackLayout.setAdapter( stackViewAdapter = new Adapter( mData = new ArrayList<>() ) );
+        mainStackLayout.setAdapter(stackCardAdapter);
         mainStackLayout.addPageTransformer(
                 new MyStackPageTransformer(),
                 new MyAlphaTransformer(),
@@ -91,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         mainStackLayout.setOnSwipeListener( new StackLayout.OnSwipeListener() {
             @Override
             public void onSwiped(View swipedView, int swipedItemPos, boolean isSwipeLeft, int itemLeft) {
-                if (itemLeft < 3) {
+                if (itemLeft < results.size()) {
                     getPost();
                     loadData( ++curPage );
                 }
@@ -103,8 +105,8 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed( new Runnable() {
             @Override
             public void run() {
-                stackViewAdapter.getData().addAll( Arrays.asList( String.valueOf( page * 3 ), String.valueOf( page * 3 + 1 ), String.valueOf( page * 3 + 2 ) ) );
-                stackViewAdapter.notifyDataSetChanged();
+//                stackCardAdapter.getData().addAll( Arrays.asList( String.valueOf( page * 3 ), String.valueOf( page * 3 + 1 ), String.valueOf( page * 3 + 2 ) ) );
+                stackCardAdapter.notifyDataSetChanged();
             }
         }, 1000 );
     }
@@ -112,60 +114,60 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    class Adapter extends StackLayout.Adapter<Adapter.ItemViewHolder> {
-        List<String> mData;
-
-        public void setData(List<String> data) {
-            mData = data;
-        }
-
-        public List<String> getData() {
-            return mData;
-        }
-
-        public Adapter(List<String> data) {
-            mData = data;
-        }
-
-        @Override
-        public ItemViewHolder onCreateViewHolder(ViewGroup parent, int position) {
-            return new ItemViewHolder( LayoutInflater.from( parent.getContext() ).inflate( R.layout.item_card, parent, false ) );
-        }
-
-        @Override
-        public void onBindViewHolder(ItemViewHolder holder, final int position) {
-            ContentsModel.Result item = results.get(position);
-            holder.contentsText.setText(item.getDescription());
-            holder.nickname.setText(item.getUser());
-            holder.itemView.setOnClickListener( new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-
-                }
-            } );
-        }
-
-        @Override
-        public int getItemCount() {
-            return mData.size();
-        }
-
-        public class ItemViewHolder extends StackLayout.ViewHolder {
-            View view;
-            @BindView(R.id.contents)
-            TextView contentsText;
-            @BindView(R.id.writer)
-            TextView nickname;
-
-            public ItemViewHolder(View itemView) {
-                super( itemView );
-                this.view =itemView;
-                ButterKnife.bind(this,view);
-            }
-
-        }
-    }
+//    class Adapter extends StackLayout.Adapter<Adapter.ItemViewHolder> {
+//        List<String> mData;
+//
+//        public void setData(List<String> data) {
+//            mData = data;
+//        }
+//
+//        public List<String> getData() {
+//            return mData;
+//        }
+//
+//        public Adapter(List<String> data) {
+//            mData = data;
+//        }
+//
+//        @Override
+//        public ItemViewHolder onCreateViewHolder(ViewGroup parent, int position) {
+//            return new ItemViewHolder( LayoutInflater.from( parent.getContext() ).inflate( R.layout.item_card, parent, false ) );
+//        }
+//
+//        @Override
+//        public void onBindViewHolder(ItemViewHolder holder, final int position) {
+//            ContentsModel.Result item = results.get(position);
+//            holder.contentsText.setText(item.getDescription());
+//            holder.nickname.setText(item.getUser());
+//            holder.itemView.setOnClickListener( new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//
+//
+//                }
+//            } );
+//        }
+//
+//        @Override
+//        public int getItemCount() {
+//            return results.size();
+//        }
+//
+//        public class ItemViewHolder extends StackLayout.ViewHolder {
+//            View view;
+//            @BindView(R.id.contents)
+//            TextView contentsText;
+//            @BindView(R.id.writer)
+//            TextView nickname;
+//
+//            public ItemViewHolder(View itemView) {
+//                super( itemView );
+//                this.view =itemView;
+//                ButterKnife.bind(this,view);
+//            }
+//
+//        }
+//    }
 
     public boolean onTouchEvent(MotionEvent event) {
         if (isFirst) {
@@ -218,12 +220,19 @@ public class MainActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     final ContentsModel items = response.body();
                     results = items.getResult();
+                    Gson gson = new Gson();
+                    String data = gson.toJson(results);
+
+                    Log.d("RESULT@@@@@", data);
+
+                    stackCardAdapter.setPostList(results);
                 }
+                Log.d("RESULT@@@@@", response.message());
             }
 
             @Override
             public void onFailure(Call<ContentsModel> call, Throwable t) {
-
+                Log.e("RESULT@@@@@", "ERRR####");
             }
         });
     }

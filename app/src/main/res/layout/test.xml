@@ -1,76 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    android:background="#fff"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.nexters.moodumdum.CategorySelectedActivity"
+<android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
+    android:background="#564646"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.amar.library.ui.StickyScrollView
-        android:id="@+id/scrollView"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="56dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:stickyHeader="@+id/contentsBtn">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include2" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="103dp"
-                android:gravity="center"
-                android:background="#e27171"
-                android:text="바라는게 많을수록, 그 마음은 얼룩진다." />
-
-            <FrameLayout
-                android:id="@+id/contentsBtn"
-                android:layout_width="match_parent"
-                android:background="#fff"
-                android:layout_height="60dp">
-                <Button
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_gravity="right"
-                    android:layout_marginEnd="80dp"
-                    android:textColor="#000"
-                    android:text="ㅋㅋㅋ"
-                    android:background="#00000000"/>
-                <Button
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_gravity="right"
-                    android:textColor="#000"
-                    android:text="인기순"
-                    android:background="#00000000"/>
-            </FrameLayout>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:descendantFocusability="blocksDescendants">
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_contents"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-            </RelativeLayout>
-
-        </LinearLayout>
-
-    </com.amar.library.ui.StickyScrollView>
-    <include
-        layout="@layout/fragment_top2"/>
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <include
-        layout="@layout/fragment_bottom" />
-</android.support.design.widget.CoordinatorLayout>
+        android:id="@+id/include2"
+        layout="@layout/fragment_top" />
+
+    <include
+    layout="@layout/fragment_bottom" />
+
+</android.support.constraint.ConstraintLayout>

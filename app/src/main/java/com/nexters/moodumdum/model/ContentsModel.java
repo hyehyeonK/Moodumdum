@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class ContentsModel implements Serializable {
     @SerializedName("count") private int count;
-    @SerializedName("next") private int next;
+    @SerializedName("next") private String next;
     @SerializedName("previous") private int previous;
     @SerializedName("results") private ArrayList<Result> result;
 //    @SerializedName(category_id)
@@ -88,13 +88,33 @@ public class ContentsModel implements Serializable {
     public String getUpdated() {
         return updated;
     }
+
+    @Override
+    public String toString() {
+        return "\"Result\" : {" +
+                "\"id\" :" + id +
+                ", \"category_id\" : " + category_id +
+                ", \"user\" : '" + user + '\'' +
+                ", \"name\" : '" + name + '\'' +
+                ", \"description\" : '" + description + '\'' +
+                ", \"comment_count\" : " + comment_count +
+                ", \"like_count\" :" + like_count +
+                ", \"is_liked\" : " + is_liked +
+                ", \"views\" : " + views +
+                ", \"image_url\" : '" + image_url + '\'' +
+                ", \"background_color\" : '" + background_color + '\'' +
+                ", \"color\" : '" + color + '\'' +
+                ", \"created\" : '" + created + '\'' +
+                ", \"updated\" : '" + updated + '\'' +
+                '}';
+    }
 }
 
     public int getCount() {
         return count;
     }
 
-    public int getNext() {
+    public String getNext() {
         return next;
     }
 
@@ -104,5 +124,15 @@ public class ContentsModel implements Serializable {
 
     public ArrayList<Result> getResult() {
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "ContentsModel{" +
+                "count=" + count +
+                ", next=" + next +
+                ", previous=" + previous +
+                ", result=" + result +
+                '}';
     }
 }
