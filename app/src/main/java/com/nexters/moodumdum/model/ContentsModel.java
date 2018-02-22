@@ -1,133 +1,108 @@
 package com.nexters.moodumdum.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.util.Date;
+import java.util.ArrayList;
 
 /**
  * Created by kimhyehyeon on 2018. 2. 11..
  */
 
 public class ContentsModel implements Serializable {
-
+    @SerializedName("count") private int count;
+    @SerializedName("next") private int next;
+    @SerializedName("previous") private int previous;
+    @SerializedName("results") private ArrayList<Result> result;
 //    @SerializedName(category_id)
 //            String category_id;
-
-    private BigInteger id;
-    private String user; //uuid
-    private String name; //not null
-    private String category_id;
-    private String description; //not null
-    private int comment_count;
-    private int is_liked;
-    private int views;
-    private String image_url;
-    private String background_color;
-    private String color;
-    private Date created;
-    private Date updated;
-
-    public String getCategory_id() {
-        return category_id;
-    }
-
-    public void setCategory_id(String category_id) {
-        this.category_id = category_id;
-    }
+    public  class  Result {
+    @SerializedName("id") private BigInteger id;
+    @SerializedName("category_id") private BigInteger category_id;
+    @SerializedName("user") private String user;
+    @SerializedName("name") private String name;
+    @SerializedName("description") private String description;
+    @SerializedName("comment_count") private int comment_count;
+    @SerializedName("like_count") private int  like_count;
+    @SerializedName("is_liked") private boolean is_liked;
+    @SerializedName("views") private int views;
+    @SerializedName("image_url") private String image_url;
+    @SerializedName("background_color") private String background_color;
+    @SerializedName("color") private String color;
+    @SerializedName("created") private String  created;
+    @SerializedName("updated") private String  updated;
 
     public BigInteger getId() {
         return id;
     }
 
-    public void setId(BigInteger id) {
-        this.id = id;
+    public BigInteger getCategory_id() {
+        return category_id;
     }
 
     public String getUser() {
         return user;
     }
 
-    public void setUser(String user) {
-        this.user = user;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public int getComment_count() {
         return comment_count;
     }
 
-    public void setComment_count(int comment_count) {
-        this.comment_count = comment_count;
+    public int getLike_count() {
+        return like_count;
     }
 
-    public int getIs_liked() {
+    public boolean isIs_liked() {
         return is_liked;
-    }
-
-    public void setIs_liked(int is_liked) {
-        this.is_liked = is_liked;
     }
 
     public int getViews() {
         return views;
     }
 
-    public void setViews(int views) {
-        this.views = views;
-    }
-
     public String getImage_url() {
         return image_url;
-    }
-
-    public void setImage_url(String image_url) {
-        this.image_url = image_url;
     }
 
     public String getBackground_color() {
         return background_color;
     }
 
-    public void setBackground_color(String background_color) {
-        this.background_color = background_color;
-    }
-
     public String getColor() {
         return color;
     }
 
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public Date getCreated() {
+    public String getCreated() {
         return created;
     }
 
-    public void setCreated(Date created) {
-        this.created = created;
-    }
-
-    public Date getUpdated() {
+    public String getUpdated() {
         return updated;
     }
+}
 
-    public void setUpdated(Date updated) {
-        this.updated = updated;
+    public int getCount() {
+        return count;
+    }
+
+    public int getNext() {
+        return next;
+    }
+
+    public int getPrevious() {
+        return previous;
+    }
+
+    public ArrayList<Result> getResult() {
+        return result;
     }
 }

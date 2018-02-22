@@ -1,21 +1,32 @@
 package com.nexters.moodumdum.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.sql.Date;
+
+import javax.annotation.Nullable;
 
 /**
  * Created by kimhyehyeon on 2018. 2. 22..
  */
 
 public class PostContentsModel implements Serializable{
-    private BigInteger category_id;
-    private String email; //uuid
-    private String name; //not null
-    private String description; //not null
-//    private int views; -뭐지이게
-    private String image_url;
-    private String background_color;
-    private String color;
+    @SerializedName("category_id") private BigInteger category_id;
+    @SerializedName("user") private String user; //uuid
+    @SerializedName("name") private String name; //not null
+    @SerializedName("description") private String description; //not null
+    @Nullable @SerializedName("views") private int views;
+    @Nullable @SerializedName("comment_count") private int comment_count;
+    @Nullable @SerializedName("image_url") private String image_url;
+    @Nullable @SerializedName("background_color") private String background_color;
+    @Nullable @SerializedName("color") private String color;
+    @Nullable @SerializedName("like_count") private int like_count;
+    @Nullable @SerializedName("is_liked") private boolean is_liked;
+    @Nullable @SerializedName("created") private Date created;
+    @Nullable @SerializedName("updated") private Date updated;
+
 
     public BigInteger getCategory_id() {
         return category_id;
@@ -25,20 +36,22 @@ public class PostContentsModel implements Serializable{
         this.category_id = category_id;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUuid() {
+        return user;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+
+
+    public void setUuid(String uuid) {
+        this.user = uuid;
     }
 
-    public String getName() {
+    public String getNickName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNickName(String nickName) {
+        this.name = nickName;
     }
 
     public String getDescription() {
@@ -49,14 +62,6 @@ public class PostContentsModel implements Serializable{
         this.description = description;
     }
 
-//    public int getViews() {
-//        return views;
-//    }
-//
-//    public void setViews(int views) {
-//        this.views = views;
-//    }
-
     public String getImage_url() {
         return image_url;
     }
@@ -65,19 +70,33 @@ public class PostContentsModel implements Serializable{
         this.image_url = image_url;
     }
 
-    public String getBackground_color() {
-        return background_color;
+    @Override
+    public String toString() {
+        return "PostContentsModel{" +
+                "category_id=" + category_id +
+                ", user='" + user + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", image_url='" + image_url + '\'' +
+                '}';
     }
 
-    public void setBackground_color(String background_color) {
-        this.background_color = background_color;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
+    //    @Override
+//    public String toString() {
+//        return "PostContentsModel{" +
+//                "category_id=" + category_id +
+//                ", uuid='" + uuid + '\'' +
+//                ", nickName='" + nickName + '\'' +
+//                ", description='" + description + '\'' +
+//                ", views=" + views +
+//                ", comment_count=" + comment_count +
+//                ", image_url='" + image_url + '\'' +
+//                ", background_color='" + background_color + '\'' +
+//                ", color='" + color + '\'' +
+//                ", like_count=" + like_count +
+//                ", is_liked=" + is_liked +
+//                ", created=" + created +
+//                ", updated=" + updated +
+//                '}';
+//    }
 }

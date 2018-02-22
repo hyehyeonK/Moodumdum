@@ -13,7 +13,7 @@ import retrofit2.Call;
 public class MooDumDumService {
     private  MooDumDumAPI api;
 
-    private static class InsanceHolder {
+    private static class InstanceHolder {
         private static final MooDumDumService INSTANCE = new MooDumDumService();
     }
 
@@ -21,10 +21,10 @@ public class MooDumDumService {
         api = RetrofitFactory.createMoodumdumRetrofit().create(MooDumDumAPI.class);
     }
 
-    public static MooDumDumService of() { return  InsanceHolder.INSTANCE; }
+    public static MooDumDumService of() { return  InstanceHolder.INSTANCE; }
 
-    public Call<ServerResponse> postContents(PostContentsModel contents) {
-        return  api.postContents(contents);
+    public Call<ServerResponse> postContents(PostContentsModel contentsModel) {
+        return  api.postContents(contentsModel);
     }
 
     public Call<ContentsModel> getContents() { return api.getContents();}

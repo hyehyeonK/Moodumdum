@@ -31,7 +31,12 @@
         <activity android:name=".CategoryActivity"/>
         <activity
             android:name=".PlusActivity"
-            android:windowSoftInputMode="stateAlwaysVisible|adjustResize" />
+            android:windowSoftInputMode="stateAlwaysVisible|adjustResize" >
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
         <activity android:name=".PlusBackimgActivity"></activity>
         <activity android:name=".CategorySelectedActivity"/>
 

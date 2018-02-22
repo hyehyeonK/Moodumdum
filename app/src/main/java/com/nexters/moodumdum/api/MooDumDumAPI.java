@@ -5,7 +5,7 @@ import com.nexters.moodumdum.model.PostContentsModel;
 import com.nexters.moodumdum.model.ServerResponse;
 
 import retrofit2.Call;
-import retrofit2.http.Body;
+import retrofit2.http.FieldMap;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -16,7 +16,12 @@ import retrofit2.http.Query;
 public interface MooDumDumAPI {
     //글쓰기
     @POST("api/board")
-    Call<ServerResponse> postContents (@Body PostContentsModel contents);
+    Call<ServerResponse> postContents (@FieldMap PostContentsModel contentsModel);
+//    @POST("api/board")
+//    Call<ServerResponse> postContents (@Field("category_id") BigInteger category_id,
+//                                       @Field("user") String user,
+//                                       @Field("name") String name,
+//                                       @Field("description") String description);
     //글가져오기
 
     @GET("api/board")

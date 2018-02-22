@@ -17,6 +17,7 @@ import com.nexters.moodumdum.api.MooDumDumService;
 import com.nexters.moodumdum.model.PostContentsModel;
 import com.nexters.moodumdum.model.ServerResponse;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -101,6 +102,13 @@ public class PlusBackimgActivity extends AppCompatActivity {
     }
 
     private void postMyMemory() {
+        BigInteger category_id = contentsModel.getCategory_id();
+        String user = contentsModel.getUuid();
+        String name = contentsModel.getNickName();
+        String description = contentsModel.getDescription();
+        contentsModel.setImage_url("asdasd");
+        Log.d("Posting",contentsModel.toString());
+
         MooDumDumService.of().postContents(contentsModel)
                 .enqueue(new Callback<ServerResponse>() {
 
@@ -114,12 +122,14 @@ public class PlusBackimgActivity extends AppCompatActivity {
                             startActivity(intent);
                         }
                         Log.d("postMyMemory",response.message());
+                        Log.d("postMyMemory",response.body()+"");
+
 
                     }
 
                     @Override
                     public void onFailure(Call<ServerResponse> call, Throwable t) {
-                        Log.d("postMyMemory","error");
+                        Log.d("postMyMemoryErr","error");
                     }
                 });
     }

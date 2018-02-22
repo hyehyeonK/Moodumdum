@@ -15,7 +15,9 @@ import android.widget.TextView;
 
 import com.fashare.stack_layout.StackLayout;
 import com.fashare.stack_layout.transformer.AngleTransformer;
+import com.nexters.moodumdum.api.MooDumDumService;
 import com.nexters.moodumdum.factory.DeviceUuidFactory;
+import com.nexters.moodumdum.model.ContentsModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,13 +27,16 @@ import java.util.UUID;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     public static boolean isFirst = true;
     Adapter stackViewAdapter;
     List<String> mData;
-    TextView mTextView;
-    TextView mTextView2;
+    List<ContentsModel.Result> results = new ArrayList<>();
+    ContentsModel contentsModel = new ContentsModel();
 
     @BindView(R.id.linearLayout)
     LinearLayout linear;
@@ -89,12 +94,16 @@ public class MainActivity extends AppCompatActivity {
         Log.d( "UUID_Check", "" + uuid );
         // -> uuid 존재 -> 바로 activity_main 띄우기
         // 존재하지 않을 경우 새로 db에 등록 및 intro 화면 띄우기
-
+        getPost();
         initView();
         loadData( 0 );
 
     }
-
+//    private void setPostList() {
+////        notifyDataSetChanged();
+////        Glide.with(this).load(detail.getCoverUrl()).into(coverUrl);
+//
+//    }
     int curPage = 0;
 
     private void initView() {
@@ -128,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    class Adapter extends StackLayout.Adapter<Adapter.ViewHolder> {
+    class Adapter extends StackLayout.Adapter<Adapter.ItemViewHolder> {
         List<String> mData;
 
         public void setData(List<String> data) {
@@ -144,13 +153,15 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int position) {
-            return new ViewHolder( LayoutInflater.from( parent.getContext() ).inflate( R.layout.item_card, parent, false ) );
+        public ItemViewHolder onCreateViewHolder(ViewGroup parent, int position) {
+            return new ItemViewHolder( LayoutInflater.from( parent.getContext() ).inflate( R.layout.item_card, parent, false ) );
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, final int position) {
-
+        public void onBindViewHolder(ItemViewHolder holder, final int position) {
+            ContentsModel.Result item = results.get(position);
+            holder.contentsText.setText(item.getDescription());
+            holder.nickname.setText(item.getUser());
             holder.itemView.setOnClickListener( new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -165,11 +176,17 @@ public class MainActivity extends AppCompatActivity {
             return mData.size();
         }
 
-        public class ViewHolder extends StackLayout.ViewHolder {
-            public ViewHolder(View itemView) {
+        public class ItemViewHolder extends StackLayout.ViewHolder {
+            View view;
+            @BindView(R.id.contents)
+            TextView contentsText;
+            @BindView(R.id.writer)
+            TextView nickname;
+
+            public ItemViewHolder(View itemView) {
                 super( itemView );
-                mTextView = (TextView) itemView.findViewById( R.id.contents );
-                mTextView2 = (TextView) itemView.findViewById( R.id.writer );
+                this.view =itemView;
+                ButterKnife.bind(this,view);
             }
 
         }
@@ -220,4 +237,25 @@ public class MainActivity extends AppCompatActivity {
         startActivity( intent );
     }
 
+    private void getPost() {
+
+
+        MooDumDumService.of().getContents().enqueue(new Callback<ContentsModel>() {
+            @Override
+            public void onResponse(Call<ContentsModel> call, Response<ContentsModel> response) {
+                if (response.isSuccessful()) {
+                    Log.d("APIresult", response.message());
+                    Log.d("APIresult", response.body() + "");
+                    final ContentsModel items = response.body();
+                    results = items.getResult();
+//                    setPostList();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ContentsModel> call, Throwable t) {
+
+            }
+        });
+    }
 }

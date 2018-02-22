@@ -73,8 +73,8 @@ public class PlusActivity extends AppCompatActivity {
     @OnClick(R.id.onClickToNext)
     public void onOnClickToNextClicked() {
         contentsModel.setDescription(contentOfPlus.getText() + "");
-        contentsModel.setEmail("khh");//uuid
-        contentsModel.setName("고통받는혠영혼");
+        contentsModel.setUuid("khh");
+        contentsModel.setNickName("고통받는혠영혼");
         Intent intent = new Intent( this, PlusBackimgActivity.class );
         intent.putExtra( "newContents", contentsModel);
         startActivity( intent );
