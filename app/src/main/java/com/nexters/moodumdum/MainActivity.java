@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -37,6 +38,12 @@ public class MainActivity extends AppCompatActivity {
     public static boolean isFirst = true;
     @BindView(R.id.imageView3)
     ImageView imageView3;
+    @BindView(R.id.onClickToMenu)
+    Button onClickToMenu;
+    @BindView(R.id.onClickToMyPage)
+    Button onClickToMyPage;
+    @BindView(R.id.onClickToPlus)
+    Button onClickToPlus;
 //    @BindView(R.id.sliding_layout)
 //    SlidingUpPanelLayout slidingLayout;
 
@@ -110,33 +117,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         } );
-
-//        slidingLayout.addPanelSlideListener( new SlidingUpPanelLayout.PanelSlideListener() {
-//                                                 @Override
-//                                                 public void onPanelSlide(View panel, float slideOffset) {
-//
-//                                                 }
-//
-//                                                 @Override
-//                                                 public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
-//
-//                                                 }
-//                                             });
-
-//                linearLayoutMain.setOnClickListener( new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        if (isFirst) {
-//                            Intent intent = new Intent( getApplicationContext(), CommentActivity.class );
-////        String selectBtn = button.getTag() + "";//카테고리 태그
-////        String BtnTest =
-//                            String board_id = (String) MainCardActivity.mBoard_id.getText();
-//                            intent.putExtra( "board_id", board_id );
-//                            startActivity( intent );
-//                        }
-//                    }
-//                } );
-
 
     }
 

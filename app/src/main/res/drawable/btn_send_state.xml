@@ -4,5 +4,4 @@
         android:state_selected="true" />
     <item android:drawable="@drawable/btn_send_unact"
         android:state_selected="false" />
-
 </selector>

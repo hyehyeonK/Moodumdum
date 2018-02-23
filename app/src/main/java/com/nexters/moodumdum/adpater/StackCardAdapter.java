@@ -26,6 +26,7 @@ import butterknife.ButterKnife;
 public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder> {
 
 
+
     private Context context;
     private List<ContentsModel.Result> results = new ArrayList<>();
 
@@ -50,10 +51,14 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
 //        Gson gson = new Gson();
 //        ContentsModel.Result = gson.fromJson(item);
 
+        String commentCount = String.valueOf( item.getComment_count() );
+        String likeCount = String.valueOf( item.getLike_count() );
 //        String item = results.get(position);
         viewHolder.boardId.setText( item.getId().toString() );
         viewHolder.contnents.setText( item.getDescription() );
         viewHolder.writer.setText( item.getName() );
+        viewHolder.commentCount.setText( commentCount );
+        viewHolder.likeCount.setText( likeCount );
 //                viewHolder.contnents.setText("testest");
 //        viewHolder.writer.setText("testest")
 
@@ -88,6 +93,11 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
         TextView contnents;
         @BindView(R.id.writer)
         TextView writer;
+        @BindView(R.id.commentCount)
+        TextView commentCount;
+        @BindView(R.id.likeCount)
+        TextView likeCount;
+
         @BindView(R.id.board_id)
         TextView boardId;
 //        @BindView(R.id.sliding_layout)

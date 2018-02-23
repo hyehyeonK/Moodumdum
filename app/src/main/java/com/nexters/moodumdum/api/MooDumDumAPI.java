@@ -53,6 +53,12 @@ public interface MooDumDumAPI {
 
     //댓글 쓰기
     @POST("api/board/comment/{board_id}")
+//    @POST("api/board/comment/")
     Call<ServerResponse> postComment (@FieldMap PostCommentModel commentModel);
+//    Call<ServerResponse> postComment (@Field("board_id") BigInteger board_id,
+//                                      @Field( "user") String user,
+//                                      @Field( "name" ) String name,
+//                                      @Field( "description") String description);
+
 
 }

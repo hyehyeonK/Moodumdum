@@ -41,7 +41,7 @@
         </activity>
         <activity android:name=".PlusBackimgActivity" />
         <activity android:name=".CategorySelectedActivity" />
-        <activity android:name=".CommentActivity"></activity>
+        <activity android:name=".CommentActivity" android:theme="@style/Theme.AppCompat.Translucent"></activity>
     </application>
 
 </manifest>
