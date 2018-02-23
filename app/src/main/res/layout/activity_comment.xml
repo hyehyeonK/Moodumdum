@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/commenttest"
@@ -7,8 +7,12 @@
     android:layout_height="match_parent"
     android:layout_gravity="bottom"
     android:background="#78ffffff"
-    android:orientation="vertical"
     tools:context="com.nexters.moodumdum.CommentActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -45,7 +49,7 @@
 
                 <ImageView
                     android:id="@+id/imageView1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
                     android:layout_height="match_parent"
                     app:srcCompat="@drawable/contents_comment" />
 
@@ -53,14 +57,14 @@
                     android:id="@+id/commentsCount"
                     android:layout_width="30dp"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="10dp"
                     android:gravity="center"
                     android:text="0"
                     android:textColor="#000000" />
 
                 <ImageView
                     android:id="@+id/imageView2"
-                    android:layout_width="wrap_content"
+                    android:layout_width="20dp"
                     android:layout_height="match_parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/likeCount"
@@ -77,22 +81,23 @@
 
             </LinearLayout>
 
-            <View
-                android:layout_height="4dp"
-                android:layout_width="match_parent"
-                android:background="#000000"
-                >
 
-            </View>
 
         </LinearLayout>
 
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#9f9f9f"
+            android:layout_below="@id/headerComment"/>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/CommentListView"
             android:layout_width="match_parent"
             android:layout_height="470dp"
-            android:layout_below="@+id/headerComment">
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true">
 
         </android.support.v7.widget.RecyclerView>
 
@@ -106,29 +111,39 @@
             android:orientation="horizontal">
 
             <EditText
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:layout_gravity="left"
                 android:background="@null"
-                android:hint="  가여운 영혼에게 위로 한 마디 .. TYPE"
-                android:layout_marginRight="100dp"
+                android:hint="    가여운 영혼에게 위로 한 마디.. TYPE"
                 android:textSize="14dp" />
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginEnd="10dp"
+                android:gravity="right">
 
-                <ImageButton
-                    android:id="@+id/onClickToPostComment"
+                <Button
                     android:layout_width="55dp"
                     android:layout_height="35dp"
                     android:layout_gravity="center"
-                    android:background="@null"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/btn_send_unact" />
+                    android:background="@drawable/btn_send_state"/>
+
+                <!--<ImageButton-->
+                    <!--android:id="@+id/onClickToPostComment"-->
+                    <!--android:layout_width="55dp"-->
+                    <!--android:layout_height="35dp"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:background="@null"-->
+                    <!--android:scaleType="fitXY"-->
+                    <!--android:src="@drawable/btn_send_unact" />-->
             </LinearLayout>
 
         </LinearLayout>
     </RelativeLayout>
-</LinearLayout>
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>
 

@@ -68,6 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/contents"
+                android:layout_centerHorizontal="true"
                 android:gravity="center"
                 android:layout_marginTop="110dp"
                 android:text="닉네임"

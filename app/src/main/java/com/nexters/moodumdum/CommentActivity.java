@@ -7,7 +7,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -26,7 +25,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -49,8 +47,8 @@ public class CommentActivity extends AppCompatActivity {
     RecyclerView CommentListView;
     @BindView(R.id.footerComment)
     LinearLayout footerComment;
-    @BindView(R.id.onClickToPostComment)
-    ImageButton onClickToPostComment;
+//    @BindView(R.id.onClickToPostComment)
+//    ImageButton onClickToPostComment;
 
     private CommentAdapter mCommentAdapter;
     private LinearLayoutManager mLinearLayoutManager;
@@ -129,10 +127,10 @@ public class CommentActivity extends AppCompatActivity {
         } );
     }
 
-    @OnClick(R.id.onClickToPostComment)
-    public void onViewClicked() {
-        PostComment();
-    }
+//    @OnClick(R.id.onClickToPostComment)
+//    public void onViewClicked() {
+//        PostComment();
+//    }
 
     private void PostComment() {
         BigInteger id = commentModel.getBoard_id();
