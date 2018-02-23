@@ -20,7 +20,7 @@ android {
 }
 
 dependencies {
-    //implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
@@ -57,12 +57,15 @@ dependencies {
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.3.1' // okhttp의 로그를 보기 위함.
 
-
     //StickyScrollView
     compile 'com.github.amarjain07:StickyScrollView:1.0.2'
 
     implementation 'com.android.support:design:26.1.0'
+
+    //AndroidSlidingUpPanel
+    compile 'com.sothree.slidinguppanel:library:3.4.0'
 }
+
 
 
 

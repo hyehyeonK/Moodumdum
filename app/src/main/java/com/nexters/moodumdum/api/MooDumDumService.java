@@ -1,6 +1,8 @@
 package com.nexters.moodumdum.api;
 
+import com.nexters.moodumdum.model.CommentModel;
 import com.nexters.moodumdum.model.ContentsModel;
+import com.nexters.moodumdum.model.PostCommentModel;
 import com.nexters.moodumdum.model.PostContentsModel;
 import com.nexters.moodumdum.model.ServerResponse;
 
@@ -33,5 +35,16 @@ public class MooDumDumService {
     }
     public Call<ContentsModel> getCategoryContentsInOrderOfPriority (String category_id) {
         return  api.getCategoryContentsInOrderOfPriority(category_id);
+    }
+//    public Call<CommentModel> getComment() {return api.getComment(String board_id);}
+
+    public Call<CommentModel> getCommentAll() {return api.getCommentAll();}
+
+    // 안되면 long으로 바꾸기
+    public Call<CommentModel> getComment(String board_id) {
+        return api.getComment( board_id );
+    }
+    public Call<ServerResponse> postComment(PostCommentModel commentModel) {
+        return api.postComment( commentModel );
     }
 }

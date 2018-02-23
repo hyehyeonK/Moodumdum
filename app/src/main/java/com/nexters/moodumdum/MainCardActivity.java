@@ -30,6 +30,7 @@ public class MainCardActivity extends AppCompatActivity {
     List<String> mData;
     TextView mContents;
     TextView mWriter;
+    static TextView mBoard_id;
 
     @BindView(R.id.mainLayoutForCardView)
     LinearLayout constraintLayoutMain;
@@ -96,6 +97,19 @@ public class MainCardActivity extends AppCompatActivity {
                 }
             }
         });
+
+        mainStackLayout.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent( getApplicationContext(), CommentActivity.class );
+//        String selectBtn = button.getTag() + "";//카테고리 태그
+//        String BtnTest =
+                String board_id = (String) MainCardActivity.mBoard_id.getText();
+                intent.putExtra( "board_id", board_id );
+                startActivity( intent );
+            }
+
+        } );
     }
 
     private void loadData(final int page) {
@@ -107,6 +121,16 @@ public class MainCardActivity extends AppCompatActivity {
             }
         }, 1000);
     }
+
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        Intent intent = new Intent(getApplicationContext(), CommentActivity.class);
+////        String selectBtn = button.getTag() + "";//카테고리 태그
+////        String BtnTest =
+//        String board_id = (String) mBoard_id.getText();
+//        intent.putExtra("board_id", board_id);
+//        startActivity(intent);
+//    }
 
     class Adapter extends  StackLayout.Adapter<Adapter.ViewHolder>{
         List<String> mData;
@@ -128,7 +152,6 @@ public class MainCardActivity extends AppCompatActivity {
             holder.itemView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-
                 }
             });
         }
@@ -143,8 +166,10 @@ public class MainCardActivity extends AppCompatActivity {
                 super (itemView);
                 mContents = (TextView) itemView.findViewById(R.id.contents);
                 mWriter = (TextView) itemView.findViewById(R.id.writer);
+                mBoard_id = (TextView) itemView.findViewById( R.id.board_id );
             }
 
         }
+
     }
 }
