@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.nexters.moodumdum.adpater.CommentAdapter;
 import com.nexters.moodumdum.api.MooDumDumService;
 import com.nexters.moodumdum.model.CommentModel;
+import com.nexters.moodumdum.model.ContentsModel;
 import com.nexters.moodumdum.model.PostCommentModel;
 import com.nexters.moodumdum.model.ServerResponse;
 
@@ -55,8 +56,8 @@ public class CommentActivity extends AppCompatActivity {
     private LinearLayoutManager mLinearLayoutManager;
     String board_id = "";
 
-    List<CommentModel.Result> results = new ArrayList<>();
-
+    List<ContentsModel.Result> contentsResults = new ArrayList<>();
+    List<CommentModel.Result> commentResults = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,13 +65,9 @@ public class CommentActivity extends AppCompatActivity {
         setContentView( R.layout.activity_comment );
         ButterKnife.bind( this );
 
-//        Intent intent = getIntent();
-//        board_id = intent.getStringExtra( "board_id" );
-
         initView();
-        getCommentTest();
 
-//        commentsCount.setText( intent.getStringExtra( "board_id" ) );
+
     }
 
     public void initView() {
@@ -83,9 +80,36 @@ public class CommentActivity extends AppCompatActivity {
         CommentListView.setItemAnimator( new DefaultItemAnimator() );
         CommentListView.addItemDecoration( new RecyclerViwDecoraiton( 2 ) );
 
+        getCommentContent();
+//        getCommentHeader();
+
     }
 
-    public void getCommentTest() {
+//    public void getCommentHeader() {
+//        Intent intent = getIntent();
+//        board_id = intent.getStringExtra( "board_id" );
+//        MooDumDumService.of().getContentsSelected( "22" ).enqueue( new Callback<ContentsModel.Result>() {
+//            @Override
+//            public void onResponse(Call<ContentsModel.Result> call, Response<ContentsModel.Result> response) {
+//                if (response.isSuccessful()) {
+//
+//                    final ContentsModel items = response.body();
+//
+////                    Gson gson = new Gson();
+//
+////                    Toast.makeText( getBaseContext(),contentsResults, Toast.LENGTH_SHORT ).show();
+////
+//                }
+//            }
+//            @Override
+//            public void onFailure(Call<ContentsModel> call, Throwable t) {
+//
+//            }
+//        } );
+//
+//    }
+
+    public void getCommentContent() {
         Intent intent = getIntent();
         board_id = intent.getStringExtra( "board_id" );
         MooDumDumService.of().getComment( board_id ).enqueue( new Callback<CommentModel>() {
@@ -102,27 +126,7 @@ public class CommentActivity extends AppCompatActivity {
             public void onFailure(Call<CommentModel> call, Throwable t) {
                 Toast.makeText(getBaseContext(), "댓글 불러오기 실패!", Toast.LENGTH_SHORT).show();
             }
-        });
-//
-//        MooDumDumService.of().getCommentAll().enqueue( new Callback<CommentModel>() {
-//            @Override
-//            public void onResponse(Call<CommentModel> call, Response<CommentModel> response) {
-//                final CommentModel items = response.body();
-//                results = items.getResult();
-//                Gson gson = new Gson();
-//                String data = gson.toJson( results );
-//
-//                Log.d( "RESULT@@@@@", data );
-//
-//                mCommentAdapter.setPostList( results );
-//                likeCount.setText( board_id );
-//            }
-//
-//            @Override
-//            public void onFailure(Call<CommentModel> call, Throwable t) {
-//
-//            }
-//        } );
+        } );
     }
 
     @OnClick(R.id.onClickToPostComment)

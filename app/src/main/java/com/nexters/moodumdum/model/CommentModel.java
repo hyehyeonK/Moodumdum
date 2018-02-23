@@ -15,7 +15,6 @@ public class CommentModel implements Serializable {
     @SerializedName("count") private int count;
     @SerializedName("next") private String next;
     @SerializedName("previous") private int previous;
-
     @SerializedName("results") private ArrayList<CommentModel.Result> result;
 
     public class Result {

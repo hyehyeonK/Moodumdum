@@ -29,6 +29,10 @@ public interface MooDumDumAPI {
     @GET("api/board")
     Call<ContentsModel> getContents ();
 
+    //board_id로 글 가져오기
+    @GET("api/board/{board_id}")
+    Call<ContentsModel.Result> getContentsSelected(@Path( "board_id" )String board_id);
+
     //내가 쓴 글 가져오기
     @GET("api/board")
     Call<ContentsModel> getMyContents (@Query("userId") long userId);

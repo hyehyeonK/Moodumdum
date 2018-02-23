@@ -21,7 +21,6 @@ import com.nexters.moodumdum.adpater.StackCardAdapter;
 import com.nexters.moodumdum.api.MooDumDumService;
 import com.nexters.moodumdum.factory.DeviceUuidFactory;
 import com.nexters.moodumdum.model.ContentsModel;
-import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         getPost();
         initView();
         loadData( 0 );
+
 
     }
 
@@ -266,7 +266,6 @@ public class MainActivity extends AppCompatActivity {
                     String data = gson.toJson( results );
 
                     Log.d( "RESULT@@@@@", data );
-
                     stackCardAdapter.setPostList( results );
                 }
                 Log.d( "RESULT@@@@@", response.message() );

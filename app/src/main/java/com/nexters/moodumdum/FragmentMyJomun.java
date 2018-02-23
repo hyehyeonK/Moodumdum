@@ -71,9 +71,7 @@ public class FragmentMyJomun extends Fragment {
     private void initDataset() {
         //for Test
         MyjomunData = new ArrayList<>();
-        MyjomunData.add( new MyjomunData( "오늘 비도 오고 완전 우울함ㅠㅠ" ) );
-        MyjomunData.add( new MyjomunData( "내용2" ) );
-        MyjomunData.add( new MyjomunData( "내용3" ) );
+//        MyjomunData.add( new MyjomunData( "오늘 비도 오고 완전 우울함ㅠㅠ" ) );
 
     }
 

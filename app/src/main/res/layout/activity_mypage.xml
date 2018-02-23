@@ -33,6 +33,42 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
+        <LinearLayout
+            android:id="@+id/myPost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="250dp"
+            android:layout_marginTop="30dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintRight_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/myPostTitle"
+                android:layout_width="80dp"
+                android:layout_height="25dp"
+                android:src="@drawable/mypost"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.15" />
+
+            <TextView
+                android:id="@+id/myPostCount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="3"
+                android:textSize="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.15" />
+        </LinearLayout>
+
+
         <TextView
             android:id="@+id/myName"
             android:layout_width="wrap_content"
@@ -45,50 +81,42 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/myProfilePic" />
 
-        <ImageView
-            android:id="@+id/myPost"
-            android:layout_width="80dp"
-            android:layout_height="25dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="40dp"
-            android:src="@drawable/mypost"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.15" />
 
-
-        <ImageView
-            android:id="@+id/myReceived"
-            android:layout_width="80dp"
-            android:layout_height="25dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="40dp"
-            android:src="@drawable/received"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.15" />
-
-        <TextView
-            android:id="@+id/NumWrite"
-            android:layout_width="8dp"
+        <LinearLayout
+            android:id="@+id/myLike"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="4"
-            app:layout_constraintBottom_toBottomOf="@id/myReceived"
+            android:layout_marginStart="250dp"
+            android:layout_marginTop="30dp"
+            android:orientation="vertical"
             app:layout_constraintLeft_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/NumLike"
-            android:layout_width="8dp"
-            android:layout_height="wrap_content"
-            android:text="4"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.15" />
+            <ImageView
+                android:id="@+id/myLikeTitle"
+                android:layout_width="80dp"
+                android:layout_height="25dp"
+                android:src="@drawable/received"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.15" />
+
+            <TextView
+                android:id="@+id/mylikeCount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="11"
+                android:textSize="30dp"
+                app:layout_constraintLeft_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.15"/>
+
+        </LinearLayout>
+
+
 
 
     </android.support.constraint.ConstraintLayout>

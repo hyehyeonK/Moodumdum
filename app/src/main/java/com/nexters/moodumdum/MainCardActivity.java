@@ -107,6 +107,7 @@ public class MainCardActivity extends AppCompatActivity {
                 String board_id = (String) MainCardActivity.mBoard_id.getText();
                 intent.putExtra( "board_id", board_id );
                 startActivity( intent );
+
             }
 
         } );

@@ -77,6 +77,14 @@
 
             </LinearLayout>
 
+            <View
+                android:layout_height="4dp"
+                android:layout_width="match_parent"
+                android:background="#000000"
+                >
+
+            </View>
+
         </LinearLayout>
 
 
@@ -117,7 +125,7 @@
                     android:layout_gravity="center"
                     android:background="@null"
                     android:scaleType="fitXY"
-                    android:src="@drawable/btn_send_act" />
+                    android:src="@drawable/btn_send_unact" />
             </LinearLayout>
 
         </LinearLayout>

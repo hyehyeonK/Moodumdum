@@ -1,18 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--<com.sothree.slidinguppanel.SlidingUpPanelLayout-->
-    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--xmlns:tools="http://schemas.android.com/tools"-->
-    <!--xmlns:sothree="http://schemas.android.com/apk/res-auto"-->
-    <!--android:id="@+id/sliding_layout"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:gravity="bottom"-->
-    <!--sothree:umanoPanelHeight="100dp"-->
-    <!--sothree:umanoShadowHeight="4dp"-->
-    <!--sothree:umanoParallaxOffset="100dp"-->
-    <!--sothree:umanoDragView="@+id/commenttest"-->
-    <!--sothree:umanoOverlay="false">-->
+
 
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -54,12 +42,14 @@
             android:layout_weight="1"
             android:transitionName="cardStack">
 
+
             <com.fashare.stack_layout.StackLayout
                 android:id="@+id/stack_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="0dp"
                 android:transitionName="cardStack" />
+
         </LinearLayout>
     </LinearLayout>
 
@@ -68,4 +58,3 @@
     <include
         layout="@layout/fragment_bottom"/>
 </android.support.constraint.ConstraintLayout>
-<!--</com.sothree.slidinguppanel.SlidingUpPanelLayout>-->

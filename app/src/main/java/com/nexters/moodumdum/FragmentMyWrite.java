@@ -74,7 +74,9 @@ public class FragmentMyWrite extends Fragment {
     private void initDataset() {
         //for Test
         mMywriteData = new ArrayList<>();
-        //mMywriteData.add( new MywriteData( "오늘 비도 오고 완전 우울함ㅠㅠ" ) );
+        mMywriteData.add( new MywriteData( "오늘 비도 오고 완전 우울함ㅠㅠ" ) );
+        mMywriteData.add( new MywriteData( "길가다 넘어졌음.." ) );
+        mMywriteData.add( new MywriteData( "몸살걸려서 머리가 띵하다" ) );
 
 
     }
