@@ -1,6 +1,8 @@
 package com.nexters.moodumdum;
 
 import android.animation.ValueAnimator;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,9 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-
 import android.widget.Button;
-
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -35,6 +35,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
+    public static Activity MainActivity ;
+    public static Context MainActivity_context;
     public static boolean isFirst = true;
     @BindView(R.id.imageView3)
     ImageView imageView3;
@@ -72,7 +74,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity( new Intent( this, SplashActivity.class ) );
         ButterKnife.bind( this );
 //        TopBarActivity.setHeader(this, getApplicationContext());
-
+        MainActivity = MainActivity.this;
+        MainActivity_context = this;
         Intent intent = getIntent();
         String contents = intent.getStringExtra( "contents" );
 
@@ -98,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
 //    }
     int curPage = 0;
 
-    private void initView() {
+    public void initView() {
         stackCardAdapter = new StackCardAdapter( MainActivity.this );
 //        mainStackLayout.setAdapter( stackViewAdapter = new Adapter( mData = new ArrayList<>() ) );
         mainStackLayout.setAdapter( stackCardAdapter );
@@ -120,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void loadData(final int page) {
+    public void loadData(final int page) {
         new Handler().postDelayed( new Runnable() {
             @Override
             public void run() {
@@ -235,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity( intent );
     }
 
-    private void getPost() {
+    public void getPost() {
         MooDumDumService.of().getContents().enqueue( new Callback<ContentsModel>() {
             @Override
             public void onResponse(Call<ContentsModel> call, Response<ContentsModel> response) {
