@@ -39,7 +39,8 @@ public class Mypage extends AppCompatActivity implements FragmentMyJomun.OnFragm
 
         tabLayout.setupWithViewPager( viewPager );
         Intent intent = getIntent();
-        if(intent != null) {
+        String a = intent.getStringExtra("plusContents");
+        if(!a.equals("no")) {
             PlusBackimgActivity plusBackimgActivity = (PlusBackimgActivity)PlusBackimgActivity.plusBackimgActivity;
             plusBackimgActivity.finish();
             PlusActivity plusActivity = (PlusActivity)PlusActivity.plusActivity;

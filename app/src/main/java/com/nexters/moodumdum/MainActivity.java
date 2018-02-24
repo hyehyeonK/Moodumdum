@@ -223,6 +223,7 @@ public class MainActivity extends AppCompatActivity {
     void onClickToMyPage() {
 
         Intent intent = new Intent( getApplicationContext(), Mypage.class );
+        intent.putExtra("plusContents", "no");
         startActivity( intent );
     }
 
