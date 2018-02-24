@@ -6,14 +6,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
+
 import android.widget.Button;
+
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.fashare.stack_layout.StackLayout;
 import com.fashare.stack_layout.transformer.AngleTransformer;
@@ -25,6 +24,7 @@ import com.nexters.moodumdum.model.ContentsModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import butterknife.BindView;
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSwiped(View swipedView, int swipedItemPos, boolean isSwipeLeft, int itemLeft) {
                 if (itemLeft < results.size()) {
-                    getPost();
+//                    getPost();
                     loadData( ++curPage );
                 }
             }
@@ -131,65 +131,65 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    class Adapter extends StackLayout.Adapter<Adapter.ItemViewHolder> {
-        List<String> mData;
-
-
-        public void setData(List<String> data) {
-            mData = data;
-        }
-
-        public List<String> getData() {
-            return mData;
-        }
-
-        public Adapter(List<String> data) {
-            mData = data;
-        }
-
-        @Override
-        public ItemViewHolder onCreateViewHolder(ViewGroup parent, int position) {
-            return new ItemViewHolder( LayoutInflater.from( parent.getContext() ).inflate( R.layout.item_card, parent, false ) );
-        }
-
-        @Override
-        public void onBindViewHolder(ItemViewHolder holder, final int position) {
-            ContentsModel.Result item = results.get( position );
-            holder.board_id.setText( item.getDescription() );
-            holder.contentsText.setText( item.getDescription() );
-//            holder.contentsText.setText( item.getId().toString() );
-            holder.nickname.setText( item.getUser() );
-            holder.itemView.setOnClickListener( new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-
-                }
-            } );
-        }
-
-        @Override
-        public int getItemCount() {
-            return results.size();
-        }
-
-        public class ItemViewHolder extends StackLayout.ViewHolder {
-            View view;
-            @BindView(R.id.contents)
-            TextView contentsText;
-            @BindView(R.id.writer)
-            TextView nickname;
-            @BindView(R.id.board_id)
-            TextView board_id;
-
-            public ItemViewHolder(View itemView) {
-                super( itemView );
-                this.view = itemView;
-                ButterKnife.bind( this, view );
-            }
-
-        }
-    }
+//    class Adapter extends StackLayout.Adapter<Adapter.ItemViewHolder> {
+//        List<String> mData;
+//
+//
+//        public void setData(List<String> data) {
+//            mData = data;
+//        }
+//
+//        public List<String> getData() {
+//            return mData;
+//        }
+//
+//        public Adapter(List<String> data) {
+//            mData = data;
+//        }
+//
+//        @Override
+//        public ItemViewHolder onCreateViewHolder(ViewGroup parent, int position) {
+//            return new ItemViewHolder( LayoutInflater.from( parent.getContext() ).inflate( R.layout.item_card, parent, false ) );
+//        }
+//
+//        @Override
+//        public void onBindViewHolder(ItemViewHolder holder, final int position) {
+//            ContentsModel.Result item = results.get( position );
+//            holder.board_id.setText( item.getDescription() );
+//            holder.contentsText.setText( item.getDescription() );
+////            holder.contentsText.setText( item.getId().toString() );
+//            holder.nickname.setText( item.getUser() );
+//            holder.itemView.setOnClickListener( new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//
+//
+//                }
+//            } );
+//        }
+//
+//        @Override
+//        public int getItemCount() {
+//            return results.size();
+//        }
+//
+//        public class ItemViewHolder extends StackLayout.ViewHolder {
+//            View view;
+//            @BindView(R.id.contents)
+//            TextView contentsText;
+//            @BindView(R.id.writer)
+//            TextView nickname;
+//            @BindView(R.id.board_id)
+//            TextView board_id;
+//
+//            public ItemViewHolder(View itemView) {
+//                super( itemView );
+//                this.view = itemView;
+//                ButterKnife.bind( this, view );
+//            }
+//
+//        }
+//    }
 
     public boolean onTouchEvent(MotionEvent event) {
         if (isFirst) {
@@ -244,7 +244,21 @@ public class MainActivity extends AppCompatActivity {
                     results = items.getResult();
                     Gson gson = new Gson();
                     String data = gson.toJson( results );
+                    //야매야매
+                    for(int i = 0; i < results.size(); i++){
+                        String back = results.get(i).getImage_url();
+                        Random random = new Random();
+                        if(back.length()<13){
+                            int num = random.nextInt(50)+1;
+                            if(num < 10){
+                                back =  "http://13.125.76.112/statics/board_background/0"+ num +".png";
+                            } else {
+                                back =  "http://13.125.76.112/statics/board_background/"+ num +".png";
+                            }
+                        }
+                        results.get(i).setImage_url(back);
 
+                    }
                     Log.d( "RESULT@@@@@", data );
                     stackCardAdapter.setPostList( results );
                 }

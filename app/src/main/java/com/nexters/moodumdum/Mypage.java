@@ -1,5 +1,6 @@
 package com.nexters.moodumdum;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -37,6 +38,13 @@ public class Mypage extends AppCompatActivity implements FragmentMyJomun.OnFragm
         viewPager.setAdapter( tabAdapter );
 
         tabLayout.setupWithViewPager( viewPager );
+        Intent intent = getIntent();
+        if(intent != null) {
+            PlusBackimgActivity plusBackimgActivity = (PlusBackimgActivity)PlusBackimgActivity.plusBackimgActivity;
+            plusBackimgActivity.finish();
+            PlusActivity plusActivity = (PlusActivity)PlusActivity.plusActivity;
+            plusActivity.finish();
+        }
     }
 
 

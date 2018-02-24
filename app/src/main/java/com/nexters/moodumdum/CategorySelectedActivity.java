@@ -14,6 +14,8 @@ import com.nexters.moodumdum.adpater.SelectedCategoryAdapter;
 import com.nexters.moodumdum.api.MooDumDumService;
 import com.nexters.moodumdum.model.ContentsModel;
 
+import java.util.Random;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
@@ -61,6 +63,20 @@ public class CategorySelectedActivity extends AppCompatActivity {
             public void onResponse(Call<ContentsModel> call, Response<ContentsModel> response) {
                 if (response.isSuccessful()) {
                     final ContentsModel items = response.body();
+                    for(int i = 0; i < items.getResult().size(); i++){
+                        String back = items.getResult().get(i).getImage_url();
+                        Random random = new Random();
+                        if(back.length()<13){
+                            int num = random.nextInt(50)+1;
+                            if(num < 10){
+                                back =  "http://13.125.76.112/statics/board_background/0"+ num +".png";
+                            } else {
+                                back =  "http://13.125.76.112/statics/board_background/"+ num +".png";
+                            }
+                        }
+                        items.getResult().get(i).setImage_url(back);
+
+                    }
                     selectedCategoryAdapter.setPostList(items.getResult());
                 }
             }

@@ -6,8 +6,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.fashare.stack_layout.StackLayout;
 import com.nexters.moodumdum.CommentActivity;
 import com.nexters.moodumdum.R;
@@ -25,6 +27,8 @@ import butterknife.ButterKnife;
 
 public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder> {
 
+//야매야매
+    private  boolean isFirst = true;
 
 
     private Context context;
@@ -40,6 +44,7 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
 
     @Override
     public StackLayout.ViewHolder onCreateViewHolder(ViewGroup parent, int position) {
+        Log.d("$#$#$#$","dsdsd");
         return new ItemViewHolder( LayoutInflater.from( parent.getContext() ).inflate( R.layout.item_card, parent, false ) );
     }
 
@@ -54,6 +59,10 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
         String commentCount = String.valueOf( item.getComment_count() );
         String likeCount = String.valueOf( item.getLike_count() );
 //        String item = results.get(position);
+        //여기 야매ㅐㅐㅐㅐㅐ
+
+
+        Glide.with(context).load(item.getImage_url()).into(viewHolder.backImage);
         viewHolder.boardId.setText( item.getId().toString() );
         viewHolder.contnents.setText( item.getDescription() );
         viewHolder.writer.setText( item.getName() );
@@ -82,10 +91,8 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
 
     public void setPostList(List<ContentsModel.Result> results) {
         this.results = results;
-        Log.d( "testttttt@@@", results + "" );
         notifyDataSetChanged();
     }
-
     public static class ItemViewHolder extends StackLayout.ViewHolder {
         View view;
 
@@ -100,6 +107,8 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
 
         @BindView(R.id.board_id)
         TextView boardId;
+        @BindView(R.id.backImage)
+        ImageView backImage;
 //        @BindView(R.id.sliding_layout)
 //        SlidingUpPanelLayout mSlidingPanelLayout;
 //        private PanelSlideListener panelSlideListener;

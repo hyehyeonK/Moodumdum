@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class ContentsModel implements Serializable {
     @SerializedName("count") private int count;
     @SerializedName("next") private String next;
-    @SerializedName("previous") private int previous;
+    @SerializedName("previous") private String previous;
     @SerializedName("results") private ArrayList<Result> result;
 //    @SerializedName(category_id)
 //            String category_id;
@@ -32,6 +32,10 @@ public class ContentsModel implements Serializable {
     @SerializedName("color") private String color;
     @SerializedName("created") private String  created;
     @SerializedName("updated") private String  updated;
+
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
+    }
 
     public BigInteger getId() {
         return id;
@@ -118,7 +122,7 @@ public class ContentsModel implements Serializable {
         return next;
     }
 
-    public int getPrevious() {
+    public String getPrevious() {
         return previous;
     }
 

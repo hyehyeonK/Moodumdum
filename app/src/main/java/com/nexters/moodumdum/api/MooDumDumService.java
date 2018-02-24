@@ -2,9 +2,11 @@ package com.nexters.moodumdum.api;
 
 import com.nexters.moodumdum.model.CommentModel;
 import com.nexters.moodumdum.model.ContentsModel;
+import com.nexters.moodumdum.model.ImageModel;
 import com.nexters.moodumdum.model.PostCommentModel;
-import com.nexters.moodumdum.model.PostContentsModel;
 import com.nexters.moodumdum.model.ServerResponse;
+
+import java.math.BigInteger;
 
 import retrofit2.Call;
 
@@ -25,14 +27,15 @@ public class MooDumDumService {
 
     public static MooDumDumService of() { return  InstanceHolder.INSTANCE; }
 
-    public Call<ServerResponse> postContents(PostContentsModel contentsModel) {
-        return  api.postContents(contentsModel);
+    public Call<ServerResponse> postContents(BigInteger category_id,  String user, String name , String description, String image_url) {
+        return  api.postContents(category_id, user, name, description, image_url);
     }
 
     public Call<ContentsModel> getContents() { return api.getContents();}
     public Call<ContentsModel> getMyContents(Long userId) {
         return  api.getMyContents(userId);
     }
+    public Call<ImageModel> getBackgroundImage() {return  api.getBackgroundImage();}
     public Call<ContentsModel.Result> getContentsSelected(String board_id) { return api.getContentsSelected( board_id );}
     public Call<ContentsModel> getCategoryContentsInOrderOfPriority (String category_id) {
         return  api.getCategoryContentsInOrderOfPriority(category_id);
