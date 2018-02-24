@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -83,7 +82,9 @@ public class PlusActivity extends AppCompatActivity {
 
 
     @OnClick({R.id.btn_relationship, R.id.btn_family, R.id.btn_job, R.id.btn_selfesteem, R.id.btn_darkhistory, R.id.btn_ect})
-    public void onViewClicked(View view) {
+    public void onViewClicked(Button button) {
+        String selectBtn = button.getTag() + "";//카테고리 태그
+        BigInteger categoryId = new BigInteger(selectBtn);
         btnRelationship.setSelected( false );
         btnFamily.setSelected( false );
         btnJob.setSelected( false );
@@ -92,9 +93,9 @@ public class PlusActivity extends AppCompatActivity {
         btnEct.setSelected( false );
 
 
-        contentsModel.setCategory_id(BigInteger.ONE);
+        contentsModel.setCategory_id(categoryId);
         //여기 선택했을때 contentsModel.setImage_url() 추가하기
-        view.setSelected( true );
+        button.setSelected( true );
     }
 
 

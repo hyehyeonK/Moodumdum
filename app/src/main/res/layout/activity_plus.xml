@@ -70,6 +70,7 @@
 
                     <Button
                         android:id="@+id/btn_relationship"
+                        android:tag="4"
                         android:layout_width="78dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="5dp"
@@ -80,6 +81,7 @@
 
                     <Button
                         android:id="@+id/btn_family"
+                        android:tag="3"
                         android:layout_width="78dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="5dp"
@@ -90,6 +92,7 @@
 
                     <Button
                         android:id="@+id/btn_job"
+                        android:tag="6"
                         android:layout_width="78dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="5dp"
@@ -100,6 +103,7 @@
 
                     <Button
                         android:id="@+id/btn_selfesteem"
+                        android:tag="5"
                         android:layout_width="78dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="5dp"
@@ -110,6 +114,7 @@
 
                     <Button
                         android:id="@+id/btn_darkhistory"
+                        android:tag="1"
                         android:layout_width="78dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="5dp"
@@ -120,6 +125,7 @@
 
                     <Button
                         android:id="@+id/btn_ect"
+                        android:tag="2"
                         android:layout_width="78dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="5dp"
