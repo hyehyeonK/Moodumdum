@@ -8,6 +8,8 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -33,9 +35,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CommentActivity extends AppCompatActivity {
-
-    PostCommentModel commentModel;
-
     @BindView(R.id.imageView1)
     ImageView imageView1;
     @BindView(R.id.commentsCount)
@@ -54,12 +53,16 @@ public class CommentActivity extends AppCompatActivity {
     EditText contentsTest;
     @BindView(R.id.commenttest)
     ConstraintLayout commenttest;
-//    @BindView(R.id.onClickToPostComment)
-//    ImageButton onClickToPostComment;
+    @BindView(R.id.view)
+    View view;
+    @BindView(R.id.onClickToPostComment)
+    Button onClickToPostComment;
+
+    PostCommentModel commentModel;
 
     private CommentAdapter mCommentAdapter;
     private LinearLayoutManager mLinearLayoutManager;
-    String board_id = "";
+    BigInteger board_id;
 
     List<ContentsModel.Result> contentsResults = new ArrayList<>();
     List<CommentModel.Result> commentResults = new ArrayList<>();
@@ -72,26 +75,23 @@ public class CommentActivity extends AppCompatActivity {
 
 
         Intent intent = getIntent();
-        board_id = intent.getStringExtra( "board_id" );
+        commentModel = (PostCommentModel) intent.getSerializableExtra("newComment");
 
-//        commentModel.setBoard_id( new BigInteger( board_id ) );
-//        commentModel.setName( "소연" );
-//        commentModel.setUser( "ksy" );
-//        commentModel.setDescription( contentsTest.getText().toString() );
+        Toast.makeText( this, commentModel.getBoard_id().toString(), Toast.LENGTH_SHORT ).show();
 
         initView();
-
 
     }
 
     public void initView() {
+
 
         DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics();
 
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        commenttest.setMaxHeight( height/2 );
+        commenttest.setMaxHeight( height / 2 );
         mLinearLayoutManager = new LinearLayoutManager( this );
         mCommentAdapter = new CommentAdapter( CommentActivity.this );
         CommentListView.setAdapter( mCommentAdapter );
@@ -102,7 +102,6 @@ public class CommentActivity extends AppCompatActivity {
         CommentListView.addItemDecoration( new RecyclerViwDecoraiton( 2 ) );
 
         getCommentContent();
-//        getCommentHeader();
 
     }
 
@@ -131,13 +130,12 @@ public class CommentActivity extends AppCompatActivity {
 //    }
 
     public void getCommentContent() {
-        Intent intent = getIntent();
-        board_id = intent.getStringExtra( "board_id" );
+        board_id = commentModel.getBoard_id();
         MooDumDumService.of().getComment( board_id ).enqueue( new Callback<CommentModel>() {
             @Override
             public void onResponse(Call<CommentModel> call, Response<CommentModel> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText( getBaseContext(), "댓글 불러오기 성공!", Toast.LENGTH_SHORT ).show();
+                    Toast.makeText( getBaseContext(), commentModel.getBoard_id().toString(), Toast.LENGTH_SHORT ).show();
                     final CommentModel items = response.body();
                     mCommentAdapter.setPostList( items.getResult() );
                 }
@@ -152,53 +150,21 @@ public class CommentActivity extends AppCompatActivity {
 
     @OnClick(R.id.onClickToPostComment)
     public void onViewClicked() {
-//
-//        Intent intent = getIntent();
-//        board_id = intent.getStringExtra( "board_id" );
-//
-//        commentModel.setBoard_id( new BigInteger( board_id ) );
-//        commentModel.setName( "소연" );
-//        commentModel.setUser( "ksy" );
-//        commentModel.setDescription( contentsTest.getText().toString() );
-       PostComment(commentModel);
-//        Toast.makeText( this, "성공" ,Toast.LENGTH_SHORT).show();
+        PostComment();
     }
 
-    //    private void PostComment() {
-//        BigInteger id = commentModel.getBoard_id();
-//        String user = commentModel.getUser();
-//        String name = commentModel.getName();
-//        String description = commentModel.getDescription();
-//
-//        MooDumDumService.of().postComment( commentModel ).enqueue( new Callback<ServerResponse>() {
-//            @Override
-//            public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
-//                Toast.makeText(getBaseContext(), "댓글 작성 성공!", Toast.LENGTH_SHORT).show();
-//                Log.d("postComment",response.message());
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ServerResponse> call, Throwable t) {
-//                Log.d("postCommentError","error");
-//            }
-//        } );
-//    }
-    public void PostComment(PostCommentModel commentModel) {
-//        Intent intent = getIntent();
-//        board_id = intent.getStringExtra( "board_id" );
-//        commentModel.getBoard_id();
-//        commentModel.getUser();
-//        commentModel.getName();
-//        commentModel.getDescription();
 
-        BigInteger category_id = commentModel.getBoard_id();
-        String user = commentModel.getUser();
-        String name = commentModel.getName();
-        String description = commentModel.getDescription();
-        MooDumDumService.of().postComment( commentModel ).enqueue( new Callback<ServerResponse>() {
+//    }
+    public void PostComment() {
+        board_id = commentModel.getBoard_id();
+        String user = "KSY";
+        String name = "소연소연";
+        String description = contentsTest.getText().toString();
+
+        MooDumDumService.of().postComment( board_id, user, name, description ).enqueue( new Callback<ServerResponse>() {
             @Override
             public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
-                Toast.makeText( getBaseContext(), "댓글 작성 성공!", Toast.LENGTH_SHORT ).show();
+                Toast.makeText( getBaseContext(), board_id.toString(), Toast.LENGTH_SHORT ).show();
             }
 
             @Override
@@ -207,6 +173,8 @@ public class CommentActivity extends AppCompatActivity {
             }
         } );
     }
+
+
 
 }
 

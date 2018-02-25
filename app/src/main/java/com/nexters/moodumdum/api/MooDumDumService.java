@@ -3,7 +3,6 @@ package com.nexters.moodumdum.api;
 import com.nexters.moodumdum.model.CommentModel;
 import com.nexters.moodumdum.model.ContentsModel;
 import com.nexters.moodumdum.model.ImageModel;
-import com.nexters.moodumdum.model.PostCommentModel;
 import com.nexters.moodumdum.model.ServerResponse;
 
 import java.math.BigInteger;
@@ -44,11 +43,10 @@ public class MooDumDumService {
 
     public Call<CommentModel> getCommentAll() {return api.getCommentAll();}
 
-    // 안되면 long으로 바꾸기
-    public Call<CommentModel> getComment(String board_id) {
+    public Call<CommentModel> getComment(BigInteger board_id) {
         return api.getComment( board_id );
     }
-    public Call<ServerResponse> postComment(PostCommentModel commentModel) {
-        return api.postComment( commentModel );
+    public Call<ServerResponse> postComment(BigInteger board_id,  String user, String name , String description) {
+        return api.postComment(  board_id, user,  name ,  description );
     }
 }

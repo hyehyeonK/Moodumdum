@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.fashare.stack_layout.StackLayout;
 import com.fashare.stack_layout.transformer.AngleTransformer;
+import com.nexters.moodumdum.model.PostCommentModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,6 +38,8 @@ public class MainCardActivity extends AppCompatActivity {
 
     @BindView(R.id.stack_layout)
     StackLayout mainStackLayout;
+
+    PostCommentModel commentModel = new PostCommentModel();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,19 +101,21 @@ public class MainCardActivity extends AppCompatActivity {
             }
         });
 
-        mainStackLayout.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent( getApplicationContext(), CommentActivity.class );
-//        String selectBtn = button.getTag() + "";//카테고리 태그
-//        String BtnTest =
-                String board_id = (String) MainCardActivity.mBoard_id.getText();
-                intent.putExtra( "board_id", board_id );
-                startActivity( intent );
-
-            }
-
-        } );
+//        mainStackLayout.setOnClickListener( new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                String board_id = (String) MainCardActivity.mBoard_id.getText();
+//                BigInteger BINT_board_id = new BigInteger(board_id);
+//                commentModel.setBoard_id( BINT_board_id );
+//
+//                Intent intent = new Intent( getBaseContext(), CommentActivity.class );
+//
+//                intent.putExtra( "newComment", commentModel);
+//                startActivity( intent );
+//
+//            }
+//
+//        } );
     }
 
     private void loadData(final int page) {

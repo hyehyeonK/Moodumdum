@@ -66,6 +66,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         TextView WriterOfComment;
         @BindView(R.id.contentOfComment)
         TextView contentOfComment;
+
 //        @BindView(R.id.imageView2)
 //        ImageView imageView2;
 //        @BindView(R.id.likeCount)

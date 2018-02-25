@@ -14,7 +14,9 @@ import com.fashare.stack_layout.StackLayout;
 import com.nexters.moodumdum.CommentActivity;
 import com.nexters.moodumdum.R;
 import com.nexters.moodumdum.model.ContentsModel;
+import com.nexters.moodumdum.model.PostCommentModel;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,6 +63,10 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
 //        String item = results.get(position);
         //여기 야매ㅐㅐㅐㅐㅐ
 
+//        final String board_id = (String) viewHolder.boardId.getText();
+//        String board_id = String.valueOf( viewHolder.boardId.getText() );
+
+
 
         Glide.with(context).load(item.getImage_url()).into(viewHolder.backImage);
         viewHolder.boardId.setText( item.getId().toString() );
@@ -68,17 +74,21 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
         viewHolder.writer.setText( item.getName() );
         viewHolder.commentCount.setText( commentCount );
         viewHolder.likeCount.setText( likeCount );
-//                viewHolder.contnents.setText("testest");
-//        viewHolder.writer.setText("testest")
 
-        final String board_id = viewHolder.boardId.getText().toString();
+        viewHolder.commentModel = new PostCommentModel();
+
+        String board_id = String.valueOf( viewHolder.boardId.getText() );
+        final BigInteger BINT_board_id = new BigInteger(board_id);
+
+        viewHolder.commentModel.setBoard_id( BINT_board_id );
 
         viewHolder.view.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent( context, CommentActivity.class );
-                intent.putExtra( "board_id", board_id );
-                context.startActivity( intent );
+//                viewHolder.commentModel.setBoard_id( BINT_board_id );
+                intent.putExtra( "newComment", viewHolder.commentModel);
+                context.startActivity(intent);
             }
         } );
     }
@@ -109,6 +119,8 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
         TextView boardId;
         @BindView(R.id.backImage)
         ImageView backImage;
+
+        PostCommentModel commentModel;
 //        @BindView(R.id.sliding_layout)
 //        SlidingUpPanelLayout mSlidingPanelLayout;
 //        private PanelSlideListener panelSlideListener;

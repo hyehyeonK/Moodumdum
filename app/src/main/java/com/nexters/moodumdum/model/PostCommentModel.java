@@ -47,13 +47,13 @@ public class PostCommentModel implements Serializable {
         this.description = description;
     }
 
-    @Override
-    public String toString() {
-        return "PostCommentModel{" +
-                "board_id=" + board_id +
-                ", user='" + user + '\'' +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "PostCommentModel{" +
+//                "board_id=" + board_id +
+//                ", user='" + user + '\'' +
+//                ", name='" + name + '\'' +
+//                ", description='" + description + '\'' +
+//                '}';
+//    }
 }

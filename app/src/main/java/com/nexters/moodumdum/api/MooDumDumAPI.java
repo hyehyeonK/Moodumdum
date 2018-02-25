@@ -3,14 +3,12 @@ package com.nexters.moodumdum.api;
 import com.nexters.moodumdum.model.CommentModel;
 import com.nexters.moodumdum.model.ContentsModel;
 import com.nexters.moodumdum.model.ImageModel;
-import com.nexters.moodumdum.model.PostCommentModel;
 import com.nexters.moodumdum.model.ServerResponse;
 
 import java.math.BigInteger;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
-import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -57,16 +55,13 @@ public interface MooDumDumAPI {
 
     //댓글 가져오기
     @GET("api/board/search/comment/{board_id}")
-    Call<CommentModel> getComment (@Path( "board_id" ) String board_id);
+    Call<CommentModel> getComment (@Path( "board_id" ) BigInteger board_id);
 
     //댓글 쓰기
-    @POST("api/board/comment/{board_id}")
-//    @POST("api/board/comment/")
-    Call<ServerResponse> postComment (@FieldMap PostCommentModel commentModel);
-//    Call<ServerResponse> postComment (@Field("board_id") BigInteger board_id,
-//                                      @Field( "user") String user,
-//                                      @Field( "name" ) String name,
-//                                      @Field( "description") String description);
-
-
+    @FormUrlEncoded
+    @POST("api/board/comment/")
+    Call<ServerResponse> postComment (@Field("board_id") BigInteger board_id,
+                                      @Field( "user") String user,
+                                      @Field( "name" ) String name,
+                                      @Field( "description") String description);
 }

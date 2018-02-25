@@ -80,10 +80,6 @@ public class PlusBackimgActivity extends AppCompatActivity {
         // 이미지 랜덤
 
 
-
-
-
-
 //        PlusBackimgAdapter plusBackimgAdapter = new PlusBackimgAdapter( this, (ArrayList) images );
 //        gridViewImages.setAdapter( plusBackimgAdapter );
 
