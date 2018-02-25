@@ -77,8 +77,6 @@ public class CommentActivity extends AppCompatActivity {
         Intent intent = getIntent();
         commentModel = (PostCommentModel) intent.getSerializableExtra("newComment");
 
-        Toast.makeText( this, commentModel.getBoard_id().toString(), Toast.LENGTH_SHORT ).show();
-
         initView();
 
     }
@@ -158,13 +156,16 @@ public class CommentActivity extends AppCompatActivity {
     public void PostComment() {
         board_id = commentModel.getBoard_id();
         String user = "KSY";
-        String name = "소연소연";
+        String name = "소연이에유";
         String description = contentsTest.getText().toString();
 
         MooDumDumService.of().postComment( board_id, user, name, description ).enqueue( new Callback<ServerResponse>() {
             @Override
             public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
-                Toast.makeText( getBaseContext(), board_id.toString(), Toast.LENGTH_SHORT ).show();
+                Toast.makeText( getBaseContext(), "댓글을 등록했습니다.", Toast.LENGTH_SHORT ).show();
+                getCommentContent();
+
+                contentsTest.setText( null );
             }
 
             @Override

@@ -148,18 +148,10 @@
             android:layout_marginBottom="8dp"
             android:layout_marginStart="8dp"
             android:text="board_id"
-            android:tag="board_id"
             android:textColor="#ffff"
-            android:visibility="visible"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/dat"
-            android:text="댓글"
-            />
 
     </android.support.constraint.ConstraintLayout>
 
