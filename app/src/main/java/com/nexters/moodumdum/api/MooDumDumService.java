@@ -31,7 +31,7 @@ public class MooDumDumService {
     }
 
     public Call<ContentsModel> getContents() { return api.getContents();}
-    public Call<ContentsModel> getMyContents(Long userId) {
+    public Call<ContentsModel> getMyContents(String userId) {
         return  api.getMyContents(userId);
     }
     public Call<ImageModel> getBackgroundImage() {return  api.getBackgroundImage();}

@@ -7,14 +7,25 @@
         android:layout_width="match_parent"
         android:layout_height="120dp"
         app:cardCornerRadius="0dp">
-
-    <TextView
-        android:id="@+id/myJomun"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_vertical"
-        android:background="@android:color/transparent"
-        android:gravity="center"
-        android:text="TextView" />
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/backImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"/>
+        <TextView
+            android:id="@+id/myJomun"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:background="@android:color/transparent"
+            android:gravity="center"
+            android:text="TextView" />
+
+
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.v7.widget.CardView>

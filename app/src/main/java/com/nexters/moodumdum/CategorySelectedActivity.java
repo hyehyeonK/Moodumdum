@@ -1,16 +1,15 @@
 package com.nexters.moodumdum;
 
 import android.content.Intent;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 import com.amar.library.ui.StickyScrollView;
 import com.nexters.moodumdum.adpater.SelectedCategoryAdapter;
+import com.nexters.moodumdum.anim.RecyclerViewDecoration;
 import com.nexters.moodumdum.api.MooDumDumService;
 import com.nexters.moodumdum.model.ContentsModel;
 
@@ -53,7 +52,7 @@ public class CategorySelectedActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.addItemDecoration(new RecyclerViwDecoraiton(12));
+        recyclerView.addItemDecoration(new RecyclerViewDecoration(12));
     }
     private void getPost() {
         Intent intent = getIntent();
@@ -89,16 +88,4 @@ public class CategorySelectedActivity extends AppCompatActivity {
     }
 
 }
-class RecyclerViwDecoraiton extends RecyclerView.ItemDecoration {
-    private final int divHeight;
-    public RecyclerViwDecoraiton(int divHeight) {
-        this.divHeight = divHeight;
-    }
 
-    @Override
-    public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-        super.getItemOffsets(outRect, view, parent, state);
-        outRect.top =divHeight;
-    }
-
-}

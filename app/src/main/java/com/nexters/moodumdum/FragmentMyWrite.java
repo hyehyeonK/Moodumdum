@@ -13,11 +13,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import com.nexters.moodumdum.adpater.MyPageMyContentsAdapter;
+import com.nexters.moodumdum.api.MooDumDumService;
+import com.nexters.moodumdum.model.ContentsModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class FragmentMyWrite extends Fragment {
@@ -31,9 +36,9 @@ public class FragmentMyWrite extends Fragment {
     @BindView(R.id.nullWriteText)
     TextView nullWriteText;
 
-    private MypageMywriteAdapter mMypageMywriteAdapter;
+    private MyPageMyContentsAdapter myPageMyContentsAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private ArrayList<MywriteData> mMywriteData;
+//    private ArrayList<MywriteData> mMywriteData;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,15 +58,15 @@ public class FragmentMyWrite extends Fragment {
         mLayoutManager = new GridLayoutManager( getActivity(), 2 );
         mywriteRecyclerView.setLayoutManager( mLayoutManager );
         mywriteRecyclerView.scrollToPosition( 0 );
-        mMypageMywriteAdapter = new MypageMywriteAdapter( mMywriteData );
-        mywriteRecyclerView.setAdapter( mMypageMywriteAdapter );
+        myPageMyContentsAdapter = new MyPageMyContentsAdapter( getContext() );
+        mywriteRecyclerView.setAdapter( myPageMyContentsAdapter );
         mywriteRecyclerView.setItemAnimator( new DefaultItemAnimator() );
         unbinder = ButterKnife.bind( this, view );
 
-        if (mMywriteData.isEmpty()) {
-            nullWriteImg.setVisibility(View.VISIBLE);
-            nullWriteText.setVisibility( View.VISIBLE );
-        }
+//        if (mMywriteData.isEmpty()) {
+//            nullWriteImg.setVisibility(View.VISIBLE);
+//            nullWriteText.setVisibility( View.VISIBLE );
+//        }
         return view;
     }
 
@@ -73,10 +78,21 @@ public class FragmentMyWrite extends Fragment {
 
     private void initDataset() {
         //for Test
-        mMywriteData = new ArrayList<>();
-        mMywriteData.add( new MywriteData( "오늘 비도 오고 완전 우울함ㅠㅠ" ) );
-        mMywriteData.add( new MywriteData( "길가다 넘어졌음.." ) );
-        mMywriteData.add( new MywriteData( "몸살걸려서 머리가 띵하다" ) );
+        String Uuid = "KHH";
+        MooDumDumService.of().getMyContents(Uuid).enqueue(new Callback<ContentsModel>() {
+            @Override
+            public void onResponse(Call<ContentsModel> call, Response<ContentsModel> response) {
+                if (response.isSuccessful()) {
+                    final ContentsModel items = response.body();
+                    myPageMyContentsAdapter.setMyContentsList(items.getResult());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ContentsModel> call, Throwable t) {
+
+            }
+        });
 
 
     }

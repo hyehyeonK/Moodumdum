@@ -1,9 +1,12 @@
-package com.nexters.moodumdum;
+package com.nexters.moodumdum.adpater;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+
+import com.nexters.moodumdum.FragmentMyJomun;
+import com.nexters.moodumdum.FragmentMyWrite;
 
 /**
  * Created by User on 2018-01-23.

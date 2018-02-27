@@ -41,7 +41,7 @@ public interface MooDumDumAPI {
 
     //내가 쓴 글 가져오기
     @GET("api/board/")
-    Call<ContentsModel> getMyContents (@Query("userId") long userId);
+    Call<ContentsModel> getMyContents (@Query("userId") String userId);
 
 //    //카테고리별 컨텐츠 가져오기 ( 최신순 )
     @GET("api/board/search/category/{category_id}")

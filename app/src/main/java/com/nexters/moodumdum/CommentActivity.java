@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nexters.moodumdum.adpater.CommentAdapter;
+import com.nexters.moodumdum.anim.RecyclerViewDecoration;
 import com.nexters.moodumdum.api.MooDumDumService;
 import com.nexters.moodumdum.model.CommentModel;
 import com.nexters.moodumdum.model.ContentsModel;
@@ -97,7 +98,7 @@ public class CommentActivity extends AppCompatActivity {
         CommentListView.setHasFixedSize( false );
         CommentListView.setLayoutManager( mLinearLayoutManager );
         CommentListView.setItemAnimator( new DefaultItemAnimator() );
-        CommentListView.addItemDecoration( new RecyclerViwDecoraiton( 2 ) );
+        CommentListView.addItemDecoration( new RecyclerViewDecoration( 2 ) );
 
         getCommentContent();
 
