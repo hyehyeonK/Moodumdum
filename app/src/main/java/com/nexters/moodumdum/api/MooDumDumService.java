@@ -1,5 +1,6 @@
 package com.nexters.moodumdum.api;
 
+import com.nexters.moodumdum.factory.RetrofitFactory;
 import com.nexters.moodumdum.model.CommentModel;
 import com.nexters.moodumdum.model.ContentsModel;
 import com.nexters.moodumdum.model.ImageModel;
@@ -33,6 +34,9 @@ public class MooDumDumService {
     public Call<ContentsModel> getContents() { return api.getContents();}
     public Call<ContentsModel> getMyContents(String userId) {
         return  api.getMyContents(userId);
+    }
+    public Call<ContentsModel> getMyJomunContents(String userId) {
+        return  api.getMyJomunContents(userId);
     }
     public Call<ImageModel> getBackgroundImage() {return  api.getBackgroundImage();}
     public Call<ContentsModel.Result> getContentsSelected(String board_id) { return api.getContentsSelected( board_id );}

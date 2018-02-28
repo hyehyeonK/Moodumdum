@@ -169,6 +169,7 @@ public class PlusBackimgActivity extends AppCompatActivity {
                     final ImageModel items = response.body();
                     images = items.getResult();
                     // 배경 선택 안 할 시 초기화로 들어갈 데이터
+                    //나중에 랜덤으로 주기
                     contentsModel.setImage_url( images.get(0).getImage_url() );
                     contentsModel.setFontColor( images.get(0).getFont_color());
 

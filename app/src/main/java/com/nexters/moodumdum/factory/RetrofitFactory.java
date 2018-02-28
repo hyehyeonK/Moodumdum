@@ -1,4 +1,4 @@
-package com.nexters.moodumdum.api;
+package com.nexters.moodumdum.factory;
 
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;

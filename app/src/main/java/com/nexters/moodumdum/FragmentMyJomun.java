@@ -13,24 +13,29 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import com.nexters.moodumdum.adpater.MyPageRecyclerViewAdapter;
+import com.nexters.moodumdum.api.MooDumDumService;
+import com.nexters.moodumdum.model.ContentsModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FragmentMyJomun extends Fragment {
 
-    @BindView(R.id.myjomunRecyclerview)
-    RecyclerView myjomunRecyclerview;
+    @BindView(R.id.recyclerView)
+    RecyclerView myPageRecyclerView;
     Unbinder unbinder;
     @BindView(R.id.nullJomunImg)
     ImageView nullJomunImg;
     @BindView(R.id.nullJomunText)
     TextView nullJomunText;
-    private MypageMyjomunAdapter mMypageAdapter;
+    private MyPageRecyclerViewAdapter myPageMyJomunAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private ArrayList<MyjomunData> MyjomunData;
+//    private ArrayList<MyjomunData> MyjomunData;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,22 +48,22 @@ public class FragmentMyJomun extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate( R.layout.fragment_myjomun, container, false );
+        View view = inflater.inflate( R.layout.fragment_recyclerview, container, false );
 
-        myjomunRecyclerview = (RecyclerView) view.findViewById( R.id.myjomunRecyclerview );
-        myjomunRecyclerview.setHasFixedSize( true );
+        myPageRecyclerView = (RecyclerView) view.findViewById( R.id.recyclerView);
+        myPageRecyclerView.setHasFixedSize( true );
         mLayoutManager = new GridLayoutManager( getActivity(), 2 );
-        myjomunRecyclerview.setLayoutManager( mLayoutManager );
-        myjomunRecyclerview.scrollToPosition( 0 );
-        mMypageAdapter = new MypageMyjomunAdapter( MyjomunData );
-        myjomunRecyclerview.setAdapter( mMypageAdapter );
-        myjomunRecyclerview.setItemAnimator( new DefaultItemAnimator() );
+        myPageRecyclerView.setLayoutManager( mLayoutManager );
+        myPageRecyclerView.scrollToPosition( 0 );
+        myPageMyJomunAdapter = new MyPageRecyclerViewAdapter( getContext() );
+        myPageRecyclerView.setAdapter( myPageMyJomunAdapter );
+        myPageRecyclerView.setItemAnimator( new DefaultItemAnimator() );
         unbinder = ButterKnife.bind( this, view );
 
-        if (MyjomunData.isEmpty()) {
-            nullJomunImg.setVisibility(View.VISIBLE);
-            nullJomunText.setVisibility( View.VISIBLE );
-        }
+//        if (MyjomunData.isEmpty()) {
+//            nullJomunImg.setVisibility(View.VISIBLE);
+//            nullJomunText.setVisibility( View.VISIBLE );
+//        }
         return view;
     }
 
@@ -69,9 +74,25 @@ public class FragmentMyJomun extends Fragment {
 
 
     private void initDataset() {
-        //for Test
-        MyjomunData = new ArrayList<>();
-//        MyjomunData.add( new MyjomunData( "오늘 비도 오고 완전 우울함ㅠㅠ" ) );
+        String Uuid = "KHHTest";
+        MooDumDumService.of().getMyJomunContents(Uuid).enqueue(new Callback<ContentsModel>() {
+            @Override
+            public void onResponse(Call<ContentsModel> call, Response<ContentsModel> response) {
+                if (response.isSuccessful()) {
+                    final ContentsModel items = response.body();
+                    if (items.getResult().isEmpty()) {
+                        nullJomunImg.setVisibility(View.VISIBLE);
+                        nullJomunText.setVisibility( View.VISIBLE );
+                    }
+                    myPageMyJomunAdapter.setMyContentsList(items.getResult());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ContentsModel> call, Throwable t) {
+
+            }
+        });
 
     }
 

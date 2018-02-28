@@ -23,16 +23,16 @@ import butterknife.ButterKnife;
  * Created by kimhyehyeon on 2018. 2. 27..
  */
 
-public class MyPageMyContentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class MyPageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private List<ContentsModel.Result> results = new ArrayList<>();
 
-    public MyPageMyContentsAdapter(Context context) {
+    public MyPageRecyclerViewAdapter(Context context) {
         this.context = context;
     }
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View layoutView = LayoutInflater.from(parent.getContext()).inflate( R.layout.item_mywrite, parent, false);
+        View layoutView = LayoutInflater.from(parent.getContext()).inflate( R.layout.item_mypage, parent, false);
         ItemViewHolder rcv = new ItemViewHolder(layoutView);
         return rcv;
     }

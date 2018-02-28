@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.TextView;
 
 import com.amar.library.ui.StickyScrollView;
 import com.nexters.moodumdum.adpater.SelectedCategoryAdapter;
@@ -35,16 +36,31 @@ public class CategorySelectedActivity extends AppCompatActivity {
     @BindView(R.id.rv_contents)
     RecyclerView recyclerView;
 
+    @BindView(R.id.category_title)
+    TextView categoryTitle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_selected);
         ButterKnife.bind(this);
+
+        Intent intent = getIntent();
+        categoryID = intent.getStringExtra("categoryID");
+
         initView();
         getPost();
     }
 
     private void initView() {
+        switch (categoryID) {
+            case "1" : categoryTitle.setText("흑역사"); break;
+            case "2" : categoryTitle.setText("기타"); break;
+            case "3" : categoryTitle.setText("가정사"); break;
+            case "4" : categoryTitle.setText("연애사"); break;
+            case "5" : categoryTitle.setText("자존감"); break;
+            case "6" : categoryTitle.setText("직장사"); break;
+        }
+
         linearLayoutManager = new LinearLayoutManager(this);
         selectedCategoryAdapter = new SelectedCategoryAdapter(CategorySelectedActivity.this);
         recyclerView.setAdapter(selectedCategoryAdapter);
@@ -55,8 +71,6 @@ public class CategorySelectedActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(new RecyclerViewDecoration(12));
     }
     private void getPost() {
-        Intent intent = getIntent();
-        categoryID = intent.getStringExtra("categoryID");
         MooDumDumService.of().getCategoryContentsInOrderOfPriority(categoryID).enqueue(new Callback<ContentsModel>() {
             @Override
             public void onResponse(Call<ContentsModel> call, Response<ContentsModel> response) {

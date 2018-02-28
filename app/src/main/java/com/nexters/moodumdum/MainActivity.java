@@ -34,6 +34,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * Created by kimhyehyeon on 2018. 2. 10..
+ */
+
 public class MainActivity extends AppCompatActivity {
     public static Activity MainActivity ;
     public static Context MainActivity_context;

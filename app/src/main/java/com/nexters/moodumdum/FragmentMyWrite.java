@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nexters.moodumdum.adpater.MyPageMyContentsAdapter;
+import com.nexters.moodumdum.adpater.MyPageRecyclerViewAdapter;
 import com.nexters.moodumdum.api.MooDumDumService;
 import com.nexters.moodumdum.model.ContentsModel;
 
@@ -27,16 +27,15 @@ import retrofit2.Response;
 
 public class FragmentMyWrite extends Fragment {
 
-
-    @BindView(R.id.mywriteRecyclerView)
-    RecyclerView mywriteRecyclerView;
+    @BindView(R.id.recyclerView)
+    RecyclerView myPageRecyclerView;
     Unbinder unbinder;
     @BindView(R.id.nullWriteImg)
     ImageView nullWriteImg;
     @BindView(R.id.nullWriteText)
     TextView nullWriteText;
 
-    private MyPageMyContentsAdapter myPageMyContentsAdapter;
+    private MyPageRecyclerViewAdapter myPageMyContentsAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 //    private ArrayList<MywriteData> mMywriteData;
 
@@ -51,22 +50,18 @@ public class FragmentMyWrite extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate( R.layout.fragment_mywrite, container, false );
+        View view = inflater.inflate( R.layout.fragment_recyclerview, container, false );
 
-        mywriteRecyclerView = (RecyclerView) view.findViewById( R.id.mywriteRecyclerView );
-        mywriteRecyclerView.setHasFixedSize( true );
+        myPageRecyclerView = (RecyclerView) view.findViewById( R.id.recyclerView);
+        myPageRecyclerView.setHasFixedSize( true );
         mLayoutManager = new GridLayoutManager( getActivity(), 2 );
-        mywriteRecyclerView.setLayoutManager( mLayoutManager );
-        mywriteRecyclerView.scrollToPosition( 0 );
-        myPageMyContentsAdapter = new MyPageMyContentsAdapter( getContext() );
-        mywriteRecyclerView.setAdapter( myPageMyContentsAdapter );
-        mywriteRecyclerView.setItemAnimator( new DefaultItemAnimator() );
+        myPageRecyclerView.setLayoutManager( mLayoutManager );
+        myPageRecyclerView.scrollToPosition( 0 );
+        myPageMyContentsAdapter = new MyPageRecyclerViewAdapter( getContext() );
+        myPageRecyclerView.setAdapter( myPageMyContentsAdapter );
+        myPageRecyclerView.setItemAnimator( new DefaultItemAnimator() );
         unbinder = ButterKnife.bind( this, view );
 
-//        if (mMywriteData.isEmpty()) {
-//            nullWriteImg.setVisibility(View.VISIBLE);
-//            nullWriteText.setVisibility( View.VISIBLE );
-//        }
         return view;
     }
 
@@ -84,6 +79,10 @@ public class FragmentMyWrite extends Fragment {
             public void onResponse(Call<ContentsModel> call, Response<ContentsModel> response) {
                 if (response.isSuccessful()) {
                     final ContentsModel items = response.body();
+                    if (items.getResult().isEmpty()) {
+                        nullWriteImg.setVisibility(View.VISIBLE);
+                        nullWriteText.setVisibility( View.VISIBLE );
+                    }
                     myPageMyContentsAdapter.setMyContentsList(items.getResult());
                 }
             }

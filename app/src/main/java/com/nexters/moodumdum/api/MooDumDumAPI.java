@@ -13,7 +13,6 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 /**
  * Created by kimhyehyeon on 2018. 2. 11..
  */
@@ -40,8 +39,12 @@ public interface MooDumDumAPI {
     Call<ContentsModel.Result> getContentsSelected(@Path( "board_id" )String board_id);
 
     //내가 쓴 글 가져오기
-    @GET("api/board/")
-    Call<ContentsModel> getMyContents (@Query("userId") String userId);
+    @GET("api/board/search/user/{userId}")
+    Call<ContentsModel> getMyContents (@Path("userId") String userId);
+
+    //내가 좋아요 한 글 가져오기
+    @GET("api/board/search/user/{userId}")
+    Call<ContentsModel> getMyJomunContents (@Path("userId") String userId);
 
 //    //카테고리별 컨텐츠 가져오기 ( 최신순 )
     @GET("api/board/search/category/{category_id}")
