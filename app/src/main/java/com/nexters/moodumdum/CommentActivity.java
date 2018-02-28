@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,6 +22,7 @@ import com.nexters.moodumdum.model.CommentModel;
 import com.nexters.moodumdum.model.ContentsModel;
 import com.nexters.moodumdum.model.PostCommentModel;
 import com.nexters.moodumdum.model.ServerResponse;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -60,6 +60,10 @@ public class CommentActivity extends AppCompatActivity {
     Button onClickToPostComment;
 
     PostCommentModel commentModel;
+    @BindView(R.id.sliding)
+    SlidingUpPanelLayout sliding;
+    @BindView(R.id.backlayout)
+    LinearLayout backlayout;
 
     private CommentAdapter mCommentAdapter;
     private LinearLayoutManager mLinearLayoutManager;
@@ -76,21 +80,20 @@ public class CommentActivity extends AppCompatActivity {
 
 
         Intent intent = getIntent();
-        commentModel = (PostCommentModel) intent.getSerializableExtra("newComment");
+        commentModel = (PostCommentModel) intent.getSerializableExtra( "newComment" );
 
         initView();
+
+        backlayout.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        } );
 
     }
 
     public void initView() {
-
-
-        DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics();
-
-        int width = dm.widthPixels;
-        int height = dm.heightPixels;
-
-        commenttest.setMaxHeight( height / 2 );
         mLinearLayoutManager = new LinearLayoutManager( this );
         mCommentAdapter = new CommentAdapter( CommentActivity.this );
         CommentListView.setAdapter( mCommentAdapter );
@@ -101,33 +104,23 @@ public class CommentActivity extends AppCompatActivity {
         CommentListView.addItemDecoration( new RecyclerViewDecoration( 2 ) );
 
         getCommentContent();
+//        getCommentHeader();
+
+        sliding.addPanelSlideListener( new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+
+            }
+
+            @Override
+            public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
+
+            }
+        } );
 
     }
 
-//    public void getCommentHeader() {
-//        Intent intent = getIntent();
-//        board_id = intent.getStringExtra( "board_id" );
-//        MooDumDumService.of().getContentsSelected( "22" ).enqueue( new Callback<ContentsModel.Result>() {
-//            @Override
-//            public void onResponse(Call<ContentsModel.Result> call, Response<ContentsModel.Result> response) {
-//                if (response.isSuccessful()) {
-//
-//                    final ContentsModel items = response.body();
-//
-////                    Gson gson = new Gson();
-//
-////                    Toast.makeText( getBaseContext(),contentsResults, Toast.LENGTH_SHORT ).show();
-////
-//                }
-//            }
-//            @Override
-//            public void onFailure(Call<ContentsModel> call, Throwable t) {
-//
-//            }
-//        } );
-//
-//    }
-
+    // api 수정 필요
     public void getCommentContent() {
         board_id = commentModel.getBoard_id();
         MooDumDumService.of().getComment( board_id ).enqueue( new Callback<CommentModel>() {
@@ -152,8 +145,6 @@ public class CommentActivity extends AppCompatActivity {
         PostComment();
     }
 
-
-//    }
     public void PostComment() {
         board_id = commentModel.getBoard_id();
         String user = "KSY";
@@ -175,9 +166,6 @@ public class CommentActivity extends AppCompatActivity {
             }
         } );
     }
-
-
-
 }
 
 
