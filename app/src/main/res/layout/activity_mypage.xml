@@ -4,22 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     android:orientation="vertical"
-    android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-    android:background="#ffffff">
+    android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
 
     <android.support.constraint.ConstraintLayout
-        android:layout_marginTop="56dp"
         android:id="@+id/layout_con"
         android:layout_width="match_parent"
         android:layout_height="140dp"
-        android:orientation="vertical"
-        android:background="@drawable/mypageback">
+        android:layout_marginTop="56dp"
+        android:background="@drawable/mypageback"
+        android:orientation="vertical">
 
 
         <ImageView
-            android:id="@+id/myProfilePic"
+            android:id="@+id/profileImg"
             android:layout_width="65dp"
             android:layout_height="65dp"
             android:layout_centerHorizontal="true"
@@ -27,11 +27,20 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="0dp"
-            android:src="@drawable/icon_round"
+            android:src="@drawable/icon_ghost1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="164dp"
+            android:src="@drawable/btn_camera"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:layout_editor_absoluteY="78dp" />
 
 
         <LinearLayout
@@ -73,13 +82,28 @@
             android:id="@+id/myName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="12dp"
             android:gravity="center_horizontal"
             android:text="지나가던 영혼"
             android:textColor="#000000"
+            app:layout_constraintHorizontal_bias="0.475"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/myProfilePic" />
+            app:layout_constraintTop_toBottomOf="@+id/profileImg" />
+
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/layout_con"
+            android:layout_marginBottom="18dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/btn_edit"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.63"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
         <LinearLayout
@@ -112,11 +136,9 @@
                 android:textSize="30dp"
                 app:layout_constraintLeft_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.15"/>
+                app:layout_constraintVertical_bias="0.15" />
 
         </LinearLayout>
-
-
 
 
     </android.support.constraint.ConstraintLayout>
@@ -173,8 +195,6 @@
         android:id="@+id/include3"
         layout="@layout/fragment_bottom"
         app:layout_constraintBottom_toBottomOf="parent" />
-
-
 
 
 </RelativeLayout>

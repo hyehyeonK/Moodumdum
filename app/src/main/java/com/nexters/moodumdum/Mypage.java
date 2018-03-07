@@ -17,10 +17,11 @@ import butterknife.OnClick;
 
 public class Mypage extends AppCompatActivity implements FragmentMyJomun.OnFragmentInteractionListener, FragmentMyWrite.OnFragmentInteractionListener {
 
-    @BindView(R.id.myProfilePic)
-    ImageView myProfilePic;
+
     @BindView(R.id.btn_back)
     Button btnBack;
+    @BindView(R.id.profileImg)
+    ImageView profileImg;
     private TabLayout tabLayout;
     private ViewPager viewPager;
 //  private android.support.v7.widget.Toolbar toolbar;
@@ -41,11 +42,11 @@ public class Mypage extends AppCompatActivity implements FragmentMyJomun.OnFragm
 
         tabLayout.setupWithViewPager( viewPager );
         Intent intent = getIntent();
-        String a = intent.getStringExtra("plusContents");
-        if(!a.equals("no")) {
-            PlusBackimgActivity plusBackimgActivity = (PlusBackimgActivity)PlusBackimgActivity.plusBackimgActivity;
+        String a = intent.getStringExtra( "plusContents" );
+        if (!a.equals( "no" )) {
+            PlusBackimgActivity plusBackimgActivity = (PlusBackimgActivity) PlusBackimgActivity.plusBackimgActivity;
             plusBackimgActivity.finish();
-            PlusActivity plusActivity = (PlusActivity)PlusActivity.plusActivity;
+            PlusActivity plusActivity = (PlusActivity) PlusActivity.plusActivity;
             plusActivity.finish();
         }
     }
@@ -56,8 +57,22 @@ public class Mypage extends AppCompatActivity implements FragmentMyJomun.OnFragm
 
     }
 
+
     @OnClick(R.id.btn_back)
-    public void onViewClicked() {
+    public void onBtnBackClicked() {
         this.finish();
     }
+
+    @OnClick(R.id.profileImg)
+    public void onProfileImgClicked() {
+        Intent intent = new Intent( this, ProfileImgSelectActivity.class );
+        startActivity( intent );
+    }
+
+    @OnClick(R.id.myName)
+    public void onMyNameClicked() {
+        Intent intent = new Intent( this, NameEditActivity.class );
+        startActivity( intent );
+    }
+
 }
