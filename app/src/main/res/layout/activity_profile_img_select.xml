@@ -51,17 +51,20 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/ghost1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:src="@drawable/icon_ghost1"/>
 
                 <ImageView
+                    android:id="@+id/ghost2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:src="@drawable/icon_ghost2"/>
                 <ImageView
+                    android:id="@+id/ghost3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -76,17 +79,20 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/ghost4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:src="@drawable/icon_ghost4"/>
 
                 <ImageView
+                    android:id="@+id/ghost5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:src="@drawable/icon_ghost5"/>
                 <ImageView
+                    android:id="@+id/ghost6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -101,17 +107,20 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/ghost7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:src="@drawable/icon_ghost7"/>
 
                 <ImageView
+                    android:id="@+id/ghost8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:src="@drawable/icon_ghost8"/>
                 <ImageView
+                    android:id="@+id/ghost9"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
