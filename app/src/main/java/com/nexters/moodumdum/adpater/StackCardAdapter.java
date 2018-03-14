@@ -2,6 +2,7 @@ package com.nexters.moodumdum.adpater;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,13 +71,21 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
 
         Glide.with(context).load(item.getImage_url()).into(viewHolder.backImage);
         viewHolder.boardId.setText( item.getId().toString() );
-        viewHolder.contnents.setText( item.getDescription() );
+        viewHolder.contents.setText( item.getDescription() );
+
+        String fontColor = "#e27171";
+        if (item.getColor() != ""){
+            fontColor = item.getColor();
+        }
+        viewHolder.contents.setTextColor(Color.parseColor(fontColor));
         viewHolder.writer.setText( item.getName() );
+        viewHolder.writer.setTextColor(Color.parseColor(fontColor));
         viewHolder.commentCount.setText( commentCount );
+        viewHolder.commentCount.setTextColor(Color.parseColor(fontColor));
         viewHolder.likeCount.setText( likeCount );
+        viewHolder.likeCount.setTextColor(Color.parseColor(fontColor));
 
         viewHolder.commentModel = new PostCommentModel();
-
         String board_id = String.valueOf( viewHolder.boardId.getText() );
         final BigInteger BINT_board_id = new BigInteger(board_id);
 
@@ -107,7 +116,7 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
         View view;
 
         @BindView(R.id.contents)
-        TextView contnents;
+        TextView contents;
         @BindView(R.id.writer)
         TextView writer;
         @BindView(R.id.commentCount)

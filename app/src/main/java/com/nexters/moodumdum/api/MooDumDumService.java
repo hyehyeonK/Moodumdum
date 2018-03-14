@@ -1,6 +1,7 @@
 package com.nexters.moodumdum.api;
 
 import com.nexters.moodumdum.factory.RetrofitFactory;
+import com.nexters.moodumdum.model.CategoryInfoModel;
 import com.nexters.moodumdum.model.CommentModel;
 import com.nexters.moodumdum.model.ContentsModel;
 import com.nexters.moodumdum.model.ImageModel;
@@ -27,8 +28,8 @@ public class MooDumDumService {
 
     public static MooDumDumService of() { return  InstanceHolder.INSTANCE; }
 
-    public Call<ServerResponse> postContents(BigInteger category_id,  String user, String name , String description, String image_url) {
-        return  api.postContents(category_id, user, name, description, image_url);
+    public Call<ServerResponse> postContents(BigInteger category_id,  String user, String name , String description, String image_url, String font_color) {
+        return  api.postContents(category_id, user, name, description, image_url, font_color);
     }
 
     public Call<ContentsModel> getContents() { return api.getContents();}
@@ -40,9 +41,19 @@ public class MooDumDumService {
     }
     public Call<ImageModel> getBackgroundImage() {return  api.getBackgroundImage();}
     public Call<ContentsModel.Result> getContentsSelected(String board_id) { return api.getContentsSelected( board_id );}
+
+    //카테고리 관련
+    public Call<CategoryInfoModel> getCategoryInfo (String category_id) {
+        return api.getCategoryInfo(category_id);
+    }
     public Call<ContentsModel> getCategoryContentsInOrderOfPriority (String category_id) {
         return  api.getCategoryContentsInOrderOfPriority(category_id);
     }
+    public Call<ContentsModel> getCategoryContentsInOrderOfPopularity (String category_id) {
+        return  api.getCategoryContentsInOrderOfPopularity(category_id);
+    }
+
+    //댓글 관련
 //    public Call<CommentModel> getComment() {return api.getComment(String board_id);}
 
     public Call<CommentModel> getCommentAll() {return api.getCommentAll();}

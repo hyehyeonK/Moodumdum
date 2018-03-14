@@ -22,12 +22,11 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
+            <ImageView
+                android:id="@+id/categoryBanner"
                 android:layout_width="match_parent"
                 android:layout_height="103dp"
-                android:gravity="center"
-                android:background="#e27171"
-                android:text="바라는게 많을수록, 그 마음은 얼룩진다." />
+                android:scaleType="fitXY"/>
             
             <FrameLayout
                 android:id="@+id/contentsBtn"

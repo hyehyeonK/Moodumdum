@@ -1,6 +1,7 @@
 package com.nexters.moodumdum.adpater;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,11 +40,19 @@ public class SelectedCategoryAdapter extends RecyclerView.Adapter<RecyclerView.V
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final ItemViewHolder viewHolder = (ItemViewHolder) holder;
         ContentsModel.Result item = results.get(position);
+
+        String fontColor = "#e27171";
+        if (item.getColor() != ""){
+            fontColor = item.getColor();
+        }
         Glide.with(context).load(item.getImage_url()).into(viewHolder.backImage);
         viewHolder.nickName.setText(item.getName());
         viewHolder.contents.setText(item.getDescription());
+        viewHolder.contents.setTextColor(Color.parseColor(fontColor));
         viewHolder.commentsCount.setText(item.getComment_count()+"");
+        viewHolder.commentsCount.setTextColor(Color.parseColor(fontColor));
         viewHolder.likeCount.setText(item.getLike_count()+"");
+        viewHolder.likeCount.setTextColor(Color.parseColor(fontColor));
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.nexters.moodumdum;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -136,8 +137,8 @@ public class PlusBackimgActivity extends AppCompatActivity {
         String name = contentsModel.getName();
         String description = contentsModel.getDescription();
         String image_url = contentsModel.getImage_url();
-
-        MooDumDumService.of().postContents(category_id, user, name, description, image_url )
+        String font_color = contentsModel.getFontColor();
+        MooDumDumService.of().postContents(category_id, user, name, description, image_url, font_color )
                 .enqueue(new Callback<ServerResponse>() {
 
                     @Override
@@ -187,6 +188,8 @@ public class PlusBackimgActivity extends AppCompatActivity {
 
     public void setBackgroundImage (ImageModel.Result image) {
         Glide.with(getApplicationContext()).load(image.getImage_url()).into(selectedBackImg);
+        contentOfPlus.setTextColor(Color.parseColor(image.getFont_color()));
+        onClickToFinish.setTextColor(Color.parseColor(image.getFont_color()));
         contentsModel.setImage_url( image.getImage_url() );
         contentsModel.setFontColor( image.getFont_color());
     }

@@ -1,5 +1,6 @@
 package com.nexters.moodumdum.api;
 
+import com.nexters.moodumdum.model.CategoryInfoModel;
 import com.nexters.moodumdum.model.CommentModel;
 import com.nexters.moodumdum.model.ContentsModel;
 import com.nexters.moodumdum.model.ImageModel;
@@ -18,15 +19,16 @@ import retrofit2.http.Path;
  */
 
 public interface MooDumDumAPI {
-    //글쓰기 --> ㅅㅓㅇ공 ㅠㅠㅠㅠㅠ
+    //글쓰기
     @FormUrlEncoded
     @POST("api/board/")
     Call<ServerResponse> postContents (@Field("category_id") BigInteger category_id,
                                        @Field("user") String user,
                                        @Field("name") String name,
                                        @Field("description") String description,
-                                       @Field("image_url") String image_url);
-    //글가져오기 --> 성공
+                                       @Field("image_url") String image_url,
+                                       @Field("color") String font_color);
+    //글가져오기
     @GET("api/board")
     Call<ContentsModel> getContents ();
 
@@ -46,11 +48,15 @@ public interface MooDumDumAPI {
     @GET("api/board/search/user/{userId}")
     Call<ContentsModel> getMyJomunContents (@Path("userId") String userId);
 
+    //카테고리 베너및 타이틀 가져오기
+    @GET("api/board/category/{category_id}")
+    Call<CategoryInfoModel> getCategoryInfo (@Path("category_id") String category_id);
 //    //카테고리별 컨텐츠 가져오기 ( 최신순 )
     @GET("api/board/search/category/{category_id}")
     Call<ContentsModel> getCategoryContentsInOrderOfPriority (@Path("category_id") String category_id);
-
-    //getCategoryContentsInOrderOfPopularity 인기순 함수명 할꼬
+    //카테고리별 컨텐츠 가져오기 ( 인기순 )
+    @GET("api/board/search/category/favorite/{category_id}")
+    Call<ContentsModel> getCategoryContentsInOrderOfPopularity (@Path("category_id") String category_id);
 
     //모든 댓글 가져오기
     @GET("api/board/comment/")

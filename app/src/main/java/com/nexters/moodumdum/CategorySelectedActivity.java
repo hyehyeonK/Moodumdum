@@ -6,15 +6,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amar.library.ui.StickyScrollView;
+import com.bumptech.glide.Glide;
 import com.nexters.moodumdum.adpater.SelectedCategoryAdapter;
 import com.nexters.moodumdum.anim.RecyclerViewDecoration;
 import com.nexters.moodumdum.api.MooDumDumService;
+import com.nexters.moodumdum.model.CategoryInfoModel;
 import com.nexters.moodumdum.model.ContentsModel;
-
-import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,6 +40,9 @@ public class CategorySelectedActivity extends AppCompatActivity {
 
     @BindView(R.id.category_title)
     TextView categoryTitle;
+    @BindView(R.id.categoryBanner)
+    ImageView categoryBanner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,18 +53,20 @@ public class CategorySelectedActivity extends AppCompatActivity {
         categoryID = intent.getStringExtra("categoryID");
 
         initView();
+        getCategoryInfo();
         getPost();
     }
 
     private void initView() {
-        switch (categoryID) {
-            case "1" : categoryTitle.setText("흑역사"); break;
-            case "2" : categoryTitle.setText("기타"); break;
-            case "3" : categoryTitle.setText("가정사"); break;
-            case "4" : categoryTitle.setText("연애사"); break;
-            case "5" : categoryTitle.setText("자존감"); break;
-            case "6" : categoryTitle.setText("직장사"); break;
-        }
+//        switch (categoryID) {
+//            case "1" : categoryTitle.setText("흑역사"); break;
+//            case "2" : categoryTitle.setText("기타"); break;
+//            case "3" : categoryTitle.setText("가정사"); break;
+//            case "4" : categoryTitle.setText("연애사"); break;
+//            case "5" : categoryTitle.setText("자존감"); break;
+//            case "6" : categoryTitle.setText("직장사"); break;
+//        }
+
 
         linearLayoutManager = new LinearLayoutManager(this);
         selectedCategoryAdapter = new SelectedCategoryAdapter(CategorySelectedActivity.this);
@@ -70,26 +77,45 @@ public class CategorySelectedActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new RecyclerViewDecoration(12));
     }
+    private void getCategoryInfo() {
+        MooDumDumService.of().getCategoryInfo(categoryID).enqueue(new Callback<CategoryInfoModel>() {
+            @Override
+            public void onResponse(Call<CategoryInfoModel> call, Response<CategoryInfoModel> response) {
+                if(response.isSuccessful()) {
+                    final CategoryInfoModel category = response.body();
+                    Log.d("결과", category + "");
+                    categoryTitle.setText(category.getTitle());
+                    Glide.with(CategorySelectedActivity.this).load(category.getBanner()).into(categoryBanner);
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CategoryInfoModel> call, Throwable t) {
+
+            }
+        });
+    }
     private void getPost() {
         MooDumDumService.of().getCategoryContentsInOrderOfPriority(categoryID).enqueue(new Callback<ContentsModel>() {
             @Override
             public void onResponse(Call<ContentsModel> call, Response<ContentsModel> response) {
                 if (response.isSuccessful()) {
                     final ContentsModel items = response.body();
-                    for(int i = 0; i < items.getResult().size(); i++){
-                        String back = items.getResult().get(i).getImage_url();
-                        Random random = new Random();
-                        if(back.length()<13){
-                            int num = random.nextInt(50)+1;
-                            if(num < 10){
-                                back =  "http://13.125.76.112/statics/board_background/0"+ num +".png";
-                            } else {
-                                back =  "http://13.125.76.112/statics/board_background/"+ num +".png";
-                            }
-                        }
-                        items.getResult().get(i).setImage_url(back);
-
-                    }
+//                    for(int i = 0; i < items.getResult().size(); i++){
+//                        String back = items.getResult().get(i).getImage_url();
+//                        Random random = new Random();
+//                        if(back.length()<13){
+//                            int num = random.nextInt(50)+1;
+//                            if(num < 10){
+//                                back =  "http://13.125.76.112/statics/board_background/0"+ num +".png";
+//                            } else {
+//                                back =  "http://13.125.76.112/statics/board_background/"+ num +".png";
+//                            }
+//                        }
+//                        items.getResult().get(i).setImage_url(back);
+//
+//                    }
                     selectedCategoryAdapter.setPostList(items.getResult());
                 }
             }
