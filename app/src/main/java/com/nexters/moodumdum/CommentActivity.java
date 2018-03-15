@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nexters.moodumdum.adpater.CommentAdapter;
+import com.nexters.moodumdum.adpater.StackCardAdapter;
 import com.nexters.moodumdum.anim.RecyclerViewDecoration;
 import com.nexters.moodumdum.api.MooDumDumService;
 import com.nexters.moodumdum.model.CommentModel;
@@ -65,6 +66,9 @@ public class CommentActivity extends AppCompatActivity {
     @BindView(R.id.backlayout)
     LinearLayout backlayout;
 
+    private StackCardAdapter stackCardAdapter;
+    List<ContentsModel.Result> results = new ArrayList<>(  );
+
     private CommentAdapter mCommentAdapter;
     private LinearLayoutManager mLinearLayoutManager;
     BigInteger board_id;
@@ -81,6 +85,8 @@ public class CommentActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         commentModel = (PostCommentModel) intent.getSerializableExtra( "newComment" );
+
+        stackCardAdapter = new StackCardAdapter( CommentActivity.this );
 
         initView();
 
@@ -103,8 +109,8 @@ public class CommentActivity extends AppCompatActivity {
         CommentListView.setItemAnimator( new DefaultItemAnimator() );
         CommentListView.addItemDecoration( new RecyclerViewDecoration( 2 ) );
 
+        getCommentHeader();
         getCommentContent();
-//        getCommentHeader();
 
         sliding.addPanelSlideListener( new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
@@ -120,7 +126,24 @@ public class CommentActivity extends AppCompatActivity {
 
     }
 
-    // api 수정 필요
+    public void getCommentHeader() {
+        String board_id = commentModel.getBoard_id().toString();
+
+        MooDumDumService.of().getContentsSelected( board_id ).enqueue( new Callback<ContentsModel.Result>() {
+            @Override
+            public void onResponse(Call<ContentsModel.Result> call, Response<ContentsModel.Result> response) {
+                ContentsModel.Result items = response.body();
+                likeCount.setText( String.valueOf( items.getLike_count() ) );
+                commentsCount.setText( String.valueOf( items.getComment_count() ) );
+            }
+
+            @Override
+            public void onFailure(Call<ContentsModel.Result> call, Throwable t) {
+
+            }
+        } );
+    }
+
     public void getCommentContent() {
         board_id = commentModel.getBoard_id();
         MooDumDumService.of().getComment( board_id ).enqueue( new Callback<CommentModel>() {
@@ -158,6 +181,7 @@ public class CommentActivity extends AppCompatActivity {
                 getCommentContent();
 
                 contentsTest.setText( null );
+                getCommentHeader();
             }
 
             @Override
