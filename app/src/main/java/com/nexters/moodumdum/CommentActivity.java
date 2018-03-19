@@ -179,9 +179,9 @@ public class CommentActivity extends AppCompatActivity {
             public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
                 Toast.makeText( getBaseContext(), "댓글을 등록했습니다.", Toast.LENGTH_SHORT ).show();
                 getCommentContent();
+                getCommentHeader();
 
                 contentsTest.setText( null );
-                getCommentHeader();
             }
 
             @Override
@@ -191,10 +191,3 @@ public class CommentActivity extends AppCompatActivity {
         } );
     }
 }
-
-
-
-
-
-
-

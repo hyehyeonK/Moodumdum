@@ -5,6 +5,7 @@ import com.nexters.moodumdum.model.CommentModel;
 import com.nexters.moodumdum.model.ContentsModel;
 import com.nexters.moodumdum.model.ImageModel;
 import com.nexters.moodumdum.model.ServerResponse;
+import com.nexters.moodumdum.model.UserModel;
 
 import java.math.BigInteger;
 
@@ -51,9 +52,11 @@ public interface MooDumDumAPI {
     //카테고리 베너및 타이틀 가져오기
     @GET("api/board/category/{category_id}")
     Call<CategoryInfoModel> getCategoryInfo (@Path("category_id") String category_id);
-//    //카테고리별 컨텐츠 가져오기 ( 최신순 )
+
+   //카테고리별 컨텐츠 가져오기 ( 최신순 )
     @GET("api/board/search/category/{category_id}")
     Call<ContentsModel> getCategoryContentsInOrderOfPriority (@Path("category_id") String category_id);
+
     //카테고리별 컨텐츠 가져오기 ( 인기순 )
     @GET("api/board/search/category/favorite/{category_id}")
     Call<ContentsModel> getCategoryContentsInOrderOfPopularity (@Path("category_id") String category_id);
@@ -73,4 +76,9 @@ public interface MooDumDumAPI {
                                       @Field( "user") String user,
                                       @Field( "name" ) String name,
                                       @Field( "description") String description);
+
+    // 마이페이지의 좋아요 수, 게시글 수 가져오기
+    @GET("api/user/{user_id}")
+    Call<UserModel> getMypageCount (@Path( "user_id" ) String user);
+
 }
