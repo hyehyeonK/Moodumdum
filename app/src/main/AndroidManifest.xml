@@ -27,9 +27,15 @@
         <activity
             android:name=".StartActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".MainCardActivity" />
+        <!--<activity android:name=".MainCardActivity" />-->
         <activity android:name=".Mypage" />
-        <activity android:name=".CategoryActivity" />
+        <activity android:name=".CategoryActivity" >
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
         <activity
             android:name=".PlusActivity"
             android:windowSoftInputMode="stateAlwaysVisible|adjustResize">
