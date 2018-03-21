@@ -1,1 +1,1 @@
-include ':app', ':stack-layout'
+include ':app'

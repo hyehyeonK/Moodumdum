@@ -41,7 +41,6 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:26.1.0'
     // StackLayout
     compile 'com.github.fashare2015:StackLayout:1.0.0'
-    compile project(':stack-layout')
     // 서버통신 (Retrofit2, Gson, OkHttp)
     compile 'com.google.code.gson:gson:2.7'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
