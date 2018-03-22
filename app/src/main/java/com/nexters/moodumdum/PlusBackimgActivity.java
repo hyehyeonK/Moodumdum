@@ -66,37 +66,6 @@ public class PlusBackimgActivity extends AppCompatActivity {
         plusBackimgActivity = PlusBackimgActivity.this;
         PlusBackimgActivity_context = this;
         initView ();
-
-//        imageIDs.add( R.drawable.back_1 );
-//        imageIDs.add( R.drawable.back_2 );
-//        imageIDs.add( R.drawable.back_3 );
-//        imageIDs.add( R.drawable.back_1 );
-//        imageIDs.add( R.drawable.back_2 );
-//        imageIDs.add( R.drawable.back_3 );
-//        imageIDs.add( R.drawable.back_1 );
-//        imageIDs.add( R.drawable.back_2 );
-//        imageIDs.add( R.drawable.back_3 );
-//        imageIDs.add( R.drawable.back_1 );
-
-        // 이미지 랜덤
-
-
-//        PlusBackimgAdapter plusBackimgAdapter = new PlusBackimgAdapter( this, (ArrayList) images );
-//        gridViewImages.setAdapter( plusBackimgAdapter );
-
-        // 이미지 클릭 시 배경 적용
-//        gridViewImages.setOnItemClickListener( new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//                ImageModel.Result imageItem = images.get( i );
-////                Glide.with(getApplicationContext()).load(imageItem.getImage_url()).into(holder.userImg);
-////                plusBackimgLayout.setBackground( getDrawable( images.get( i )));
-//                contentsModel.setImage_url( imageItem.getImage_url() );
-//                contentsModel.setFontColor( imageItem.getFont_color());
-//
-//            }
-//        } );
-
     }
     private void initView (){
         //데이터 가져와서 뿌려주기
@@ -119,8 +88,8 @@ public class PlusBackimgActivity extends AppCompatActivity {
 
     @OnClick(R.id.onClickToCancle)
     public void onOnClickToCancleClicked() {
-
         this.finish();
+        overridePendingTransition(R.anim.not_move_activity,R.anim.rightout_activity);
     }
 
     // 묻기 버튼 클릭
@@ -176,7 +145,6 @@ public class PlusBackimgActivity extends AppCompatActivity {
 
                     adapterBackImg.setImageList(images);
                 }
-                Log.d( "RESULT@@@@@", response.message() );
             }
 
             @Override

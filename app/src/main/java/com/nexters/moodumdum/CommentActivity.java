@@ -19,6 +19,7 @@ import com.nexters.moodumdum.adpater.CommentAdapter;
 import com.nexters.moodumdum.adpater.StackCardAdapter;
 import com.nexters.moodumdum.anim.RecyclerViewDecoration;
 import com.nexters.moodumdum.api.MooDumDumService;
+import com.nexters.moodumdum.factory.DeviceUuidFactory;
 import com.nexters.moodumdum.model.CommentModel;
 import com.nexters.moodumdum.model.ContentsModel;
 import com.nexters.moodumdum.model.PostCommentModel;
@@ -28,6 +29,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -170,8 +172,10 @@ public class CommentActivity extends AppCompatActivity {
 
     public void PostComment() {
         board_id = commentModel.getBoard_id();
-        String user = "KSY";
-        String name = "소연이에유";
+        DeviceUuidFactory uuidFactory = new DeviceUuidFactory( this );
+        UUID uuid = uuidFactory.getDeviceUuid();
+        String user = uuid+"";
+        String name = "닉네임불러오기";
         String description = contentsTest.getText().toString();
 
         MooDumDumService.of().postComment( board_id, user, name, description ).enqueue( new Callback<ServerResponse>() {

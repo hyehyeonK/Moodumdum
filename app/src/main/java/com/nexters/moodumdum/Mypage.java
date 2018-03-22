@@ -61,6 +61,7 @@ public class Mypage extends AppCompatActivity implements FragmentMyJomun.OnFragm
     @OnClick(R.id.btn_back)
     public void onBtnBackClicked() {
         this.finish();
+        overridePendingTransition(R.anim.not_move_activity,R.anim.leftout_activity);
     }
 
     @OnClick(R.id.profileImg)
@@ -74,5 +75,11 @@ public class Mypage extends AppCompatActivity implements FragmentMyJomun.OnFragm
         Intent intent = new Intent( this, NameEditActivity.class );
         startActivity( intent );
     }
+    @OnClick(R.id.onClickToPlus)
+    public void onViewClicked() {
 
+        Intent intent = new Intent( getApplicationContext(), PlusActivity.class );
+        startActivity( intent );
+        finish();
+    }
 }

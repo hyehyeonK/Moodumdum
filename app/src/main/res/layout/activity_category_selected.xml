@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="#fff"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#fff">
+    android:layout_height="match_parent">
 
 
-    <com.amar.library.ui.StickyScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+    <com.amar.library.ui.StickyScrollView
         android:id="@+id/scrollView"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="56dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:stickyHeader="@+id/contentsTab">
+        app:stickyHeader="@+id/contentsBtn">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,44 +26,50 @@
                 android:id="@+id/categoryBanner"
                 android:layout_width="match_parent"
                 android:layout_height="103dp"
-                android:scaleType="fitXY" />
+                android:scaleType="fitXY"/>
 
-            <android.support.design.widget.TabLayout
-                android:id="@+id/contentsTab"
+            <FrameLayout
+                android:id="@+id/contentsBtn"
+                android:layout_width="match_parent"
+                android:background="#fff"
+                android:layout_height="60dp">
+                <Button
+                    android:id="@+id/latestBtn"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="right"
+                    android:layout_marginEnd="80dp"
+                    android:textColor="@color/black"
+                    android:text="최신순"
+                    android:background="#00000000"/>
+                <Button
+                    android:id="@+id/favoriteBtn"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="right"
+                    android:textColor="#808080"
+                    android:text="인기순"
+                    android:background="#00000000"/>
+            </FrameLayout>
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="230dp"
-                android:background="#fff">
+                android:descendantFocusability="blocksDescendants">
 
-                <android.support.design.widget.TabItem
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:background="#00000000"
-                    android:text="tab1"
-                    android:textColor="#000" />
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_contents"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-                <android.support.design.widget.TabItem
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginTop="10dp"
-                    android:background="#00000000"
-                    android:text="tab2"
-                    android:textColor="#000" />
-            </android.support.design.widget.TabLayout>
-            <android.support.v4.view.ViewPager
-                android:id="@+id/viewPagerCategory"
-                android:layout_width="match_parent"
-                android:layout_height="400dp">
-
-            </android.support.v4.view.ViewPager>
-
+            </RelativeLayout>
         </LinearLayout>
 
     </com.amar.library.ui.StickyScrollView>
+    <include
+        layout="@layout/fragment_top2"/>
 
-    <include layout="@layout/fragment_top2" />
-
-    <include layout="@layout/fragment_bottom" />
+    <include
+        layout="@layout/fragment_bottom" />
 </android.support.constraint.ConstraintLayout>

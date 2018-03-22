@@ -29,7 +29,6 @@ import retrofit2.Response;
 public class CategorySelectedActivity extends AppCompatActivity {
 //    private SelectedCategoryAdapter selectedCategoryAdapter;
     private CategoryTabAdapter tabPagerAdapter;
-//    LinearLayoutManager linearLayoutManager;
     String categoryID ="";
     @BindView(R.id.scrollView)
     StickyScrollView scrollView;
@@ -37,8 +36,6 @@ public class CategorySelectedActivity extends AppCompatActivity {
     TextView categoryTitle;
     @BindView(R.id.categoryBanner)
     ImageView categoryBanner;
-//    @BindView(R.id.rv_contents)
-//    RecyclerView recyclerView;
     @BindView(R.id.contentsTab)
     TabLayout tabLayout;
     @BindView(R.id.viewPagerCategory)
@@ -74,7 +71,7 @@ public class CategorySelectedActivity extends AppCompatActivity {
                 if(response.isSuccessful()) {
                     final CategoryInfoModel category = response.body();
                     Log.d("결과", category + "");
-                    categoryTitle.setText(category.getTitle());
+                    categoryTitle.setText(category.getTitle() + " 무덤");
                     Glide.with(CategorySelectedActivity.this).load(category.getBanner()).into(categoryBanner);
 
                 }
@@ -90,6 +87,12 @@ public class CategorySelectedActivity extends AppCompatActivity {
     @OnClick(R.id.btn_back)
     public void onBtnBackClicked() {
         this.finish();
+    }
+
+    @OnClick(R.id.onClickToPlus)
+    public void onViewClicked() {
+        Intent intent = new Intent( getApplicationContext(), PlusActivity.class );
+        startActivity( intent );
     }
 }
 

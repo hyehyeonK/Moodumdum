@@ -34,7 +34,7 @@ public interface MooDumDumAPI {
     Call<ContentsModel> getContents ();
 
     //배경사진 가져오기
-    @GET("api/boardimage")
+    @GET("api/boardimage/random/?limit=20")
     Call<ImageModel> getBackgroundImage();
 
     //board_id로 글 가져오기

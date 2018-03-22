@@ -15,7 +15,10 @@ import android.widget.TextView;
 
 import com.nexters.moodumdum.adpater.MyPageRecyclerViewAdapter;
 import com.nexters.moodumdum.api.MooDumDumService;
+import com.nexters.moodumdum.factory.DeviceUuidFactory;
 import com.nexters.moodumdum.model.ContentsModel;
+
+import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,7 +28,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class FragmentMyJomun extends Fragment {
-
+    private UUID uuid;
     @BindView(R.id.recyclerView)
     RecyclerView myPageRecyclerView;
     Unbinder unbinder;
@@ -40,7 +43,8 @@ public class FragmentMyJomun extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
-
+        DeviceUuidFactory uuidFactory = new DeviceUuidFactory( getContext() );
+        uuid = uuidFactory.getDeviceUuid();
         initDataset();
     }
 
@@ -74,7 +78,7 @@ public class FragmentMyJomun extends Fragment {
 
 
     private void initDataset() {
-        String Uuid = "KHHTest";
+        String Uuid = uuid+"";
         MooDumDumService.of().getMyJomunContents(Uuid).enqueue(new Callback<ContentsModel>() {
             @Override
             public void onResponse(Call<ContentsModel> call, Response<ContentsModel> response) {

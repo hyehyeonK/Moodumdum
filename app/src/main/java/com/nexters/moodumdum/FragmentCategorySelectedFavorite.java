@@ -54,7 +54,6 @@ public class FragmentCategorySelectedFavorite extends Fragment{
         View view = inflater.inflate( R.layout.fragment_recyclerview, container, false );
         Context context = view.getContext();
         recyclerView = (RecyclerView) view.findViewById( R.id.recyclerView);
-//        recyclerView.setHasFixedSize( true );
         linearLayoutManager = new LinearLayoutManager(context);
         selectedCategoryAdapter = new SelectedCategoryAdapter(context);
         recyclerView.setAdapter(selectedCategoryAdapter);

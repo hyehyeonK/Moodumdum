@@ -3,7 +3,6 @@ package com.nexters.moodumdum.adpater;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +29,6 @@ import butterknife.ButterKnife;
 
 public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder> {
 
-//야매야매
     private  boolean isFirst = true;
 
 
@@ -47,7 +45,6 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
 
     @Override
     public StackLayout.ViewHolder onCreateViewHolder(ViewGroup parent, int position) {
-        Log.d("$#$#$#$","dsdsd");
         return new ItemViewHolder( LayoutInflater.from( parent.getContext() ).inflate( R.layout.item_card, parent, false ) );
     }
 
@@ -55,19 +52,9 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
     public void onBindViewHolder(StackLayout.ViewHolder holder, int position) {
         final ItemViewHolder viewHolder = (ItemViewHolder) holder;
         ContentsModel.Result item = results.get( position );
-        Log.d( "testttttt@@@", item + "" );
-//        Gson gson = new Gson();
-//        ContentsModel.Result = gson.fromJson(item);
 
         String commentCount = String.valueOf( item.getComment_count() );
         String likeCount = String.valueOf( item.getLike_count() );
-//        String item = results.get(position);
-        //여기 야매ㅐㅐㅐㅐㅐ
-
-//        final String board_id = (String) viewHolder.boardId.getText();
-//        String board_id = String.valueOf( viewHolder.boardId.getText() );
-
-
 
         Glide.with(context).load(item.getImage_url()).into(viewHolder.backImage);
         viewHolder.boardId.setText( item.getId().toString() );
@@ -84,9 +71,12 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
         viewHolder.commentCount.setTextColor(Color.parseColor(fontColor));
         viewHolder.likeCount.setText( likeCount );
         viewHolder.likeCount.setTextColor(Color.parseColor(fontColor));
-
+        viewHolder.contents_like.setColorFilter(Color.parseColor(fontColor));
+        viewHolder.contents_comment.setColorFilter(Color.parseColor(fontColor));
         viewHolder.commentModel = new PostCommentModel();
+        viewHolder.line.setBackgroundColor(Color.parseColor(fontColor));
         String board_id = String.valueOf( viewHolder.boardId.getText() );
+
         final BigInteger BINT_board_id = new BigInteger(board_id);
 
         viewHolder.commentModel.setBoard_id( BINT_board_id );
@@ -123,11 +113,16 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
         TextView commentCount;
         @BindView(R.id.likeCount)
         TextView likeCount;
-
+        @BindView(R.id.view)
+        View line;
         @BindView(R.id.board_id)
         TextView boardId;
         @BindView(R.id.backImage)
         ImageView backImage;
+        @BindView(R.id.contents_like)
+        ImageView contents_like;
+        @BindView(R.id.contents_comment)
+        ImageView contents_comment;
 
         PostCommentModel commentModel;
 //        @BindView(R.id.sliding_layout)

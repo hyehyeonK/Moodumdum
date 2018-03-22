@@ -47,12 +47,15 @@ public class SelectedCategoryAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
         Glide.with(context).load(item.getImage_url()).into(viewHolder.backImage);
         viewHolder.nickName.setText(item.getName());
+        viewHolder.nickName.setTextColor(Color.parseColor(fontColor));
         viewHolder.contents.setText(item.getDescription());
         viewHolder.contents.setTextColor(Color.parseColor(fontColor));
         viewHolder.commentsCount.setText(item.getComment_count()+"");
         viewHolder.commentsCount.setTextColor(Color.parseColor(fontColor));
         viewHolder.likeCount.setText(item.getLike_count()+"");
         viewHolder.likeCount.setTextColor(Color.parseColor(fontColor));
+        viewHolder.commentImg.setColorFilter(Color.parseColor(fontColor));
+        viewHolder.favoriteImg.setColorFilter(Color.parseColor(fontColor));
     }
 
     @Override
@@ -76,6 +79,10 @@ public class SelectedCategoryAdapter extends RecyclerView.Adapter<RecyclerView.V
         TextView likeCount;
         @BindView(R.id.backImage)
         ImageView backImage;
+        @BindView(R.id.commentImg)
+        ImageView commentImg;
+        @BindView(R.id.favoriteImg)
+        ImageView favoriteImg;
 
         public ItemViewHolder(final View itemView) {
             super (itemView);

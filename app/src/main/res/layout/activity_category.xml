@@ -137,17 +137,10 @@
 
 
     <include
-        android:id="@+id/include"
-        layout="@layout/fragment_top"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        layout="@layout/fragment_top2"/>
 
 
     <include
-        android:id="@+id/include3"
-        layout="@layout/fragment_bottom"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        layout="@layout/fragment_bottom"/>
 
 </android.support.constraint.ConstraintLayout>

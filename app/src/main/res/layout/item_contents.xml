@@ -19,8 +19,7 @@
         android:id="@+id/backImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="fitXY"
-        android:src="@drawable/back_3"/>
+        android:scaleType="fitXY"/>
 
     <TextView
         android:id="@+id/contents"
@@ -48,7 +47,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView1"
+        android:id="@+id/commentImg"
         android:layout_width="20dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
@@ -65,10 +64,10 @@
         android:layout_marginEnd="8dp"
         android:text="100"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageView2" />
+        app:layout_constraintEnd_toStartOf="@+id/favoriteImg" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/favoriteImg"
         android:layout_width="20dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"

@@ -2,7 +2,6 @@ package com.nexters.moodumdum.adpater;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,8 +72,10 @@ public class MyPageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    Log.d("Item : ", selectedItem.getDescription()+"상세 보기 구현하기" );
+//                    Intent intent = new Intent( context, FragmentDetailContents.class );
+////                viewHolder.commentModel.setBoard_id( BINT_board_id );
+//                    intent.putExtra( "", selectedItem);
+//                    context.startActivity(intent);
                 }
             });
         }
