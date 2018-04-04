@@ -15,23 +15,30 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
+
 /**
  * Created by kimhyehyeon on 2018. 2. 11..
  */
 
 public interface MooDumDumAPI {
+
+    //user Data 저장
+    @FormUrlEncoded
+    @POST("api/user/")
+    Call<ServerResponse> postUserData (@Field("user") String uuid,
+                                      @Field("name") String nickName);
     //글쓰기
     @FormUrlEncoded
     @POST("api/board/")
-    Call<ServerResponse> postContents (@Field("category_id") BigInteger category_id,
-                                       @Field("user") String user,
-                                       @Field("name") String name,
+    Call<ServerResponse> postContents (@Query( "user" ) String uuid,
+                                       @Field("category_id") BigInteger category_id,
                                        @Field("description") String description,
                                        @Field("image_url") String image_url,
                                        @Field("color") String font_color);
     //글가져오기
-    @GET("api/board")
-    Call<ContentsModel> getContents ();
+    @GET("api/board/")
+    Call<ContentsModel> getContents (@Query( "user" ) String uuid);
 
     //배경사진 가져오기
     @GET("api/boardimage/random/?limit=20")
@@ -46,7 +53,7 @@ public interface MooDumDumAPI {
     Call<ContentsModel> getMyContents (@Path("userId") String userId);
 
     //내가 좋아요 한 글 가져오기
-    @GET("api/board/search/user/{userId}")
+    @GET("api/board/user/like/{userId}")
     Call<ContentsModel> getMyJomunContents (@Path("userId") String userId);
 
     //카테고리 베너및 타이틀 가져오기

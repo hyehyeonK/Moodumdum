@@ -11,7 +11,6 @@ import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.nexters.moodumdum.factory.DeviceUuidFactory;
 import com.nexters.moodumdum.model.PostContentsModel;
 
 import java.math.BigInteger;
@@ -61,8 +60,6 @@ public class PlusActivity extends AppCompatActivity {
         setContentView( R.layout.activity_plus );
         ButterKnife.bind( this );
         plusActivity = PlusActivity.this;
-        DeviceUuidFactory uuidFactory = new DeviceUuidFactory( this );
-        uuid = uuidFactory.getDeviceUuid();
         // 키보드 강제 올리기
 //        InputMethodManager imm = (InputMethodManager) getSystemService( Context.INPUT_METHOD_SERVICE);
 //        imm.showSoftInput(contentOfPlus, InputMethodManager.SHOW_FORCED);
@@ -78,8 +75,6 @@ public class PlusActivity extends AppCompatActivity {
     @OnClick(R.id.onClickToNext)
     public void onOnClickToNextClicked() {
         contentsModel.setDescription(contentOfPlus.getText() + "");
-        contentsModel.setUser(uuid+""); //uuid
-        contentsModel.setName("고통받는혠영혼");
         Intent intent = new Intent( this, PlusBackimgActivity.class );
         intent.putExtra( "newContents", contentsModel);
         startActivity( intent );

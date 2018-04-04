@@ -19,15 +19,14 @@ public class ContentsModel implements Serializable {
 //            String category_id;
     public  class  Result {
     @SerializedName("id") private BigInteger id;
-    @SerializedName("category_id") private BigInteger category_id;
-    @SerializedName("user") private String user;
-    @SerializedName("name") private String name;
+    @SerializedName("category_id") private BigInteger category_id;;
     @SerializedName("description") private String description;
+    @SerializedName("user_id") private UserDataModel user;
+    @SerializedName("views") private int views;
     @SerializedName("comment_count") private int comment_count;
+    @SerializedName("image_url") private String image_url;
     @SerializedName("like_count") private int  like_count;
     @SerializedName("is_liked") private boolean is_liked;
-    @SerializedName("views") private int views;
-    @SerializedName("image_url") private String image_url;
     @SerializedName("background_color") private String background_color;
     @SerializedName("color") private String color;
     @SerializedName("created") private String  created;
@@ -45,12 +44,8 @@ public class ContentsModel implements Serializable {
         return category_id;
     }
 
-    public String getUser() {
+    public UserDataModel getUser() {
         return user;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public String getDescription() {
@@ -93,26 +88,55 @@ public class ContentsModel implements Serializable {
         return updated;
     }
 
-    @Override
-    public String toString() {
-        return "\"Result\" : {" +
-                "\"id\" :" + id +
-                ", \"category_id\" : " + category_id +
-                ", \"user\" : '" + user + '\'' +
-                ", \"name\" : '" + name + '\'' +
-                ", \"description\" : '" + description + '\'' +
-                ", \"comment_count\" : " + comment_count +
-                ", \"like_count\" :" + like_count +
-                ", \"is_liked\" : " + is_liked +
-                ", \"views\" : " + views +
-                ", \"image_url\" : '" + image_url + '\'' +
-                ", \"background_color\" : '" + background_color + '\'' +
-                ", \"color\" : '" + color + '\'' +
-                ", \"created\" : '" + created + '\'' +
-                ", \"updated\" : '" + updated + '\'' +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "\"Result\" : {" +
+//                "\"id\" :" + id +
+//                ", \"category_id\" : " + category_id +
+//                ", \"user\" : '" + user + '\'' +
+//                ", \"name\" : '" + name + '\'' +
+//                ", \"description\" : '" + description + '\'' +
+//                ", \"comment_count\" : " + comment_count +
+//                ", \"like_count\" :" + like_count +
+//                ", \"is_liked\" : " + is_liked +
+//                ", \"views\" : " + views +
+//                ", \"image_url\" : '" + image_url + '\'' +
+//                ", \"background_color\" : '" + background_color + '\'' +
+//                ", \"color\" : '" + color + '\'' +
+//                ", \"created\" : '" + created + '\'' +
+//                ", \"updated\" : '" + updated + '\'' +
+//                '}';
+//    }
 }
+    public  class  UserDataModel {
+        @SerializedName( "user" ) private String uuid;
+        @SerializedName( "name" ) private String nickName;
+        @SerializedName( "profile_image" ) private int profile_image;
+
+        public String getUuid() {
+            return uuid;
+        }
+
+        public void setUuid(String uuid) {
+            this.uuid = uuid;
+        }
+
+        public String getNickName() {
+            return nickName;
+        }
+
+        public void setNickName(String nickName) {
+            this.nickName = nickName;
+        }
+
+        public int getProfile_image() {
+            return profile_image;
+        }
+
+        public void setProfile_image(int profile_image) {
+            this.profile_image = profile_image;
+        }
+    }
 
     public int getCount() {
         return count;

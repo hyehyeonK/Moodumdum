@@ -29,11 +29,15 @@ public class MooDumDumService {
 
     public static MooDumDumService of() { return  InstanceHolder.INSTANCE; }
 
-    public Call<ServerResponse> postContents(BigInteger category_id,  String user, String name , String description, String image_url, String font_color) {
-        return  api.postContents(category_id, user, name, description, image_url, font_color);
+
+    public Call<ServerResponse> postUserData(String uuid, String nickName) {
+        return  api.postUserData(uuid, nickName);
+    }
+    public Call<ServerResponse> postContents(String uuid, BigInteger category_id, String description, String image_url, String font_color) {
+        return  api.postContents(uuid, category_id, description, image_url, font_color);
     }
 
-    public Call<ContentsModel> getContents() { return api.getContents();}
+    public Call<ContentsModel> getContents(String uuid) { return api.getContents(uuid);}
     public Call<ContentsModel> getMyContents(String userId) {
         return  api.getMyContents(userId);
     }

@@ -1,38 +1,26 @@
 package com.nexters.moodumdum;
 
-import android.animation.ValueAnimator;
+
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.fashare.stack_layout.StackLayout;
-import com.fashare.stack_layout.transformer.AngleTransformer;
-import com.nexters.moodumdum.adpater.StackCardAdapter;
 import com.nexters.moodumdum.api.MooDumDumService;
 import com.nexters.moodumdum.factory.DeviceUuidFactory;
-import com.nexters.moodumdum.model.ContentsModel;
+import com.nexters.moodumdum.model.ServerResponse;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -42,210 +30,130 @@ import retrofit2.Response;
  */
 
 public class MainActivity extends AppCompatActivity {
-    public static Activity MainActivity ;
-    public static Context MainActivity_context;
-    public static boolean isFirst = true;
-    @BindView(R.id.firstView)
-    ConstraintLayout firstView;
-    @BindView(R.id.imageView3)
-    ImageView imageView3;
-    @BindView(R.id.onClickToMenu)
-    Button onClickToMenu;
-    @BindView(R.id.onClickToMyPage)
-    Button onClickToMyPage;
-    @BindView(R.id.onClickToPlus)
-    Button onClickToPlus;
-    @BindView(R.id.firstbackImage)
-    ImageView firstbackImage;
-    @BindView(R.id.firstContents)
-    TextView firstContents;
-    @BindView(R.id.firstWriter)
-    TextView firstWriter;
-//    @BindView(R.id.sliding_layout)
-//    SlidingUpPanelLayout slidingLayout;
+    private String[] nickNameList = {"지나가는", "상처받은", "떠도는", "배회하는", "마음다친", "녹초가 된", "기진맥진", "가여운", "굶주린", "끄적이는", "목마른"};
+    public SharedPreferences prefs;
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
+    private String UUID;
+    Fragment initialFragment;
+    Fragment cardFragment;
+    public static Activity MainAct;
+    public static Context MainActivityContext;
 
-    private StackCardAdapter stackCardAdapter;
-    //    Adapter stackViewAdapter;
-    List<String> mData;
-    List<ContentsModel.Result> results = new ArrayList<>();
-    List<String> paramToAdaptor = new ArrayList<>();
-    ContentsModel contentsModel = new ContentsModel();
-
-    @BindView(R.id.linearLayout)
-    LinearLayout linear;
-
-    @BindView(R.id.mainLayoutForCardView)
-    ConstraintLayout linearLayoutMain;
-
-    @BindView(R.id.stack_layout)
-    StackLayout mainStackLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        super.onCreate( savedInstanceState );
+        startActivity(new Intent(this, SplashActivity.class)); //splash 화면 띄우기
+        MainAct = MainActivity.this;
+        MainActivityContext = getBaseContext();
+        prefs = getSharedPreferences("MooDumDum_file_key", Context.MODE_PRIVATE); //디바이스 DB 가져오기
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
 
-        setContentView( R.layout.activity_main );
-        startActivity( new Intent( this, SplashActivity.class ) );
-        ButterKnife.bind( this );
-//        TopBarActivity.setHeader(this, getApplicationContext());
-        MainActivity = MainActivity.this;
-        MainActivity_context = this;
-        Intent intent = getIntent();
-        String contents = intent.getStringExtra( "contents" );
-
-//        mTextView.setText(contents);
-
-        //디바이스 UUID 가져오기
-        DeviceUuidFactory uuidFactory = new DeviceUuidFactory( this );
-        UUID uuid = uuidFactory.getDeviceUuid();
-        Log.d( "UUID_Check", "" + uuid );
-        // -> uuid 존재 -> 바로 activity_main 띄우기
-        // 존재하지 않을 경우 새로 db에 등록 및 intro 화면 띄우기
-        getPost();
-        initView();
-        loadData( 0 );
-
+        checkFirstRun();
 
     }
 
-    //    private void setPostList() {
-////        notifyDataSetChanged();
-////        Glide.with(this).load(detail.getCoverUrl()).into(coverUrl);
-//
-//    }
-    int curPage = 0;
+    //첫 실행 확인
+    public void checkFirstRun() {
+        boolean isFirstRun = prefs.getBoolean("isFirstRun", true); // isFirstRun 값이 null이면 true 반환
 
-    public void initView() {
-        stackCardAdapter = new StackCardAdapter( MainActivity.this );
-//        mainStackLayout.setAdapter( stackViewAdapter = new Adapter( mData = new ArrayList<>() ) );
-        mainStackLayout.setAdapter( stackCardAdapter );
-        mainStackLayout.addPageTransformer(
-                new MyStackPageTransformer(),
-                new MyAlphaTransformer(),
-                new AngleTransformer()
-        );
+        //첫 실행 이면
+        if (isFirstRun) {
+            //UUID 생성
+            DeviceUuidFactory uuidFactory = new DeviceUuidFactory(this);
+            UUID uuid = uuidFactory.getDeviceUuid();
 
-        mainStackLayout.setOnSwipeListener( new StackLayout.OnSwipeListener() {
-            @Override
-            public void onSwiped(View swipedView, int swipedItemPos, boolean isSwipeLeft, int itemLeft) {
-                if (itemLeft < results.size()) {
-//                    getPost();
-                    loadData( ++curPage );
-                }
-            }
-        } );
+            //랜덤 닉네임 생성
+            Random random = new Random();
+            int randomNum = random.nextInt(nickNameList.length);
+            String nickName = nickNameList[randomNum];
 
-    }
+            //서버에 보내기
+            postUserData(uuid + "", nickName + " 영혼");
 
-    public void loadData(final int page) {
-        new Handler().postDelayed( new Runnable() {
-            @Override
-            public void run() {
-//                stackCardAdapter.getData().addAll( Arrays.asList( String.valueOf( page * 3 ), String.valueOf( page * 3 + 1 ), String.valueOf( page * 3 + 2 ) ) );
-                stackCardAdapter.notifyDataSetChanged();
-            }
-        }, 1000 );
-    }
+            //앱 최초 실행 Fragment 추가하기
+            initialFragment = new InitialBaseFragment();
+            cardFragment = new MainCardStackFragment();
+            fragmentTransaction.add(R.id.fragment_container, cardFragment);
+            fragmentTransaction.add(R.id.fragment_container, initialFragment);
+            fragmentTransaction.commit();
 
-    //첫화면
-    @OnClick(R.id.firstView)
-    public void desableView() {
-        if (isFirst) {
-            getToggleAnimation( linearLayoutMain, linearLayoutMain.getHeight(), linear.getHeight() ).start();
-            Animation alphaAnim = AnimationUtils.loadAnimation(this,R.anim.load_fadeout);
-            firstView.startAnimation(alphaAnim);
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    firstView.setVisibility(View.GONE);
-                }
-            },500);
-
-
-
-            isFirst = false;
+        } else {
+            fragmentTransaction.add(R.id.fragment_container, new MainCardStackFragment());
+            fragmentTransaction.commit();
         }
-
+        UUID = prefs.getString("UUID", "");
+    }
+    public String getUUID(){
+        return UUID;
+    }
+    public void setCardFragment(){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.remove( initialFragment );
+        fragmentTransaction.commit();
     }
 
-    private ValueAnimator getToggleAnimation(final View view, int startHeight, int endHeight) {
-        ValueAnimator animator = ValueAnimator.ofInt( startHeight, endHeight );
-        animator.addUpdateListener( new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                int val = (Integer) animation.getAnimatedValue();
-                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) view.getLayoutParams();
-                params.height = val;
-                view.setLayoutParams( params );
-            }
-        } );
-        //A duration for the whole animation, this can easily become a function parameter if needed.
-//        animator.setDuration(Constants.TOGGLE_ANIMATION_DURATION);
-        return animator;
+    // 유저 서버에 등록
+    private void postUserData(final String uuid, String nickName) {
+        boolean successe = false;
+        MooDumDumService.of().postUserData(uuid, nickName)
+                .enqueue(new Callback<ServerResponse>() {
+                    @Override
+                    public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
+                        Log.d("@@@@@@@", response.message());
+                        if (response.isSuccessful()) {
+                            //디바이스 DB에 저장
+                            prefs.edit().putBoolean("isFirstRun", false).apply(); // isFirstRun = false 값을 디바이스에 저장
+                            prefs.edit().putString("UUID", uuid).apply();
+                        }
+                        else {
+                            Log.d("@@@postUserDataErr", "유저 정보 저장 실패");
+                            ErrAlert();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ServerResponse> call, Throwable t) {
+                        Log.d("##postUserDataOnFailure", "유저 정보 저장 실패");
+                        ErrAlert();
+                    }
+                });
     }
 
-    @OnClick(R.id.onClickToMyPage)
-    void onClickToMyPage() {
+    private void ErrAlert() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                MainActivity.this);
 
-        Intent intent = new Intent( getApplicationContext(), Mypage.class );
-        intent.putExtra("plusContents", "no");
-        startActivity( intent );
-    }
+        alertDialogBuilder.setTitle("앱 실행에 실패했습니다.");
 
-    @OnClick(R.id.onClickToMenu)
-    void onClickToMenu() {
-        Intent intent = new Intent( getApplicationContext(), CategoryActivity.class );
-        startActivity( intent );
-    }
+        // AlertDialog 셋팅
+        alertDialogBuilder
+                .setMessage("오류를 보고하시겠습니까?")
+                .setCancelable(false)
+                .setPositiveButton("네, 오류를 보고할게요",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(
+                                    DialogInterface dialog, int id) {
+                                // 프로그램을 종료한다
+                                MainActivity.this.finish();
+                            }
+                        })
+                .setNegativeButton("종료",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(
+                                    DialogInterface dialog, int id) {
+                                // 다이얼로그를 취소한다
+                                MainActivity.this.finish();
+                            }
+                        });
 
-    @OnClick(R.id.onClickToPlus)
-    public void onViewClicked() {
-        Intent intent = new Intent( getApplicationContext(), PlusActivity.class );
-        startActivity( intent );
-    }
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
 
-    public void getPost() {
-        MooDumDumService.of().getContents().enqueue( new Callback<ContentsModel>() {
-            @Override
-            public void onResponse(Call<ContentsModel> call, Response<ContentsModel> response) {
-                if (response.isSuccessful()) {
-                    final ContentsModel items = response.body();
-                    results = items.getResult();
-                    ContentsModel.Result firstItem = results.get(0);
-                    Glide.with(getBaseContext()).load(firstItem.getImage_url()).into(firstbackImage);
-                    firstContents.setText(firstItem.getDescription());
-                    firstContents.setTextColor(Color.parseColor(firstItem.getColor()));
-                    firstWriter.setText(firstItem.getName());
-                    firstWriter.setTextColor(Color.parseColor(firstItem.getColor()));
-//                    Gson gson = new Gson();
-//                    String data = gson.toJson( results );
-//                    //야매야매
-//                    for(int i = 0; i < results.size(); i++){
-//                        String back = results.get(i).getImage_url();
-//                        Random random = new Random();
-//                        if(back.length()<13){
-//                            int num = random.nextInt(50)+1;
-//                            if(num < 10){
-//                                back =  "http://13.125.76.112/statics/board_background/0"+ num +".png";
-//                            } else {
-//                                back =  "http://13.125.76.112/statics/board_background/"+ num +".png";
-//                            }
-//                        }
-//                        results.get(i).setImage_url(back);
-//
-//                    }
-//                    Log.d( "RESULT@@@@@", data );
-                    stackCardAdapter.setPostList( results );
-                }
-                Log.d( "RESULT@@@@@", response.message() );
-            }
-
-            @Override
-            public void onFailure(Call<ContentsModel> call, Throwable t) {
-                Log.e( "RESULT@@@@@", "ERRR####" );
-            }
-        } );
     }
 }

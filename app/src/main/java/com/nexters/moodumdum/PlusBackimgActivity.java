@@ -95,32 +95,36 @@ public class PlusBackimgActivity extends AppCompatActivity {
     // 묻기 버튼 클릭
     @OnClick(R.id.onClickToFinish)
     public void onOnClickToFinishClicked() {
+//
+//        Toast.makeText(this, "으앙아ㅏ아아아ㅏㅇ누름.", Toast.LENGTH_SHORT).show();
         postMyMemory(); // 데이터 서버로 보내기
 //        Intent intent = new Intent( this, Mypage.class );
 //        startActivity( intent );
     }
 
     private void postMyMemory() {
+        String uuid = ((MainActivity) MainActivity.MainAct).getUUID();
         BigInteger category_id = contentsModel.getCategory_id();
-        String user = contentsModel.getUser();
-        String name = contentsModel.getName();
+//        String user = contentsModel.getUser();
+//        String name = contentsModel.getName();
         String description = contentsModel.getDescription();
         String image_url = contentsModel.getImage_url();
         String font_color = contentsModel.getFontColor();
-        MooDumDumService.of().postContents(category_id, user, name, description, image_url, font_color )
+        MooDumDumService.of().postContents(uuid, category_id, description, image_url, font_color )
                 .enqueue(new Callback<ServerResponse>() {
 
                     @Override
                     public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
+                        Log.d("@@@@@", response.message());
                         if (response.isSuccessful()) {
                             //요청사항 성공 페이지 만들어야 함
                             Toast.makeText(getBaseContext(), "당신의 기억을 묻었어요.", Toast.LENGTH_SHORT).show();
                             Log.d("postMyMemory",response.message());
-                            Intent intent = new Intent(getBaseContext(), Mypage.class);
+                            Intent intent = new Intent(getApplication(), Mypage.class);
                             intent.putExtra("plusContents", "Success");
-                            ((MainActivity)MainActivity.MainActivity_context).getPost();
-                            ((MainActivity)MainActivity.MainActivity_context).initView();
-                            ((MainActivity)MainActivity.MainActivity_context).loadData(0);
+//                            ((MainCardStackFragment) MainCardStackFragment.MainCardFragment).getPost();
+//                            ((MainCardStackFragment) MainCardStackFragment.MainCardFragment).initView();
+//                            ((MainCardStackFragment) MainCardStackFragment.MainCardFragment).loadData(0);
                             startActivity(intent);
                         }
                     }
@@ -142,6 +146,7 @@ public class PlusBackimgActivity extends AppCompatActivity {
                     //나중에 랜덤으로 주기
                     contentsModel.setImage_url( images.get(0).getImage_url() );
                     contentsModel.setFontColor( images.get(0).getFont_color());
+                    Log.d("##@#@##",contentsModel.getImage_url());
 
                     adapterBackImg.setImageList(images);
                 }

@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.nexters.moodumdum.adpater.MyPageRecyclerViewAdapter;
 import com.nexters.moodumdum.api.MooDumDumService;
-import com.nexters.moodumdum.factory.DeviceUuidFactory;
 import com.nexters.moodumdum.model.ContentsModel;
 
 import java.util.UUID;
@@ -38,13 +37,10 @@ public class FragmentMyJomun extends Fragment {
     TextView nullJomunText;
     private MyPageRecyclerViewAdapter myPageMyJomunAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-//    private ArrayList<MyjomunData> MyjomunData;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
-        DeviceUuidFactory uuidFactory = new DeviceUuidFactory( getContext() );
-        uuid = uuidFactory.getDeviceUuid();
         initDataset();
     }
 
@@ -64,10 +60,6 @@ public class FragmentMyJomun extends Fragment {
         myPageRecyclerView.setItemAnimator( new DefaultItemAnimator() );
         unbinder = ButterKnife.bind( this, view );
 
-//        if (MyjomunData.isEmpty()) {
-//            nullJomunImg.setVisibility(View.VISIBLE);
-//            nullJomunText.setVisibility( View.VISIBLE );
-//        }
         return view;
     }
 
@@ -78,8 +70,8 @@ public class FragmentMyJomun extends Fragment {
 
 
     private void initDataset() {
-        String Uuid = uuid+"";
-        MooDumDumService.of().getMyJomunContents(Uuid).enqueue(new Callback<ContentsModel>() {
+        String uuid = ((MainActivity) MainActivity.MainAct).getUUID();
+        MooDumDumService.of().getMyJomunContents(uuid).enqueue(new Callback<ContentsModel>() {
             @Override
             public void onResponse(Call<ContentsModel> call, Response<ContentsModel> response) {
                 if (response.isSuccessful()) {

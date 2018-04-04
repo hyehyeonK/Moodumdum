@@ -12,8 +12,6 @@ import java.math.BigInteger;
 public class PostContentsModel implements Serializable{
 
     @SerializedName("category_id") private BigInteger category_id;
-    @SerializedName("user") private String user; //uuid
-    @SerializedName("name") private String name; //not null
     @SerializedName("description") private String description; //not null
     @SerializedName("image_url") private String image_url;
     @SerializedName("color") private String fontColor;
@@ -24,22 +22,6 @@ public class PostContentsModel implements Serializable{
 
     public void setCategory_id(BigInteger category_id) {
         this.category_id = category_id;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getDescription() {

@@ -64,8 +64,9 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
         if (item.getColor() != ""){
             fontColor = item.getColor();
         }
+        ContentsModel.UserDataModel user = item.getUser();
         viewHolder.contents.setTextColor(Color.parseColor(fontColor));
-        viewHolder.writer.setText( item.getName() );
+        viewHolder.writer.setText( user.getNickName() );
         viewHolder.writer.setTextColor(Color.parseColor(fontColor));
         viewHolder.commentCount.setText( commentCount );
         viewHolder.commentCount.setTextColor(Color.parseColor(fontColor));

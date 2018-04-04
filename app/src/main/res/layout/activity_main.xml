@@ -6,19 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <com.fashare.stack_layout.StackLayout
-        android:id="@+id/stack_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="0dp"
-        android:transitionName="cardStack" />
-    <include
-        android:id="@+id/firstView"
-        layout="@layout/activity_main_start"/>
-    <include
-        layout="@layout/fragment_top"/>
-    <include
-        layout="@layout/fragment_bottom"/>
+    android:layout_height="match_parent"
+    android:id="@+id/fragment_container">
 </android.support.constraint.ConstraintLayout>
