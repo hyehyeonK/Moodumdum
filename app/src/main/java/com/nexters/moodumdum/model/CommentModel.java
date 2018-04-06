@@ -37,6 +37,7 @@ public class CommentModel implements Serializable {
             return user;
         }
 
+
         public String getDescription() {
             return description;
         }

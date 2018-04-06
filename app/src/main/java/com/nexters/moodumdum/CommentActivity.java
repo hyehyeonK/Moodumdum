@@ -84,7 +84,6 @@ public class CommentActivity extends AppCompatActivity {
         setContentView( R.layout.activity_comment );
         ButterKnife.bind( this );
 
-
         Intent intent = getIntent();
         commentModel = (PostCommentModel) intent.getSerializableExtra( "newComment" );
 
@@ -155,6 +154,8 @@ public class CommentActivity extends AppCompatActivity {
                     Toast.makeText( getBaseContext(), commentModel.getBoard_id().toString(), Toast.LENGTH_SHORT ).show();
                     final CommentModel items = response.body();
                     mCommentAdapter.setPostList( items.getResult() );
+                    Toast.makeText( getBaseContext(), "댓글 불러오기 실패!", Toast.LENGTH_SHORT ).show();
+
                 }
             }
 
@@ -174,6 +175,7 @@ public class CommentActivity extends AppCompatActivity {
         board_id = commentModel.getBoard_id();
         DeviceUuidFactory uuidFactory = new DeviceUuidFactory( this );
         UUID uuid = uuidFactory.getDeviceUuid();
+
         String user = uuid+"";
         String description = contentsTest.getText().toString();
 
@@ -189,8 +191,10 @@ public class CommentActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ServerResponse> call, Throwable t) {
+                Toast.makeText( getBaseContext(), "댓글 등록 실패.", Toast.LENGTH_SHORT ).show();
 
             }
         } );
     }
+
 }
