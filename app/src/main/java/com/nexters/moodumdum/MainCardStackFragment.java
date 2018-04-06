@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -51,9 +52,9 @@ public class MainCardStackFragment extends Fragment {
     @BindView(R.id.imageView3)
     ImageView imageView3;
     @BindView(R.id.onClickToMenu)
-    Button onClickToMenu;
+    ImageButton onClickToMenu;
     @BindView(R.id.onClickToMyPage)
-    Button onClickToMyPage;
+    ImageButton onClickToMyPage;
     @BindView(R.id.onClickToPlus)
     Button onClickToPlus;
     @BindView(R.id.firstbackImage)

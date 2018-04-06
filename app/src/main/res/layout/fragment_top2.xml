@@ -6,14 +6,17 @@
     android:layout_width="match_parent"
     android:layout_height="56dp">
 
-    <Button
+    <ImageButton
         android:id="@+id/btn_back"
-        android:layout_width="15dp"
-        android:layout_height="24dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/btn_back"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:paddingRight="10dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/btn_back"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,11 +26,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginStart="15dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
-        android:textColor="@color/black"
+        android:textSize="20dp"
         android:textStyle="bold"
+        android:textColor="#747474"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btn_back"
         app:layout_constraintTop_toTopOf="parent" />
