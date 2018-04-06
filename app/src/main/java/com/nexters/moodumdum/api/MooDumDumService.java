@@ -66,8 +66,8 @@ public class MooDumDumService {
     public Call<CommentModel> getComment(BigInteger board_id) {
         return api.getComment( board_id );
     }
-    public Call<ServerResponse> postComment(BigInteger board_id,  String user, String name , String description) {
-        return api.postComment(  board_id, user,  name ,  description );
+    public Call<ServerResponse> postComment(String user, BigInteger board_id , String description) {
+        return api.postComment( user, board_id, description );
     }
     public Call<UserModel> getMypageCount(String user_id) {return api.getMypageCount( user_id );}
 }

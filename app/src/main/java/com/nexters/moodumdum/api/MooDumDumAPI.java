@@ -79,9 +79,8 @@ public interface MooDumDumAPI {
     //댓글 쓰기
     @FormUrlEncoded
     @POST("api/board/comment/")
-    Call<ServerResponse> postComment (@Field("board_id") BigInteger board_id,
-                                      @Field( "user") String user,
-                                      @Field( "name" ) String name,
+    Call<ServerResponse> postComment (@Query( "user" ) String user,
+                                      @Field( "board_id" ) BigInteger board_id,
                                       @Field( "description") String description);
 
     // 마이페이지의 좋아요 수, 게시글 수 가져오기

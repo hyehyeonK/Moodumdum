@@ -10,9 +10,8 @@ import java.math.BigInteger;
  */
 
 public class PostCommentModel implements Serializable {
-    @SerializedName( "board_id" ) private BigInteger board_id;
     @SerializedName( "user" ) private String user;
-    @SerializedName( "name" ) private String name;
+    @SerializedName( "board_id" ) private BigInteger board_id;
     @SerializedName( "description" ) private String description;
 
     public BigInteger getBoard_id() {
@@ -31,14 +30,6 @@ public class PostCommentModel implements Serializable {
         this.user = user;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -46,14 +37,4 @@ public class PostCommentModel implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-
-//    @Override
-//    public String toString() {
-//        return "PostCommentModel{" +
-//                "board_id=" + board_id +
-//                ", user='" + user + '\'' +
-//                ", name='" + name + '\'' +
-//                ", description='" + description + '\'' +
-//                '}';
-//    }
 }

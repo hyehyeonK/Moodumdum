@@ -175,10 +175,9 @@ public class CommentActivity extends AppCompatActivity {
         DeviceUuidFactory uuidFactory = new DeviceUuidFactory( this );
         UUID uuid = uuidFactory.getDeviceUuid();
         String user = uuid+"";
-        String name = "닉네임불러오기";
         String description = contentsTest.getText().toString();
 
-        MooDumDumService.of().postComment( board_id, user, name, description ).enqueue( new Callback<ServerResponse>() {
+        MooDumDumService.of().postComment( user, board_id, description ).enqueue( new Callback<ServerResponse>() {
             @Override
             public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
                 Toast.makeText( getBaseContext(), "댓글을 등록했습니다.", Toast.LENGTH_SHORT ).show();

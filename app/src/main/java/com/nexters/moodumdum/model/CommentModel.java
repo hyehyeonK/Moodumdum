@@ -20,8 +20,7 @@ public class CommentModel implements Serializable {
     public class Result {
         @SerializedName( "id" ) private BigInteger id;
         @SerializedName( "board_id" ) private BigInteger board_id;
-        @SerializedName( "user" ) private String user;
-        @SerializedName( "name" ) private String name;
+        @SerializedName( "user_id" ) private UserDataModel user;
         @SerializedName( "description" ) private String description;
         @SerializedName( "created" ) private Date created;
         @SerializedName( "updated" ) private Date updated;
@@ -34,12 +33,8 @@ public class CommentModel implements Serializable {
             return board_id;
         }
 
-        public String getUser() {
+        public UserDataModel getUser() {
             return user;
-        }
-
-        public String getName() {
-            return name;
         }
 
         public String getDescription() {
@@ -54,6 +49,40 @@ public class CommentModel implements Serializable {
             return updated;
         }
 
+        public class UserDataModel {
+            @SerializedName("user")
+            private String uuid;
+            @SerializedName("name")
+            private String nickName;
+            @SerializedName("profile_image")
+            private String profile_image;
+
+            public String getUuid() {
+                return uuid;
+            }
+
+            public void setUuid(String uuid) {
+                this.uuid = uuid;
+            }
+
+            public String getNickName() {
+                return nickName;
+            }
+
+            public void setNickName(String nickName) {
+                this.nickName = nickName;
+            }
+
+            public String getProfile_image() {
+                return profile_image;
+            }
+
+            public void setProfile_image(String profile_image) {
+                this.profile_image = profile_image;
+            }
+        }
+
+
 
         @Override
         public String toString() {
@@ -61,7 +90,6 @@ public class CommentModel implements Serializable {
                     "\"id\" :" + id +
                     ", \"board_id\" : " + board_id +
                     ", \"user\" : '" + user + '\'' +
-                    ", \"name\" : '" + name + '\'' +
                     ", \"description\" : '" + description + '\'' +
                     ", \"created\" : '" + created + '\'' +
                     ", \"updated\" : '" + updated + '\'' +
@@ -69,10 +97,9 @@ public class CommentModel implements Serializable {
 
         }
     }
-
-//    public ArrayList<CommentModel.Result> getResult() {
-//        return result;
-//    }
+    public ArrayList<CommentModel.Result> getResult() {
+        return result;
+    }
 
     public int getCount() {
         return count;
@@ -84,10 +111,6 @@ public class CommentModel implements Serializable {
 
     public int getPrevious() {
         return previous;
-    }
-
-    public ArrayList<CommentModel.Result> getResult() {
-        return result;
     }
 
     @Override
