@@ -11,7 +11,7 @@ import java.io.Serializable;
 public class UserDataModel implements Serializable {
     @SerializedName( "user" ) private String uuid;
     @SerializedName( "name" ) private String nickName;
-    @SerializedName( "profile_image" ) private int profile_image;
+    @SerializedName( "profile_image" ) private String profile_image;
 
     public String getUuid() {
         return uuid;
@@ -29,11 +29,11 @@ public class UserDataModel implements Serializable {
         this.nickName = nickName;
     }
 
-    public int getProfile_image() {
+    public String getProfile_image() {
         return profile_image;
     }
 
-    public void setProfile_image(int profile_image) {
+    public void setProfile_image(String profile_image) {
         this.profile_image = profile_image;
     }
 }

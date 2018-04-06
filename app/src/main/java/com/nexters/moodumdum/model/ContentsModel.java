@@ -15,129 +15,124 @@ public class ContentsModel implements Serializable {
     @SerializedName("next") private String next;
     @SerializedName("previous") private String previous;
     @SerializedName("results") private ArrayList<Result> result;
-//    @SerializedName(category_id)
-//            String category_id;
+
     public  class  Result {
-    @SerializedName("id") private BigInteger id;
-    @SerializedName("category_id") private BigInteger category_id;;
-    @SerializedName("description") private String description;
-    @SerializedName("user_id") private UserDataModel user;
-    @SerializedName("views") private int views;
-    @SerializedName("comment_count") private int comment_count;
-    @SerializedName("image_url") private String image_url;
-    @SerializedName("like_count") private int  like_count;
-    @SerializedName("is_liked") private boolean is_liked;
-    @SerializedName("background_color") private String background_color;
-    @SerializedName("color") private String color;
-    @SerializedName("created") private String  created;
-    @SerializedName("updated") private String  updated;
+        @SerializedName("id")
+        private BigInteger id;
+        @SerializedName("category_id")
+        private BigInteger category_id;
+        @SerializedName("user_id")
+        private UserDataModel user;
+        @SerializedName("description")
+        private String description;
+        @SerializedName("comment_count")
+        private int comment_count;
+        @SerializedName("like_count")
+        private int like_count;
+        @SerializedName("is_liked")
+        private boolean is_liked;
+        @SerializedName("views")
+        private int views;
+        @SerializedName("image_url")
+        private String image_url;
+        @SerializedName("background_color")
+        private String background_color;
+        @SerializedName("color")
+        private String color;
+        @SerializedName("created")
+        private String created;
+        @SerializedName("updated")
+        private String updated;
 
-    public void setImage_url(String image_url) {
-        this.image_url = image_url;
-    }
-
-    public BigInteger getId() {
-        return id;
-    }
-
-    public BigInteger getCategory_id() {
-        return category_id;
-    }
-
-    public UserDataModel getUser() {
-        return user;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public int getComment_count() {
-        return comment_count;
-    }
-
-    public int getLike_count() {
-        return like_count;
-    }
-
-    public boolean isIs_liked() {
-        return is_liked;
-    }
-
-    public int getViews() {
-        return views;
-    }
-
-    public String getImage_url() {
-        return image_url;
-    }
-
-    public String getBackground_color() {
-        return background_color;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public String getCreated() {
-        return created;
-    }
-
-    public String getUpdated() {
-        return updated;
-    }
-
-//    @Override
-//    public String toString() {
-//        return "\"Result\" : {" +
-//                "\"id\" :" + id +
-//                ", \"category_id\" : " + category_id +
-//                ", \"user\" : '" + user + '\'' +
-//                ", \"name\" : '" + name + '\'' +
-//                ", \"description\" : '" + description + '\'' +
-//                ", \"comment_count\" : " + comment_count +
-//                ", \"like_count\" :" + like_count +
-//                ", \"is_liked\" : " + is_liked +
-//                ", \"views\" : " + views +
-//                ", \"image_url\" : '" + image_url + '\'' +
-//                ", \"background_color\" : '" + background_color + '\'' +
-//                ", \"color\" : '" + color + '\'' +
-//                ", \"created\" : '" + created + '\'' +
-//                ", \"updated\" : '" + updated + '\'' +
-//                '}';
-//    }
-}
-    public  class  UserDataModel {
-        @SerializedName( "user" ) private String uuid;
-        @SerializedName( "name" ) private String nickName;
-        @SerializedName( "profile_image" ) private int profile_image;
-
-        public String getUuid() {
-            return uuid;
+        public void setImage_url(String image_url) {
+            this.image_url = image_url;
         }
 
-        public void setUuid(String uuid) {
-            this.uuid = uuid;
+        public BigInteger getId() {
+            return id;
         }
 
-        public String getNickName() {
-            return nickName;
+        public BigInteger getCategory_id() {
+            return category_id;
         }
 
-        public void setNickName(String nickName) {
-            this.nickName = nickName;
+        public UserDataModel getUser() {
+            return user;}
+
+         public class UserDataModel {
+                @SerializedName("user")
+                private String uuid;
+                @SerializedName("name")
+                private String nickName;
+                @SerializedName("profile_image")
+                private String profile_image;
+
+                public String getUuid() {
+                    return uuid;
+                }
+
+                public void setUuid(String uuid) {
+                    this.uuid = uuid;
+                }
+
+                public String getNickName() {
+                    return nickName;
+                }
+
+                public void setNickName(String nickName) {
+                    this.nickName = nickName;
+                }
+
+                public String getProfile_image() {
+                    return profile_image;
+                }
+
+                public void setProfile_image(String profile_image) {
+                    this.profile_image = profile_image;
+                }
+            }
+
+
+        public String getDescription() {
+            return description;
         }
 
-        public int getProfile_image() {
-            return profile_image;
+        public int getComment_count() {
+            return comment_count;
         }
 
-        public void setProfile_image(int profile_image) {
-            this.profile_image = profile_image;
+        public int getLike_count() {
+            return like_count;
+        }
+
+        public boolean isIs_liked() {
+            return is_liked;
+        }
+
+        public int getViews() {
+            return views;
+        }
+
+        public String getImage_url() {
+            return image_url;
+        }
+
+        public String getBackground_color() {
+            return background_color;
+        }
+
+        public String getColor() {
+            return color;
+        }
+
+        public String getCreated() {
+            return created;
+        }
+
+        public String getUpdated() {
+            return updated;
         }
     }
-
     public int getCount() {
         return count;
     }
@@ -154,13 +149,4 @@ public class ContentsModel implements Serializable {
         return result;
     }
 
-    @Override
-    public String toString() {
-        return "ContentsModel{" +
-                "count=" + count +
-                ", next=" + next +
-                ", previous=" + previous +
-                ", result=" + result +
-                '}';
-    }
 }

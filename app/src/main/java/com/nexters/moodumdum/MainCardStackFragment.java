@@ -179,8 +179,11 @@ public class MainCardStackFragment extends Fragment {
                     final ContentsModel items = response.body();
                     results = items.getResult();
                     if(results.size()>0){
+                        firstView.setVisibility(View.VISIBLE);
+                        nodataImg.setVisibility(View.GONE);
+                        nodataText.setVisibility(View.GONE);
                         ContentsModel.Result firstItem = results.get(0);
-                        ContentsModel.UserDataModel user = firstItem.getUser();
+                        ContentsModel.Result.UserDataModel user = firstItem.getUser();
                         Glide.with(getActivity()).load(firstItem.getImage_url()).into(firstbackImage);
                         firstContents.setText(firstItem.getDescription());
                         firstContents.setTextColor(Color.parseColor(firstItem.getColor()));
@@ -199,7 +202,7 @@ public class MainCardStackFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ContentsModel> call, Throwable t) {
-                Log.e( "RESULT@@@@@", "ERRR####" );
+                Log.e( "RESULT@@@@@", "ERRR####" + t );
             }
         } );
     }

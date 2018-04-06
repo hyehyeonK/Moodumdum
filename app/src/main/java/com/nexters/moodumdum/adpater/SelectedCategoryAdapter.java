@@ -45,7 +45,7 @@ public class SelectedCategoryAdapter extends RecyclerView.Adapter<RecyclerView.V
         if (item.getColor() != ""){
             fontColor = item.getColor();
         }
-        ContentsModel.UserDataModel user = item.getUser();
+        ContentsModel.Result.UserDataModel user = item.getUser();
         Glide.with(context).load(item.getImage_url()).into(viewHolder.backImage);
         viewHolder.nickName.setText(user.getNickName());
         viewHolder.nickName.setTextColor(Color.parseColor(fontColor));
