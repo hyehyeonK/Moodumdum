@@ -5,7 +5,7 @@ import com.nexters.moodumdum.model.CommentModel;
 import com.nexters.moodumdum.model.ContentsModel;
 import com.nexters.moodumdum.model.ImageModel;
 import com.nexters.moodumdum.model.ServerResponse;
-import com.nexters.moodumdum.model.UserModel;
+import com.nexters.moodumdum.model.UserDataModel;
 
 import java.math.BigInteger;
 
@@ -83,8 +83,8 @@ public interface MooDumDumAPI {
                                       @Field( "board_id" ) BigInteger board_id,
                                       @Field( "description") String description);
 
-    // 마이페이지의 좋아요 수, 게시글 수 가져오기
-    @GET("api/user/{user_id}")
-    Call<UserModel> getMypageCount (@Path( "user_id" ) String user);
+    // User Data 가져오기
+    @GET("api/user/info/{user_id}")
+    Call<UserDataModel> getUserData (@Path( "user_id" ) String user);
 
 }

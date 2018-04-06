@@ -65,7 +65,7 @@
                 app:layout_constraintVertical_bias="0.15" />
 
             <TextView
-                android:id="@+id/myPostCount"
+                android:id="@+id/myBoardCount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"

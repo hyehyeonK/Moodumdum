@@ -8,12 +8,22 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.nexters.moodumdum.adpater.MyPageTabAdapter;
+import com.nexters.moodumdum.api.MooDumDumService;
+import com.nexters.moodumdum.factory.DeviceUuidFactory;
+import com.nexters.moodumdum.model.UserDataModel;
+
+import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Mypage extends AppCompatActivity implements FragmentMyJomun.OnFragmentInteractionListener, FragmentMyWrite.OnFragmentInteractionListener {
 
@@ -22,9 +32,16 @@ public class Mypage extends AppCompatActivity implements FragmentMyJomun.OnFragm
     Button btnBack;
     @BindView(R.id.profileImg)
     ImageView profileImg;
+    @BindView(R.id.myName)
+    TextView myName;
+    @BindView(R.id.mylikeCount)
+    TextView mylikeCount;
+    @BindView(R.id.myBoardCount)
+    TextView myBoardCount;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-//  private android.support.v7.widget.Toolbar toolbar;
+
+    UserDataModel userDataModel = new UserDataModel();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +49,10 @@ public class Mypage extends AppCompatActivity implements FragmentMyJomun.OnFragm
         setContentView( R.layout.activity_mypage );
         ButterKnife.bind( this );
 
+        initView();
+    }
+
+    public void initView() {
         tabLayout = (TabLayout) findViewById( R.id.tablayout );
         viewPager = (ViewPager) findViewById( R.id.viewPager );
 
@@ -49,8 +70,31 @@ public class Mypage extends AppCompatActivity implements FragmentMyJomun.OnFragm
             PlusActivity plusActivity = (PlusActivity) PlusActivity.plusActivity;
             plusActivity.finish();
         }
+
+        getMyData();
     }
 
+    public void getMyData() {
+        DeviceUuidFactory uuidFactory = new DeviceUuidFactory( this );
+        UUID uid = uuidFactory.getDeviceUuid();
+        String uuid = uid.toString();
+
+        MooDumDumService.of().getUserData( uuid ).enqueue( new Callback<UserDataModel>() {
+            @Override
+            public void onResponse(Call<UserDataModel> call, Response<UserDataModel> response) {
+                UserDataModel items = response.body();
+                myName.setText( items.getNickName() );
+                myBoardCount.setText( String.valueOf(items.getBoard_count()) );
+                mylikeCount.setText( String.valueOf(items.getLike_count()) );
+                Glide.with( getBaseContext() ).load( items.getProfile_image() ).into( profileImg );
+            }
+
+            @Override
+            public void onFailure(Call<UserDataModel> call, Throwable t) {
+
+            }
+        } );
+    }
 
     @Override
     public void onFragmentInteraction(Uri uri) {
@@ -61,7 +105,7 @@ public class Mypage extends AppCompatActivity implements FragmentMyJomun.OnFragm
     @OnClick(R.id.btn_back)
     public void onBtnBackClicked() {
         this.finish();
-        overridePendingTransition(R.anim.not_move_activity,R.anim.leftout_activity);
+        overridePendingTransition( R.anim.not_move_activity, R.anim.leftout_activity );
     }
 
     @OnClick(R.id.profileImg)
@@ -75,6 +119,7 @@ public class Mypage extends AppCompatActivity implements FragmentMyJomun.OnFragm
         Intent intent = new Intent( this, NameEditActivity.class );
         startActivity( intent );
     }
+
     @OnClick(R.id.onClickToPlus)
     public void onViewClicked() {
 

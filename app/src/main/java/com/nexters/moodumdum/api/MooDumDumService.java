@@ -6,7 +6,7 @@ import com.nexters.moodumdum.model.CommentModel;
 import com.nexters.moodumdum.model.ContentsModel;
 import com.nexters.moodumdum.model.ImageModel;
 import com.nexters.moodumdum.model.ServerResponse;
-import com.nexters.moodumdum.model.UserModel;
+import com.nexters.moodumdum.model.UserDataModel;
 
 import java.math.BigInteger;
 
@@ -69,5 +69,5 @@ public class MooDumDumService {
     public Call<ServerResponse> postComment(String user, BigInteger board_id , String description) {
         return api.postComment( user, board_id, description );
     }
-    public Call<UserModel> getMypageCount(String user_id) {return api.getMypageCount( user_id );}
+    public Call<UserDataModel> getUserData(String user_id) {return api.getUserData( user_id );}
 }
