@@ -34,11 +34,26 @@
         <item name="android:windowNoTitle">true</item>
     </style>
     <!--커스텀-->
+    <style name="AppTheme.StatusBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <!--Status Bar 배경색-->
+        <!--<item name="android:statusBarColor">#000000</item>-->
+        <!--Status Bar 배경색-->
+        <item name="android:statusBarColor">@color/white</item>
+        <!--Status Bar 글자색깔-->
+        <item name="android:windowLightStatusBar">true</item>
+
+    </style>
     <style name="Theme.AppCompat.Translucent">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowAnimationStyle">@android:style/Animation</item>
+    </style>
+    <!--투명 statusBar-->
+    <style name="AppThemeTransparent" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
 </resources>

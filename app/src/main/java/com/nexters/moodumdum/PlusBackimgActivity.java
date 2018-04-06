@@ -5,12 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -43,6 +45,9 @@ public class PlusBackimgActivity extends AppCompatActivity {
     public static Activity plusBackimgActivity ;
     public static Context PlusBackimgActivity_context;
 
+    @BindView(R.id.topFrame)
+    ConstraintLayout topMenue;
+
     @BindView(R.id.onClickToCancle)
     ImageButton onClickToCancle;
 
@@ -74,7 +79,9 @@ public class PlusBackimgActivity extends AppCompatActivity {
         Intent intent = getIntent();
         contentsModel = (PostContentsModel) intent.getSerializableExtra("newContents");
         contentOfPlus.setText( contentsModel.getDescription() + "" );
-
+        //top
+        int height = ((MainCardStackFragment) MainCardStackFragment.MainCardFragment).StatusBarHeight;
+        setActionbarMarginTop(topMenue, height);
         //서버에서 이미지 가져오기 (랜덤으로 가져오는 걸로 변경 요청하기)
         getBackgroundImag();
 
@@ -87,7 +94,11 @@ public class PlusBackimgActivity extends AppCompatActivity {
         gridViewImagesRV.setLayoutManager(gridLayoutManager);
         gridViewImagesRV.setItemAnimator(new DefaultItemAnimator());
     }
-
+    public void setActionbarMarginTop(final View view, int height){
+        ConstraintLayout.LayoutParams topLayoutParams = (ConstraintLayout.LayoutParams) view.getLayoutParams();
+        topLayoutParams.topMargin = height;
+        view.setLayoutParams(topLayoutParams);
+    }
     @OnClick(R.id.onClickToCancle)
     public void onOnClickToCancleClicked() {
         this.finish();

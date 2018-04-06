@@ -42,6 +42,7 @@
         android:id="@+id/firstView"
         layout="@layout/activity_main_start"/>
     <include
+        android:id="@+id/topView"
         layout="@layout/fragment_top"/>
     <include
         layout="@layout/fragment_bottom"/>

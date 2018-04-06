@@ -11,14 +11,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        android:theme="@style/AppTheme.StatusBar"
         android:configChanges="orientation|screenSize">
 
-        <!-- android:theme="@style/AppTheme"> -->
         <activity android:name=".SplashActivity"></activity>
-        <activity android:name=".MainActivity">
-
-             <!--android:theme="@style/AppTheme"> -->
+        <activity android:name=".MainActivity"
+             android:theme="@style/AppThemeTransparent">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,15 +24,8 @@
             </intent-filter>
         </activity>
 
-
         <activity android:name=".Mypage" />
-        <activity android:name=".CategoryActivity" >
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        </activity>
+        <activity android:name=".CategoryActivity"/>
         <activity
             android:name=".PlusActivity"
             android:windowSoftInputMode="stateAlwaysVisible|adjustResize">
@@ -45,10 +36,11 @@
             <!-- </intent-filter> -->
         </activity>
         <activity android:name=".NameEditActivity"/>
-        <activity android:name=".PlusBackimgActivity" />
-        <!--<activity android:name=".CategorySelectedActivity" />-->
-        <activity android:name=".CategorySelectedActivityRV" />
-        <activity android:name=".CommentActivity" android:theme="@style/Theme.AppCompat.Translucent"></activity>
+        <activity android:name=".PlusBackimgActivity"
+            android:theme="@style/AppThemeTransparent"/>
+        <activity android:name=".CategorySelectedActivityRV"/>
+        <activity android:name=".CommentActivity"
+            android:theme="@style/Theme.AppCompat.Translucent"></activity>
     </application>
 
 </manifest>

@@ -3,6 +3,7 @@ package com.nexters.moodumdum;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -46,7 +48,9 @@ public class MainCardStackFragment extends Fragment {
 
     public static Fragment MainCardFragment ;
     public static Context MainCardFragment_context;
-
+    public int StatusBarHeight;
+    @BindView(R.id.topFrame)
+    ConstraintLayout topFrame;
     @BindView(R.id.firstView)
     ConstraintLayout firstView;
     @BindView(R.id.imageView3)
@@ -86,7 +90,10 @@ public class MainCardStackFragment extends Fragment {
         ButterKnife.bind( this, view );
         MainCardFragment = MainCardStackFragment.this;
         MainCardFragment_context = getContext();
-
+        //Menu top margin 주기
+        getStatusBarHeight();
+        setActionbarMarginTop(topFrame);
+        //
         getPost();
         initView();
         loadData( 0 );
@@ -103,6 +110,26 @@ public class MainCardStackFragment extends Fragment {
 //    }
 
     int curPage = 0;
+
+    public void getStatusBarHeight(){
+        int statusHeight = 0;
+        int screenSizeType = (getContext().getResources().getConfiguration().screenLayout &
+                Configuration.SCREENLAYOUT_SIZE_MASK);
+
+        if(screenSizeType != Configuration.SCREENLAYOUT_SIZE_XLARGE) {
+            int resourceId = getContext().getResources().getIdentifier("status_bar_height", "dimen", "android");
+
+            if (resourceId > 0) {
+                statusHeight = getContext().getResources().getDimensionPixelSize(resourceId);
+            }
+        }
+        StatusBarHeight = statusHeight;
+    }
+    public void setActionbarMarginTop(final View view){
+        FrameLayout.LayoutParams topLayoutParams = (FrameLayout.LayoutParams) view.getLayoutParams();
+        topLayoutParams.topMargin = StatusBarHeight;
+        view.setLayoutParams(topLayoutParams);
+    }
 
     public void initView() {
         stackCardAdapter = new StackCardAdapter(getContext());

@@ -47,11 +47,10 @@
         </android.support.v7.widget.RecyclerView>
     </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/test"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/topFrame"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="@null"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -73,8 +72,9 @@
             android:layout_gravity="right"
             android:gravity="center"
             android:text="묻기"
+            android:textColor="#747474"
             android:textSize="20dp"
-            android:textColor="#747474" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
-    </FrameLayout>
+    </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>
