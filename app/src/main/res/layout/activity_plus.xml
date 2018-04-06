@@ -7,50 +7,31 @@
     android:layout_height="match_parent"
     tools:context="com.nexters.moodumdum.PlusActivity">
 
-        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/test"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="@null">
-
-                <Button
-                    android:id="@+id/onClickToCancel"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/btn_cancle" />
-
-                <TextView
-                    android:id="@+id/onClickToNext"
-                    android:layout_width="wrap_content"
-                    android:layout_height="24dp"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginTop="20dp"
-                    android:text="다음"
-                    android:textColor="#747474" />
-
-
-        </FrameLayout>
-
-        <EditText
-            android:id="@+id/contentOfPlus"
-            android:layout_width="wrap_content"
-            android:layout_height="51dp"
-            android:layout_below="@id/test"
-            android:background="@null"
-            android:gravity="center"
-            android:hint="당신의 잊고 싶은 기억,\n여기에 적어두세요."
-            android:inputType="textMultiLine"
-            android:textColor="#747474"
-            android:textColorHint="#848484"
-            android:textSize="20dp"
-            app:layout_constraintBottom_toTopOf="@+id/horizontalScrollView"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/test"
-            app:layout_constraintVertical_bias="0.49" />
+    <EditText
+        android:id="@+id/contentOfPlus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/test"
+        android:layout_marginTop="56dp"
+        android:layout_marginBottom="50dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:paddingTop="56dp"
+        android:paddingBottom="60dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:background="@null"
+        android:gravity="center"
+        android:hint="당신의 잊고 싶은 기억,\n여기에 적어두세요."
+        android:inputType="textMultiLine"
+        android:textColor="#747474"
+        android:textColorHint="#848484"
+        android:textSize="20dp"
+        android:windowSoftInputMode="stateHidden|adjustResize"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
         <HorizontalScrollView
             android:id="@+id/horizontalScrollView"
@@ -70,7 +51,7 @@
 
                     <Button
                         android:id="@+id/btn_relationship"
-                        android:tag="4"
+                        android:tag="3"
                         android:layout_width="78dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="5dp"
@@ -81,7 +62,7 @@
 
                     <Button
                         android:id="@+id/btn_family"
-                        android:tag="3"
+                        android:tag="1"
                         android:layout_width="78dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="5dp"
@@ -92,7 +73,7 @@
 
                     <Button
                         android:id="@+id/btn_job"
-                        android:tag="6"
+                        android:tag="5"
                         android:layout_width="78dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="5dp"
@@ -103,7 +84,7 @@
 
                     <Button
                         android:id="@+id/btn_selfesteem"
-                        android:tag="5"
+                        android:tag="4"
                         android:layout_width="78dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="5dp"
@@ -114,7 +95,7 @@
 
                     <Button
                         android:id="@+id/btn_darkhistory"
-                        android:tag="1"
+                        android:tag="6"
                         android:layout_width="78dp"
                         android:layout_height="30dp"
                         android:layout_marginStart="5dp"
@@ -137,6 +118,34 @@
                 </LinearLayout>
 
         </HorizontalScrollView>
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/test"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@null">
+
+        <ImageButton
+            android:id="@+id/onClickToCancle"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:padding="16dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/btn_cancle"
+            android:adjustViewBounds="true"
+            android:scaleType="fitStart"/>
+
+        <TextView
+            android:id="@+id/onClickToNext"
+            android:layout_width="60dp"
+            android:layout_height="56dp"
+            android:layout_gravity="right"
+            android:gravity="center"
+            android:text="다음"
+            android:textSize="20dp"
+            android:textColor="#747474" />
+
+
+    </FrameLayout>
 
 
 </android.support.constraint.ConstraintLayout>

@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -24,8 +25,8 @@ public class PlusActivity extends AppCompatActivity {
     public static Activity plusActivity;
     private UUID uuid;
     PostContentsModel contentsModel = new PostContentsModel();
-    @BindView(R.id.onClickToCancel)
-    Button onClickToCancel;
+    @BindView(R.id.onClickToCancle)
+    ImageButton onClickToCancel;
 
     @BindView(R.id.onClickToNext)
     TextView onClickToNext;
@@ -59,6 +60,7 @@ public class PlusActivity extends AppCompatActivity {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_plus );
         ButterKnife.bind( this );
+
         plusActivity = PlusActivity.this;
         // 키보드 강제 올리기
 //        InputMethodManager imm = (InputMethodManager) getSystemService( Context.INPUT_METHOD_SERVICE);
@@ -67,7 +69,7 @@ public class PlusActivity extends AppCompatActivity {
 
     }
 
-    @OnClick(R.id.onClickToCancel)
+    @OnClick(R.id.onClickToCancle)
     public void onOnClickToCancelClicked() {
         this.finish();
     }

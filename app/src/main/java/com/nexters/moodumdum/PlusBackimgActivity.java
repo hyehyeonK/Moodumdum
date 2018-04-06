@@ -9,8 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,7 +25,6 @@ import com.nexters.moodumdum.model.ServerResponse;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -44,7 +44,7 @@ public class PlusBackimgActivity extends AppCompatActivity {
     public static Context PlusBackimgActivity_context;
 
     @BindView(R.id.onClickToCancle)
-    Button onClickToCancle;
+    ImageButton onClickToCancle;
 
     @BindView(R.id.contentOfPlus)
     TextView contentOfPlus;
@@ -68,6 +68,8 @@ public class PlusBackimgActivity extends AppCompatActivity {
         initView ();
     }
     private void initView (){
+        //textView scroll 달기
+        contentOfPlus.setMovementMethod(new ScrollingMovementMethod());
         //데이터 가져와서 뿌려주기
         Intent intent = getIntent();
         contentsModel = (PostContentsModel) intent.getSerializableExtra("newContents");
@@ -75,12 +77,12 @@ public class PlusBackimgActivity extends AppCompatActivity {
 
         //서버에서 이미지 가져오기 (랜덤으로 가져오는 걸로 변경 요청하기)
         getBackgroundImag();
-        Collections.shuffle( images ); //호동오빠가 랜덤으로 불러오는거 만들어주면 없어도 되는 것
-
 
         //RecyclerView 연결
         gridLayoutManager = new GridLayoutManager(this,4);
+        gridLayoutManager.setOrientation(GridLayoutManager.VERTICAL);
         adapterBackImg = new SelectViewOfBackgroundAdapter(PlusBackimgActivity.this);
+        gridViewImagesRV.setHasFixedSize(true);
         gridViewImagesRV.setAdapter(adapterBackImg);
         gridViewImagesRV.setLayoutManager(gridLayoutManager);
         gridViewImagesRV.setItemAnimator(new DefaultItemAnimator());
@@ -163,6 +165,7 @@ public class PlusBackimgActivity extends AppCompatActivity {
         Glide.with(getApplicationContext()).load(image.getImage_url()).into(selectedBackImg);
         contentOfPlus.setTextColor(Color.parseColor(image.getFont_color()));
         onClickToFinish.setTextColor(Color.parseColor(image.getFont_color()));
+        onClickToCancle.setColorFilter(Color.parseColor(image.getFont_color()));
         contentsModel.setImage_url( image.getImage_url() );
         contentsModel.setFontColor( image.getFont_color());
     }

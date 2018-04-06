@@ -9,77 +9,72 @@
     tools:context="com.nexters.moodumdum.PlusBackimgActivity"
     tools:layout_editor_absoluteY="25dp">
 
-    <ImageView
-        android:id="@+id/selectedBackImg"
-        android:layout_width="match_parent"
-        android:layout_height="395dp"
-        android:scaleType="fitXY"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerBack"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/contentOfPlus"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="56dp"
-        android:background="@null"
-        android:gravity="center"
-        android:text="Text"
-        android:textColor="#747474"
-        android:textColorHint="#848484"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="@+id/selectedBackImg"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="3">
+            <ImageView
+                android:id="@+id/selectedBackImg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop" />
+            <TextView
+                android:id="@+id/contentOfPlus"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:paddingRight="20dp"
+                android:paddingLeft="20dp"
+                android:paddingTop="60dp"
+                android:paddingBottom="20dp"
+                android:textColor="#747474"
+                android:text="dasdasdsadasdsadasdasdas" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerBack"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="@id/guideline1">
+        </FrameLayout>
 
-    </android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerBack"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="7">
+
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/test"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="@null">
+        android:background="@null"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <Button
+        <ImageButton
             android:id="@+id/onClickToCancle"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/btn_cancle" />
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:padding="16dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/btn_cancle"
+            android:adjustViewBounds="true"
+            android:scaleType="fitStart"/>
 
         <TextView
             android:id="@+id/onClickToFinish"
-            android:layout_width="wrap_content"
-            android:layout_height="24dp"
+            android:layout_width="60dp"
+            android:layout_height="56dp"
             android:layout_gravity="right"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="20dp"
+            android:gravity="center"
             android:text="묻기"
+            android:textSize="20dp"
             android:textColor="#747474" />
 
     </FrameLayout>
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.65" />
-
-
 </android.support.constraint.ConstraintLayout>

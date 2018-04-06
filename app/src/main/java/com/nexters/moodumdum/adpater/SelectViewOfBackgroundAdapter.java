@@ -84,7 +84,6 @@ public class SelectViewOfBackgroundAdapter extends RecyclerView.Adapter<Recycler
                 public void onClick(View v) {
                     Log.d("Image : ", seletedImage.getImage_url() );
                     ((PlusBackimgActivity)PlusBackimgActivity.PlusBackimgActivity_context).setBackgroundImage(seletedImage);
-                    ((PlusBackimgActivity)PlusBackimgActivity.PlusBackimgActivity_context).setBackgroundImage(seletedImage);
                 }
             });
         }

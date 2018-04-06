@@ -92,14 +92,14 @@ public class MainCardStackFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        stackCardAdapter.notifyDataSetChanged();
-        getPost();
-        initView();
-        loadData( 0 );
-    }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+////        stackCardAdapter.notifyDataSetChanged();
+//        getPost();
+//        initView();
+//        loadData( 0 );
+//    }
 
     int curPage = 0;
 
