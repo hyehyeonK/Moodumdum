@@ -90,7 +90,6 @@ public interface MooDumDumAPI {
     Call<UserDataModel> getUserData (@Path( "user_id" ) String user);
 
     // User Data 수정하기
-
     @PUT("api/user/{user_id}")
     Call<ServerResponse> putUserData (@Path( "user_id" )String user,
                                      @Body String name);

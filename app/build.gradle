@@ -62,6 +62,8 @@ dependencies {
 
     //indicator
     compile 'me.relex:circleindicator:1.2.2@aar'
+    //SwipeDelMenuLayout
+    compile 'com.github.mcxtzhang:SwipeDelMenuLayout:V1.3.0'
 }
 
 

@@ -15,6 +15,7 @@
     sothree:umanoPanelHeight="300dp"
     sothree:umanoDragView="@+id/commenttest"
     sothree:umanoOverlay="true"
+    sothree:umanoShadowHeight="0dp"
     android:id="@+id/sliding">
 
     <LinearLayout
@@ -54,7 +55,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginStart="20dp"
                         android:gravity="center"
                         android:text="조문소"
                         android:textSize="15dp"
@@ -88,7 +89,7 @@
                             android:layout_height="match_parent"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/likeCount"
-                            app:srcCompat="@drawable/contents_like" />
+                            app:srcCompat="@drawable/btn_like" />
 
 
                         <TextView
@@ -107,7 +108,7 @@
                     android:id="@+id/view"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="#9f9f9f" />
+                    android:background="#bcbcbc" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/CommentListView"

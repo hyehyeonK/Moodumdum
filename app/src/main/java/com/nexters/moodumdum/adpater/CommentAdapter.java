@@ -5,10 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.nexters.moodumdum.R;
 import com.nexters.moodumdum.model.CommentModel;
 
@@ -49,7 +47,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         final ItemViewHolder viewHolder = (ItemViewHolder) holder;
         CommentModel.Result item = results.get( position );
         viewHolder.WriterOfComment.setText( item.getUser().getNickName() );
-        Glide.with( context ).load( item.getUser().getProfile_image() ).into( viewHolder.PicOfComment );
         viewHolder.contentOfComment.setText( item.getDescription() );
     }
 
@@ -70,8 +67,6 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         TextView WriterOfComment;
         @BindView(R.id.contentOfComment)
         TextView contentOfComment;
-        @BindView(R.id.PidOfComment)
-        ImageView PicOfComment;
 
         public ItemViewHolder(final View itemView) {
             super( itemView );
