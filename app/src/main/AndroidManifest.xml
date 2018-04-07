@@ -40,7 +40,9 @@
             android:theme="@style/AppThemeTransparent"/>
         <activity android:name=".CategorySelectedActivityRV"/>
         <activity android:name=".CommentActivity"
-            android:theme="@style/Theme.AppCompat.Translucent"></activity>
+            android:theme="@style/Theme.AppCompat.Translucent">
+
+        </activity>
     </application>
 
 </manifest>

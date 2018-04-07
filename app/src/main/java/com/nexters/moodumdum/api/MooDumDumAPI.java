@@ -10,10 +10,12 @@ import com.nexters.moodumdum.model.UserDataModel;
 import java.math.BigInteger;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -86,5 +88,11 @@ public interface MooDumDumAPI {
     // User Data 가져오기
     @GET("api/user/info/{user_id}")
     Call<UserDataModel> getUserData (@Path( "user_id" ) String user);
+
+    // User Data 수정하기
+
+    @PUT("api/user/{user_id}")
+    Call<ServerResponse> putUserData (@Path( "user_id" )String user,
+                                     @Body String name);
 
 }

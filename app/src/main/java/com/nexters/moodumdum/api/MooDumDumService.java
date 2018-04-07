@@ -70,4 +70,5 @@ public class MooDumDumService {
         return api.postComment( user, board_id, description );
     }
     public Call<UserDataModel> getUserData(String user_id) {return api.getUserData( user_id );}
+    public Call<ServerResponse> putUserData(String user_id, String name) {return api.putUserData( user_id,name);}
 }
