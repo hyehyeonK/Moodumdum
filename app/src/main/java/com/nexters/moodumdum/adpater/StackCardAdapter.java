@@ -3,11 +3,14 @@ package com.nexters.moodumdum.adpater;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.fashare.stack_layout.StackLayout;
@@ -82,13 +85,28 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
 
         viewHolder.commentModel.setBoard_id( BINT_board_id );
 
-        viewHolder.view.setOnClickListener( new View.OnClickListener() {
+        final GestureDetector gd = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             @Override
-            public void onClick(View view) {
+            public boolean onSingleTapConfirmed(MotionEvent e) {
                 Intent intent = new Intent( context, CommentActivity.class );
-//                viewHolder.commentModel.setBoard_id( BINT_board_id );
                 intent.putExtra( "newComment", viewHolder.commentModel);
                 context.startActivity(intent);
+                return super.onSingleTapConfirmed( e );
+            }
+
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
+                // 좋아요 눌렀을 때 할 Action
+                Toast.makeText( context, "좋아요", Toast.LENGTH_SHORT ).show();
+                return true;
+            }
+
+        });
+
+        viewHolder.view.setOnTouchListener( new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return gd.onTouchEvent( event );
             }
         } );
     }

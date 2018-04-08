@@ -106,7 +106,8 @@
 
                 <View
                     android:id="@+id/view"
-                    android:layout_width="match_parent"
+                    android:layout_width="320dp"
+                    android:layout_gravity="center"
                     android:layout_height="1dp"
                     android:background="#bcbcbc" />
 
