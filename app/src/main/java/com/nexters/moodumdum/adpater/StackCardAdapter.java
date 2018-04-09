@@ -10,9 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.fashare.stack_layout.StackLayout;
 import com.nexters.moodumdum.CommentActivity;
 import com.nexters.moodumdum.R;
@@ -97,7 +97,10 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
             @Override
             public boolean onDoubleTap(MotionEvent e) {
                 // 좋아요 눌렀을 때 할 Action
-                Toast.makeText( context, "좋아요", Toast.LENGTH_SHORT ).show();
+                viewHolder.motionView.setVisibility(View.VISIBLE);
+//                GlideDrawableImageViewTarget imageViewTarget = new GlideDrawableImageViewTarget(viewHolder.motionView);
+//                Glide.with(context).load(R.raw.motion_like).asGif().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(viewHolder.motionView);
+                Glide.with(context).load(R.raw.motion_like).into(new GlideDrawableImageViewTarget(viewHolder.motionView,1));
                 return true;
             }
 
@@ -142,6 +145,8 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
         ImageView contents_like;
         @BindView(R.id.contents_comment)
         ImageView contents_comment;
+        @BindView(R.id.motion)
+        ImageView motionView;
 
         PostCommentModel commentModel;
 //        @BindView(R.id.sliding_layout)

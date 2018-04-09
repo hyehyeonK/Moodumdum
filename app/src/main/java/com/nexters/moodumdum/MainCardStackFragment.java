@@ -125,6 +125,7 @@ public class MainCardStackFragment extends Fragment {
         }
         StatusBarHeight = statusHeight;
     }
+
     public void setActionbarMarginTop(final View view){
         FrameLayout.LayoutParams topLayoutParams = (FrameLayout.LayoutParams) view.getLayoutParams();
         topLayoutParams.topMargin = StatusBarHeight;
