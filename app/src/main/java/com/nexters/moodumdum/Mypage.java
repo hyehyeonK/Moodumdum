@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.nexters.moodumdum.adpater.MyPageTabAdapter;
 import com.nexters.moodumdum.api.MooDumDumService;
 import com.nexters.moodumdum.factory.DeviceUuidFactory;
@@ -30,14 +29,14 @@ public class Mypage extends AppCompatActivity implements FragmentMyJomun.OnFragm
 
     @BindView(R.id.btn_back)
     Button btnBack;
-    @BindView(R.id.profileImg)
-    ImageView profileImg;
     @BindView(R.id.myName)
     TextView myName;
     @BindView(R.id.mylikeCount)
     TextView mylikeCount;
     @BindView(R.id.myBoardCount)
     TextView myBoardCount;
+    @BindView(R.id.btn_editName)
+    ImageView btnEditName;
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
@@ -84,9 +83,8 @@ public class Mypage extends AppCompatActivity implements FragmentMyJomun.OnFragm
             public void onResponse(Call<UserDataModel> call, Response<UserDataModel> response) {
                 UserDataModel items = response.body();
                 myName.setText( items.getNickName() );
-                myBoardCount.setText( String.valueOf(items.getBoard_count()) );
-                mylikeCount.setText( String.valueOf(items.getLike_count()) );
-                Glide.with( getBaseContext() ).load( items.getProfile_image() ).into( profileImg );
+                myBoardCount.setText( String.valueOf( items.getBoard_count() ) );
+                mylikeCount.setText( String.valueOf( items.getLike_count() ) );
             }
 
             @Override
@@ -107,18 +105,12 @@ public class Mypage extends AppCompatActivity implements FragmentMyJomun.OnFragm
         overridePendingTransition( R.anim.not_move_activity, R.anim.leftout_activity );
     }
 
-    @OnClick(R.id.profileImg)
-    public void onProfileImgClicked() {
-        Intent intent = new Intent( this, ProfileImgSelectActivity.class );
-        startActivity( intent );
-    }
-
-    @OnClick(R.id.myName)
-    public void onMyNameClicked() {
-        Intent intent = new Intent( this, NameEditActivity.class );
-        intent.putExtra( "myName", myName.getText() );
-        startActivity( intent );
-    }
+//    @OnClick(R.id.myName)
+//    public void onMyNameClicked() {
+//        Intent intent = new Intent( this, NameEditActivity.class );
+//        intent.putExtra( "myName", myName.getText() );
+//        startActivity( intent );
+//    }
 
     @OnClick(R.id.onClickToPlus)
     public void onViewClicked() {
@@ -126,4 +118,13 @@ public class Mypage extends AppCompatActivity implements FragmentMyJomun.OnFragm
         startActivity( intent );
         finish();
     }
+
+
+    @OnClick(R.id.btn_editName)
+    public void onBtnEditNameClicked() {
+        Intent intent = new Intent( this, NameEditActivity.class );
+        intent.putExtra( "myName", myName.getText() );
+        startActivity( intent );
+    }
+
 }

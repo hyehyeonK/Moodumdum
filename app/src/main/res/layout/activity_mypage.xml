@@ -9,144 +9,109 @@
     android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
 
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         android:id="@+id/layout_con"
         android:layout_width="match_parent"
         android:layout_height="140dp"
         android:layout_marginTop="56dp"
-        android:background="@drawable/mypageback"
         android:orientation="vertical">
 
-
-        <ImageView
-            android:id="@+id/profileImg"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="20dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="0dp"
-            android:src="@drawable/icon_ghost1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="164dp"
-            android:src="@drawable/btn_camera"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:layout_editor_absoluteY="78dp" />
-
-
         <LinearLayout
-            android:id="@+id/myPost"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="250dp"
-            android:layout_marginTop="30dp"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintRight_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/myPostTitle"
-                android:layout_width="80dp"
-                android:layout_height="25dp"
-                android:src="@drawable/mypost"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.15" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp">
 
             <TextView
-                android:id="@+id/myBoardCount"
-                android:layout_width="match_parent"
+                android:id="@+id/myName"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="3"
-                android:textSize="30dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.15" />
-        </LinearLayout>
-
-
-        <TextView
-            android:id="@+id/myName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:gravity="center_horizontal"
-            android:text="지나가던 영혼"
-            android:textColor="#ffffffff"
-            android:background="@drawable/roundtextbox"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"
-            android:paddingRight="20dp"
-            android:paddingLeft="20dp"
-            app:layout_constraintHorizontal_bias="0.475"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profileImg" />
-
-        <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/layout_con"
-            android:layout_marginBottom="18dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:src="@drawable/btn_edit"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.63"
-            app:layout_constraintStart_toStartOf="parent" />
-
-
-        <LinearLayout
-            android:id="@+id/myLike"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="250dp"
-            android:layout_marginTop="30dp"
-            android:orientation="vertical"
-            app:layout_constraintLeft_toRightOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+                android:background="@drawable/roundtextbox"
+                android:layout_centerHorizontal="true"
+                android:text="지나가던 영혼"
+                android:textSize="15dp"
+                android:textColor="#ffffffff"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:paddingRight="20dp"
+                android:paddingLeft="20dp"/>
 
             <ImageView
-                android:id="@+id/myLikeTitle"
-                android:layout_width="80dp"
-                android:layout_height="25dp"
-                android:src="@drawable/received"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.15" />
+                android:id="@+id/btn_editName"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_marginStart="5dp"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/myName"
+                android:src="@drawable/btn_edit" />
 
-            <TextView
-                android:id="@+id/mylikeCount"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="11"
-                android:textSize="30dp"
-                app:layout_constraintLeft_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.15" />
+        </RelativeLayout>
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-    </android.support.constraint.ConstraintLayout>
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textColor="#000000"
+                    android:text="작성한 글"/>
+
+                <TextView
+                    android:id="@+id/myBoardCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textColor="#000000"
+                    android:textSize="20dp"
+                    android:text="0"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textColor="#000000"
+                    android:text="받은 국화"/>
+
+                <TextView
+                    android:id="@+id/mylikeCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:textColor="#000000"
+                    android:textSize="20dp"
+                    android:text="0"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/relativeLayout"
@@ -198,8 +163,8 @@
 
     <include
         android:id="@+id/include3"
-        layout="@layout/fragment_bottom"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        layout="@layout/fragment_bottom">
 
+    </include>
 
 </RelativeLayout>
