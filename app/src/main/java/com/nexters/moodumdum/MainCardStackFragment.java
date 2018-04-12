@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.fashare.stack_layout.StackLayout;
 import com.fashare.stack_layout.transformer.AngleTransformer;
 import com.nexters.moodumdum.adpater.StackCardAdapter;
@@ -45,7 +47,7 @@ import retrofit2.Response;
  */
 
 public class MainCardStackFragment extends Fragment {
-
+    public RequestManager mGlideRequestManager;
     public static Fragment MainCardFragment ;
     public static Context MainCardFragment_context;
     public int StatusBarHeight;
@@ -71,6 +73,8 @@ public class MainCardStackFragment extends Fragment {
     ImageView nodataImg;
     @BindView(R.id.noDataText)
     TextView nodataText;
+    @BindView(R.id.srl_refresh)
+    SwipeRefreshLayout mRefreshLayout;
 
     private StackCardAdapter stackCardAdapter;
     List<ContentsModel.Result> results = new ArrayList<>();
@@ -93,10 +97,10 @@ public class MainCardStackFragment extends Fragment {
         //Menu top margin 주기
         getStatusBarHeight();
         setActionbarMarginTop(topFrame);
-        //
+        mGlideRequestManager = Glide.with(this);
         getPost();
         initView();
-        loadData( 0 );
+//        loadData();
         return view;
     }
 
@@ -133,8 +137,25 @@ public class MainCardStackFragment extends Fragment {
     }
 
     public void initView() {
-        stackCardAdapter = new StackCardAdapter(getContext());
+
+        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadData();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        StackCardAdapter reStartAdapter = new StackCardAdapter(getContext(), mGlideRequestManager);
+                        mainStackLayout.setAdapter(reStartAdapter);
+                        reStartAdapter.setPostList(results);
+                        mRefreshLayout.setRefreshing(false);
+                    }
+                }, 1000);
+            }
+        });
+        stackCardAdapter = new StackCardAdapter(getContext(), mGlideRequestManager);
         mainStackLayout.setAdapter( stackCardAdapter );
+        mainStackLayout.invalidate();
         mainStackLayout.addPageTransformer(
                 new MyStackPageTransformer(),
                 new MyAlphaTransformer(),
@@ -144,21 +165,44 @@ public class MainCardStackFragment extends Fragment {
         mainStackLayout.setOnSwipeListener( new StackLayout.OnSwipeListener() {
             @Override
             public void onSwiped(View swipedView, int swipedItemPos, boolean isSwipeLeft, int itemLeft) {
-                if (itemLeft < results.size()) {
+                Log.d("itemLeft@@@@@",itemLeft+" , " + results.size());
+                if (itemLeft == 3) {
+                    Log.d("재로드!!!!!!@@@@",itemLeft+" , " + results.size());
 //                    getPost();
-                    loadData( ++curPage );
+                    loadData();
                 }
             }
         } );
 
     }
 
-    public void loadData(final int page) {
+    public void loadData() {
+        String uuid = ((MainActivity)getActivity()).getUUID();
+        MooDumDumService.of().getContents(uuid).enqueue( new Callback<ContentsModel>() {
+            @Override
+            public void onResponse(Call<ContentsModel> call, Response<ContentsModel> response) {
+                if (response.isSuccessful()) {
+                    final ContentsModel items = response.body();
+                    results = items.getResult();
+//                    stackCardAdapter.setPostList(results);
+//                    stackCardAdapter.notifyDataSetChanged();
+                }
+                Log.d( "RESULT@@@@@", response.message() );
+            }
+
+            @Override
+            public void onFailure(Call<ContentsModel> call, Throwable t) {
+                Log.e( "RESULT@@@@@", "ERRR####" + t );
+            }
+        } );
+
         new Handler().postDelayed( new Runnable() {
+
             @Override
             public void run() {
 //                stackCardAdapter.getData().addAll( Arrays.asList( String.valueOf( page * 3 ), String.valueOf( page * 3 + 1 ), String.valueOf( page * 3 + 2 ) ) );
-                stackCardAdapter.notifyDataSetChanged();
+//                stackCardAdapter.notifyDataSetChanged();
+
             }
         }, 1000 );
     }
@@ -213,7 +257,7 @@ public class MainCardStackFragment extends Fragment {
                         nodataText.setVisibility(View.GONE);
                         ContentsModel.Result firstItem = results.get(0);
                         ContentsModel.Result.UserDataModel user = firstItem.getUser();
-                        Glide.with(getActivity()).load(firstItem.getImage_url()).into(firstbackImage);
+                        mGlideRequestManager.load(firstItem.getImage_url()).into(firstbackImage);
                         firstContents.setText(firstItem.getDescription());
                         firstContents.setTextColor(Color.parseColor(firstItem.getColor()));
                         firstWriter.setText(user.getNickName());

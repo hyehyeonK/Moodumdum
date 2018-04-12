@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="com.github.fashare2015:StackLayout-1.0.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/StackLayout-1.0.0.aar/6d1d627d93409d46542e9ff7d4864565/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/StackLayout-1.0.0.aar/6d1d627d93409d46542e9ff7d4864565/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.fashare2015/StackLayout/1.0.0/82ef0174c939b95497d668b78408b60948eb3848/StackLayout-1.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

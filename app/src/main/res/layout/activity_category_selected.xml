@@ -7,7 +7,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/srl_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false">
     <com.amar.library.ui.StickyScrollView
         android:id="@+id/scrollView"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -67,6 +72,7 @@
         </LinearLayout>
 
     </com.amar.library.ui.StickyScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
     <include
         layout="@layout/fragment_top2"/>
 

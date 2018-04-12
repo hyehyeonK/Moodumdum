@@ -32,12 +32,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/noDataImg" />
-    <com.fashare.stack_layout.StackLayout
-        android:id="@+id/stack_layout"
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/srl_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="0dp"
-        android:transitionName="cardStack" />
+        android:clipChildren="false">
+        <com.fashare.stack_layout.StackLayout
+            android:id="@+id/stack_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="0dp"
+            android:transitionName="cardStack" />
+    </android.support.v4.widget.SwipeRefreshLayout>
     <include
         android:id="@+id/firstView"
         layout="@layout/activity_main_start"/>

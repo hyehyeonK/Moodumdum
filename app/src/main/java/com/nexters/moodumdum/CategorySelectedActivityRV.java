@@ -3,6 +3,8 @@ package com.nexters.moodumdum;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -33,7 +35,9 @@ import retrofit2.Response;
 
 public class CategorySelectedActivityRV extends AppCompatActivity {
     private SelectedCategoryAdapter selectedCategoryAdapter;
-    LinearLayoutManager linearLayoutManager;
+    private SelectedCategoryAdapter reStartAdapter;
+    private LinearLayoutManager linearLayoutManager;
+    private SelectedCategoryAdapter currentAdapter;
     String categoryID ="";
     @BindView(R.id.scrollView)
     StickyScrollView scrollView;
@@ -50,7 +54,8 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
     Button favoritBtn;
     @BindView(R.id.latestBtn)
     Button latestBtn;
-
+    @BindView(R.id.srl_refresh)
+    SwipeRefreshLayout mRefreshLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,13 +64,28 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
 
         Intent intent = getIntent();
         categoryID = intent.getStringExtra("categoryID");
-
         initView();
         getCategoryInfo();
-        getLatestPost();
+        getLatestPost(selectedCategoryAdapter);
     }
 
     private void initView() {
+        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        latestBtn.setTextColor(Color.BLACK);
+                        favoritBtn.setTextColor(Color.GRAY);
+                        reStartAdapter = new SelectedCategoryAdapter(CategorySelectedActivityRV.this);
+                        recyclerView.setAdapter(reStartAdapter);
+                        getLatestPost(reStartAdapter);
+                        mRefreshLayout.setRefreshing(false);
+                    }
+                }, 1000);
+            }
+        });
         linearLayoutManager = new LinearLayoutManager(this);
         selectedCategoryAdapter = new SelectedCategoryAdapter(CategorySelectedActivityRV.this);
         recyclerView.setAdapter(selectedCategoryAdapter);
@@ -94,13 +114,14 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
             }
         });
     }
-    private void getLatestPost() {
+    private void getLatestPost(SelectedCategoryAdapter adapter) {
+        currentAdapter = adapter;
         MooDumDumService.of().getCategoryContentsInOrderOfPriority(categoryID).enqueue(new Callback<ContentsModel>() {
             @Override
             public void onResponse(Call<ContentsModel> call, Response<ContentsModel> response) {
                 if (response.isSuccessful()) {
                     final ContentsModel items = response.body();
-                    selectedCategoryAdapter.setPostList(items.getResult());
+                    currentAdapter.setPostList(items.getResult());
                 }
             }
 
@@ -115,7 +136,7 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
             public void onResponse(Call<ContentsModel> call, Response<ContentsModel> response) {
                 if (response.isSuccessful()) {
                     final ContentsModel items = response.body();
-                    selectedCategoryAdapter.setPostList(items.getResult());
+                    currentAdapter.setPostList(items.getResult());
                 }
             }
 
@@ -129,7 +150,7 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
         public void latestList(){
         latestBtn.setTextColor(Color.BLACK);
         favoritBtn.setTextColor(Color.GRAY);
-        getLatestPost();
+        getLatestPost(currentAdapter);
     }
     @OnClick(R.id.favoriteBtn)
         public void favoritList(){

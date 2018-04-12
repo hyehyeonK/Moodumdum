@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.nexters.moodumdum.adpater.CommentAdapter;
 import com.nexters.moodumdum.adpater.StackCardAdapter;
 import com.nexters.moodumdum.anim.RecyclerViewDecoration;
@@ -39,6 +41,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CommentActivity extends AppCompatActivity {
+    public RequestManager mGlideRequestManager;
+
     @BindView(R.id.imageView1)
     ImageView imageView1;
     @BindView(R.id.commentsCount)
@@ -87,8 +91,8 @@ public class CommentActivity extends AppCompatActivity {
         Intent intent = getIntent();
         commentModel = (PostCommentModel) intent.getSerializableExtra( "newComment" );
 
-        stackCardAdapter = new StackCardAdapter( CommentActivity.this );
-
+        stackCardAdapter = new StackCardAdapter( CommentActivity.this,  mGlideRequestManager);
+        mGlideRequestManager = Glide.with(this);
         initView();
 
         backlayout.setOnClickListener( new View.OnClickListener() {

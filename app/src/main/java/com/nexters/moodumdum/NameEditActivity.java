@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.nexters.moodumdum.api.MooDumDumService;
 import com.nexters.moodumdum.factory.DeviceUuidFactory;
-import com.nexters.moodumdum.model.PutUserDataModel;
 import com.nexters.moodumdum.model.UserDataModel;
 
 import java.util.UUID;
@@ -41,7 +40,7 @@ public class NameEditActivity extends AppCompatActivity {
     TextView btnOk;
 
     UserDataModel userDataModel = new UserDataModel();
-    PutUserDataModel putUserDataModel = new PutUserDataModel( "",null );
+//    PutUserDataModel putUserDataModel = new PutUserDataModel( "",null );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -3,6 +3,7 @@ package com.nexters.moodumdum.adpater;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Handler;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -11,7 +12,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.fashare.stack_layout.StackLayout;
 import com.nexters.moodumdum.CommentActivity;
@@ -31,15 +33,17 @@ import butterknife.ButterKnife;
  */
 
 public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder> {
+    public static RequestManager glideRequestManager;
 
     private  boolean isFirst = true;
 
 
-    private Context context;
+    private static Context context;
     private List<ContentsModel.Result> results = new ArrayList<>();
 
-    public StackCardAdapter(Context context) {
+    public StackCardAdapter(Context context, RequestManager glideRequestManager) {
         this.context = context;
+        this.glideRequestManager = glideRequestManager;
     }
 
     public List<ContentsModel.Result> getData() {
@@ -51,6 +55,8 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
         return new ItemViewHolder( LayoutInflater.from( parent.getContext() ).inflate( R.layout.item_card, parent, false ) );
     }
 
+
+    // onBindViewHolder 내부에서 View.OnClickListener를 셋하지 않는게 좋음. onBindViewHolder는 데이터를 View에 바인딩하기 위해서만 사용
     @Override
     public void onBindViewHolder(StackLayout.ViewHolder holder, int position) {
         final ItemViewHolder viewHolder = (ItemViewHolder) holder;
@@ -59,7 +65,10 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
         String commentCount = String.valueOf( item.getComment_count() );
         String likeCount = String.valueOf( item.getLike_count() );
 
-        Glide.with(context).load(item.getImage_url()).into(viewHolder.backImage);
+        glideRequestManager.load(item.getImage_url())
+                .diskCacheStrategy(DiskCacheStrategy.NONE)// 디스크 캐시 저장 off
+                .skipMemoryCache(true)// 메모리 캐시 저장 off
+                .into(viewHolder.backImage);
         viewHolder.boardId.setText( item.getId().toString() );
         viewHolder.contents.setText( item.getDescription() );
 
@@ -79,39 +88,11 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
         viewHolder.contents_comment.setColorFilter(Color.parseColor(fontColor));
         viewHolder.commentModel = new PostCommentModel();
         viewHolder.line.setBackgroundColor(Color.parseColor(fontColor));
+        
         String board_id = String.valueOf( viewHolder.boardId.getText() );
-
         final BigInteger BINT_board_id = new BigInteger(board_id);
-
         viewHolder.commentModel.setBoard_id( BINT_board_id );
 
-        final GestureDetector gd = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
-            @Override
-            public boolean onSingleTapConfirmed(MotionEvent e) {
-                Intent intent = new Intent( context, CommentActivity.class );
-                intent.putExtra( "newComment", viewHolder.commentModel);
-                context.startActivity(intent);
-                return super.onSingleTapConfirmed( e );
-            }
-
-            @Override
-            public boolean onDoubleTap(MotionEvent e) {
-                // 좋아요 눌렀을 때 할 Action
-                viewHolder.motionView.setVisibility(View.VISIBLE);
-//                GlideDrawableImageViewTarget imageViewTarget = new GlideDrawableImageViewTarget(viewHolder.motionView);
-//                Glide.with(context).load(R.raw.motion_like).asGif().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(viewHolder.motionView);
-                Glide.with(context).load(R.raw.motion_like).into(new GlideDrawableImageViewTarget(viewHolder.motionView,1));
-                return true;
-            }
-
-        });
-
-        viewHolder.view.setOnTouchListener( new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return gd.onTouchEvent( event );
-            }
-        } );
     }
 
 
@@ -121,10 +102,11 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
     }
 
     public void setPostList(List<ContentsModel.Result> results) {
-        this.results = results;
+        this.results.clear();
+        this.results.addAll(results);
         notifyDataSetChanged();
     }
-    public static class ItemViewHolder extends StackLayout.ViewHolder {
+    public static class ItemViewHolder extends StackLayout.ViewHolder implements View.OnTouchListener {
         View view;
 
         @BindView(R.id.contents)
@@ -149,16 +131,47 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
         ImageView motionView;
 
         PostCommentModel commentModel;
-//        @BindView(R.id.sliding_layout)
-//        SlidingUpPanelLayout mSlidingPanelLayout;
-//        private PanelSlideListener panelSlideListener;
-//        @BindView(R.id.DrawerLayout)
-//        android.support.v4.widget.DrawerLayout DrawerLayout;
 
         public ItemViewHolder(View itemView) {
             super( itemView );
             this.view = itemView;
             ButterKnife.bind( this, view );
+            itemView.setOnTouchListener(this);
+        }
+        final GestureDetector gd = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onSingleTapConfirmed(MotionEvent e) {
+                Intent intent = new Intent( context, CommentActivity.class );
+                intent.putExtra( "newComment", commentModel);
+                context.startActivity(intent);
+                return super.onSingleTapConfirmed( e );
+            }
+
+            @Override
+            public boolean onDoubleTap(MotionEvent e) {
+                // 좋아요 눌렀을 때 할 Action
+                motionView.setVisibility(View.VISIBLE);
+                GlideDrawableImageViewTarget imageViewTarget = new GlideDrawableImageViewTarget(motionView,1);
+
+                glideRequestManager.load(R.raw.motion_like)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)// 디스크 캐시 저장 off
+                        .skipMemoryCache(true)// 메모리 캐시 저장 off
+                        .into(imageViewTarget);
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        motionView.setVisibility(View.GONE);
+                    }
+                },2800);
+                return true;
+            }
+
+        });
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            return gd.onTouchEvent( event );
         }
     }
 
