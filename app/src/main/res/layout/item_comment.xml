@@ -79,7 +79,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/btnTop"
+            android:id="@+id/btnDel"
             android:layout_width="60dp"
             android:layout_height="match_parent"
             android:background="#f5ff5b66"

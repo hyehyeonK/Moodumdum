@@ -7,25 +7,24 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class PutUserDataModel {
-    @SerializedName( "user" ) public String uuid;
-    @SerializedName( "name" ) public String nickName;
+    @SerializedName( "user" ) public String user;
+    @SerializedName( "name" ) public String name;
     @SerializedName( "profile_image" ) public String profile_image;
 
-
-    public String getUuid() {
-        return uuid;
+    public String getUser() {
+        return user;
     }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
+    public void setUser(String user) {
+        this.user = user;
     }
 
-    public String getNickName() {
-        return nickName;
+    public String getName() {
+        return name;
     }
 
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getProfile_image() {
@@ -37,8 +36,8 @@ public class PutUserDataModel {
     }
 
     public PutUserDataModel(String uuid, String nickName) {
-        this.uuid = uuid;
-        this.nickName = nickName;
+        this.user = user;
+        this.name = name;
         this.profile_image = profile_image;
     }
 

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.nexters.moodumdum.api.MooDumDumService;
 import com.nexters.moodumdum.factory.DeviceUuidFactory;
+import com.nexters.moodumdum.model.PutUserDataModel;
 import com.nexters.moodumdum.model.UserDataModel;
 
 import java.util.UUID;
@@ -40,7 +42,7 @@ public class NameEditActivity extends AppCompatActivity {
     TextView btnOk;
 
     UserDataModel userDataModel = new UserDataModel();
-//    PutUserDataModel putUserDataModel = new PutUserDataModel( "",null );
+    PutUserDataModel putUserDataModel = new PutUserDataModel( "",null );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,33 +102,39 @@ public class NameEditActivity extends AppCompatActivity {
         editName.setText( null );
     }
 
-//    @OnClick(R.id.btn_ok)
-//    public void onBtnOkClicked() {
-//        putUserData();
-//    }
+    @OnClick(R.id.btn_ok)
+    public void onBtnOkClicked() {
+        putUserData();
+    }
 
-//    public void putUserData() {
-//        DeviceUuidFactory uuidFactory = new DeviceUuidFactory( this );
-//        final UUID uid = uuidFactory.getDeviceUuid();
-//        String uuid = uid.toString();
-//        final String nickName = editName.getText().toString();
-//
-//        putUserDataModel.uuid = uuid;
-//        putUserDataModel.nickName = editName.getText().toString();
-//
-//        MooDumDumService.of().putUserData( uuid, nickName).enqueue( new Callback<ServerResponse>() {
-//            @Override
-//            public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
-//                Toast.makeText( getBaseContext(), "변경", Toast.LENGTH_SHORT ).show();
-//                Log.d("comment", call.toString());
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ServerResponse> call, Throwable t) {
-//                Log.d("comment", t.getMessage());
-//
-//            }
-//        });
-//    }
+    public void putUserData() {
+        DeviceUuidFactory uuidFactory = new DeviceUuidFactory( this );
+        final UUID uid = uuidFactory.getDeviceUuid();
+
+        String user_id = uid.toString();
+        final String name = editName.getText().toString();
+        String user = user_id;
+        String profile_image = "";  // 프로필 이미지는 필요없음
+
+        MooDumDumService.of().putUserData( user_id, user, name, profile_image).enqueue( new Callback<PutUserDataModel>() {
+            @Override
+            public void onResponse(Call<PutUserDataModel> call, Response<PutUserDataModel> response) {
+                Intent intent = new Intent();
+                intent.putExtra( "name", editName.getText() );
+                setResult( RESULT_OK, intent );
+                finish();
+                Log.d("nicknameChange", call.toString());
+            }
+
+            @Override
+            public void onFailure(Call<PutUserDataModel> call, Throwable t) {
+                Log.d("nicknameChangErr", t.getMessage());
+
+            }
+        });
+    }
+
+
+
 }
 

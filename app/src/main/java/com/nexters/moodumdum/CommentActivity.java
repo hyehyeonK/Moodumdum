@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -73,7 +74,7 @@ public class CommentActivity extends AppCompatActivity {
     LinearLayout backlayout;
 
     private StackCardAdapter stackCardAdapter;
-    List<ContentsModel.Result> results = new ArrayList<>(  );
+    List<ContentsModel.Result> results = new ArrayList<>();
 
     private CommentAdapter mCommentAdapter;
     private LinearLayoutManager mLinearLayoutManager;
@@ -91,8 +92,8 @@ public class CommentActivity extends AppCompatActivity {
         Intent intent = getIntent();
         commentModel = (PostCommentModel) intent.getSerializableExtra( "newComment" );
 
-        stackCardAdapter = new StackCardAdapter( CommentActivity.this,  mGlideRequestManager);
-        mGlideRequestManager = Glide.with(this);
+        stackCardAdapter = new StackCardAdapter( CommentActivity.this, mGlideRequestManager );
+        mGlideRequestManager = Glide.with( this );
         initView();
 
         backlayout.setOnClickListener( new View.OnClickListener() {
@@ -155,17 +156,14 @@ public class CommentActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<CommentModel> call, Response<CommentModel> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText( getBaseContext(), commentModel.getBoard_id().toString(), Toast.LENGTH_SHORT ).show();
                     final CommentModel items = response.body();
                     mCommentAdapter.setPostList( items.getResult() );
-                    Toast.makeText( getBaseContext(), "댓글 불러오기 실패!", Toast.LENGTH_SHORT ).show();
 
                 }
             }
 
             @Override
             public void onFailure(Call<CommentModel> call, Throwable t) {
-                Toast.makeText( getBaseContext(), "댓글 불러오기 실패!", Toast.LENGTH_SHORT ).show();
             }
         } );
     }
@@ -180,13 +178,13 @@ public class CommentActivity extends AppCompatActivity {
         DeviceUuidFactory uuidFactory = new DeviceUuidFactory( this );
         UUID uuid = uuidFactory.getDeviceUuid();
 
-        String user = uuid+"";
+        String user = uuid + "";
         String description = contentsTest.getText().toString();
 
         MooDumDumService.of().postComment( user, board_id, description ).enqueue( new Callback<ServerResponse>() {
             @Override
             public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
-                Toast.makeText( getBaseContext(), "댓글을 등록했습니다.", Toast.LENGTH_SHORT ).show();
+                Toast.makeText( getBaseContext(), "조문글을 남겼어요.", Toast.LENGTH_SHORT ).show();
                 getCommentContent();
                 getCommentHeader();
 
@@ -195,10 +193,10 @@ public class CommentActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ServerResponse> call, Throwable t) {
-                Toast.makeText( getBaseContext(), "댓글 등록 실패.", Toast.LENGTH_SHORT ).show();
-
+                Log.d( "@CommentSaveError", "댓글 등록 실패" );
             }
         } );
     }
-
 }
+
+

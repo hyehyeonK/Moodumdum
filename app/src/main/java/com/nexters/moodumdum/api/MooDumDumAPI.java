@@ -4,13 +4,14 @@ import com.nexters.moodumdum.model.CategoryInfoModel;
 import com.nexters.moodumdum.model.CommentModel;
 import com.nexters.moodumdum.model.ContentsModel;
 import com.nexters.moodumdum.model.ImageModel;
+import com.nexters.moodumdum.model.PutUserDataModel;
 import com.nexters.moodumdum.model.ServerResponse;
 import com.nexters.moodumdum.model.UserDataModel;
 
 import java.math.BigInteger;
 
 import retrofit2.Call;
-import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -85,13 +86,19 @@ public interface MooDumDumAPI {
                                       @Field( "board_id" ) BigInteger board_id,
                                       @Field( "description") String description);
 
+    // 댓글 삭제
+    @DELETE("api/board/comment/{id}")
+    Call<ServerResponse> delComment (@Path( "id") BigInteger id);
+
     // User Data 가져오기
     @GET("api/user/info/{user_id}")
     Call<UserDataModel> getUserData (@Path( "user_id" ) String user);
 
     // User Data 수정하기
-    @PUT("api/user/{user_id}")
-    Call<ServerResponse> putUserData (@Path( "user_id" )String user,
-                                     @Body String name);
-
+    @FormUrlEncoded
+    @PUT("api/user/{user_id}/")
+    Call<PutUserDataModel> putUserData (@Path( "user_id" )String user_id,
+                                        @Field( "user" ) String user,
+                                        @Field ("name") String name,
+                                        @Field( "proflie_image" ) String profile_image);
 }

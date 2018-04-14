@@ -5,6 +5,7 @@ import com.nexters.moodumdum.model.CategoryInfoModel;
 import com.nexters.moodumdum.model.CommentModel;
 import com.nexters.moodumdum.model.ContentsModel;
 import com.nexters.moodumdum.model.ImageModel;
+import com.nexters.moodumdum.model.PutUserDataModel;
 import com.nexters.moodumdum.model.ServerResponse;
 import com.nexters.moodumdum.model.UserDataModel;
 
@@ -69,6 +70,8 @@ public class MooDumDumService {
     public Call<ServerResponse> postComment(String user, BigInteger board_id , String description) {
         return api.postComment( user, board_id, description );
     }
+    public Call<ServerResponse> delComment(BigInteger id) {return api.delComment(id); }
+
     public Call<UserDataModel> getUserData(String user_id) {return api.getUserData( user_id );}
-    public Call<ServerResponse> putUserData(String user_id, String name) {return api.putUserData( user_id,name);}
+    public Call<PutUserDataModel> putUserData(String user_id, String user, String name, String profile_image) {return api.putUserData( user_id, user,name , profile_image);}
 }

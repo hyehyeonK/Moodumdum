@@ -124,7 +124,7 @@ public class Mypage extends AppCompatActivity implements FragmentMyJomun.OnFragm
     public void onBtnEditNameClicked() {
         Intent intent = new Intent( this, NameEditActivity.class );
         intent.putExtra( "myName", myName.getText() );
-        startActivity( intent );
+        startActivityForResult( intent, RESULT_OK  );
     }
 
 }

@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.nexters.moodumdum.R;
@@ -15,12 +16,14 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by User on 2018-02-22.
  */
 
 public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
 
 
     private Context context;
@@ -60,6 +63,11 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         notifyDataSetChanged();
     }
 
+    @OnClick(R.id.btnDel)
+    public void onBtnDelClicked() {
+
+    }
+
     public class ItemViewHolder extends RecyclerView.ViewHolder {
         View view;
 
@@ -67,6 +75,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         TextView WriterOfComment;
         @BindView(R.id.contentOfComment)
         TextView contentOfComment;
+        @BindView(R.id.btnDel)
+        Button btnDel;
 
         public ItemViewHolder(final View itemView) {
             super( itemView );
