@@ -1,5 +1,6 @@
 package com.nexters.moodumdum;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -52,6 +53,7 @@ public class Mypage extends AppCompatActivity implements FragmentMyJomun.OnFragm
     }
 
     public void initView() {
+
         tabLayout = (TabLayout) findViewById( R.id.tablayout );
         viewPager = (ViewPager) findViewById( R.id.viewPager );
 
@@ -71,6 +73,18 @@ public class Mypage extends AppCompatActivity implements FragmentMyJomun.OnFragm
         }
 
         getMyData();
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult( requestCode, resultCode, data );
+        if (requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK){
+                String nameEditResult = data.getStringExtra("name");
+                myName.setText( nameEditResult );
+            }
+        }
     }
 
     public void getMyData() {
@@ -105,13 +119,6 @@ public class Mypage extends AppCompatActivity implements FragmentMyJomun.OnFragm
         overridePendingTransition( R.anim.not_move_activity, R.anim.leftout_activity );
     }
 
-//    @OnClick(R.id.myName)
-//    public void onMyNameClicked() {
-//        Intent intent = new Intent( this, NameEditActivity.class );
-//        intent.putExtra( "myName", myName.getText() );
-//        startActivity( intent );
-//    }
-
     @OnClick(R.id.onClickToPlus)
     public void onViewClicked() {
         Intent intent = new Intent( getApplicationContext(), PlusActivity.class );
@@ -124,7 +131,7 @@ public class Mypage extends AppCompatActivity implements FragmentMyJomun.OnFragm
     public void onBtnEditNameClicked() {
         Intent intent = new Intent( this, NameEditActivity.class );
         intent.putExtra( "myName", myName.getText() );
-        startActivityForResult( intent, RESULT_OK  );
+        startActivityForResult( intent, 1  );
     }
 
 }

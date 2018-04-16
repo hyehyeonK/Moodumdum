@@ -120,7 +120,7 @@ public class NameEditActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<PutUserDataModel> call, Response<PutUserDataModel> response) {
                 Intent intent = new Intent();
-                intent.putExtra( "name", editName.getText() );
+                intent.putExtra( "name", editName.getText().toString() );
                 setResult( RESULT_OK, intent );
                 finish();
                 Log.d("nicknameChange", call.toString());
