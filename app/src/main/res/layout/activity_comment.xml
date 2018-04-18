@@ -13,8 +13,9 @@
     android:layout_height="match_parent"
     android:gravity="bottom"
     sothree:umanoPanelHeight="300dp"
-    sothree:umanoDragView="@+id/commenttest"
     sothree:umanoOverlay="true"
+    sothree:umanoDragView="@id/CommentListView"
+    sothree:umanoScrollableView="@id/CommentListView"
     sothree:umanoShadowHeight="0dp"
     android:id="@+id/sliding">
 
@@ -28,6 +29,7 @@
 
 
     <FrameLayout
+        android:id="@+id/comment"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -37,6 +39,7 @@
             android:id="@+id/commenttest"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingBottom="50dp"
             android:background="#b0ffffff">
 
             <LinearLayout
