@@ -9,13 +9,15 @@ import java.math.BigInteger;
  * Created by User on 2018-02-22.
  */
 
-public class PostCommentModel implements Serializable {
-    @SerializedName( "user" ) private String user;
+public class DetailCardInfoDAO implements Serializable {
     @SerializedName( "board_id" ) private BigInteger board_id;
     @SerializedName( "description" ) private String description;
     @SerializedName( "color") private String color;
     @SerializedName( "backImagUrl") private String backImagUrl;
     @SerializedName( "likeCount") private int likeCount;
+    @SerializedName( "isLike") private boolean isLike;
+    @SerializedName( "commentCount") private int commentCount;
+//    @SerializedName( "currnetView") private View currnetView;
 
 
     public BigInteger getBoard_id() {
@@ -24,14 +26,6 @@ public class PostCommentModel implements Serializable {
 
     public void setBoard_id(BigInteger board_id) {
         this.board_id = board_id;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
     }
 
     public String getDescription() {
@@ -65,4 +59,28 @@ public class PostCommentModel implements Serializable {
     public void setLikeCount(int likeCount) {
         this.likeCount = likeCount;
     }
+
+    public boolean getIsLike() {
+        return isLike;
+    }
+
+    public void setIsLike(boolean isLike) {
+        this.isLike = isLike;
+    }
+
+    public int getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(int commentCount) {
+        this.commentCount = commentCount;
+    }
+
+//    public View getCurrnetView() {
+//        return currnetView;
+//    }
+//
+//    public void setCurrnetView(View currnetView) {
+//        this.currnetView = currnetView;
+//    }
 }

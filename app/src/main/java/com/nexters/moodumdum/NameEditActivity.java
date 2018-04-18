@@ -7,7 +7,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,8 +33,6 @@ public class NameEditActivity extends AppCompatActivity {
     EditText editName;
     @BindView(R.id.btnX)
     ImageView btnX;
-    @BindView(R.id.btn_back)
-    Button btnBack;
     @BindView(R.id.title_profileImg)
     TextView titleProfileImg;
     @BindView(R.id.btn_ok)
@@ -133,7 +130,11 @@ public class NameEditActivity extends AppCompatActivity {
             }
         });
     }
-
+    @OnClick(R.id.btn_back)
+    public void onBtnBackClicked() {
+        this.finish();
+        overridePendingTransition( R.anim.not_move_activity, R.anim.leftout_activity );
+    }
 
 
 }

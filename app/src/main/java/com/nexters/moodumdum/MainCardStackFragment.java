@@ -151,7 +151,7 @@ public class MainCardStackFragment extends Fragment {
     @Override
     public void onResume() {
         Log.d("#####ㅇㄴㅇㄴㅇㄴㅇ", "onResume()");
-        stackCardAdapter.showAgain();
+        stackCardAdapter.showAgain(mGlideRequestManager);
         topView.setVisibility(View.VISIBLE);
         super.onResume();
     }

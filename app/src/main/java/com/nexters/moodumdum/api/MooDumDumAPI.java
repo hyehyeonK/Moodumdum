@@ -55,6 +55,13 @@ public interface MooDumDumAPI {
     @GET("api/board/search/user/{userId}")
     Call<ContentsModel> getMyContents (@Path("userId") String userId);
 
+    //좋아요 보내기
+    @FormUrlEncoded
+    @POST("api/board/like/")
+    Call<ServerResponse> postDoLike ( @Query("user") String uuid ,
+                                      @Field("board_id") BigInteger board_id,
+                                      @Field("user") String uuid2);
+
     //내가 좋아요 한 글 가져오기
     @GET("api/board/user/like/{userId}")
     Call<ContentsModel> getMyJomunContents (@Path("userId") String userId);

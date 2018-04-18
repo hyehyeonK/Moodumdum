@@ -1,6 +1,8 @@
 package com.nexters.moodumdum.adpater;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,8 +11,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.nexters.moodumdum.DetailContentsActivity;
 import com.nexters.moodumdum.R;
 import com.nexters.moodumdum.model.ContentsModel;
+import com.nexters.moodumdum.model.DetailCardInfoDAO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +27,7 @@ import butterknife.ButterKnife;
  */
 
 public class MyPageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private Context context;
+    static private Context context;
     private List<ContentsModel.Result> results = new ArrayList<>();
 
     public MyPageRecyclerViewAdapter(Context context) {
@@ -40,10 +44,23 @@ public class MyPageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ItemViewHolder viewHolder = (ItemViewHolder) holder;
         ContentsModel.Result item = results.get(position);
+        String fontColor = "#e27171";
+        if (item.getColor() != ""){
+            fontColor = item.getColor();
+        }
 
         Glide.with(context).load(item.getImage_url()).into(viewHolder.backImage);
         viewHolder.contentsText.setText(item.getDescription());
-        viewHolder.bind(item);
+        viewHolder.contentsText.setTextColor(Color.parseColor(fontColor));
+
+
+        viewHolder.detailCardInfo.setBoard_id( item.getId() );
+        viewHolder.detailCardInfo.setDescription(item.getDescription());
+        viewHolder.detailCardInfo.setColor(fontColor);
+        viewHolder.detailCardInfo.setBackImagUrl(item.getImage_url());
+        viewHolder.detailCardInfo.setCommentCount( item.getComment_count() );
+        viewHolder.detailCardInfo.setLikeCount( item.getLike_count() );
+        viewHolder.detailCardInfo.setIsLike( item.isIs_liked() );
     }
 
     @Override
@@ -54,7 +71,7 @@ public class MyPageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         this.results = results;
         notifyDataSetChanged();
     }
-    public static class ItemViewHolder extends RecyclerView.ViewHolder {
+    public static class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         View view;
 
         @BindView(R.id.backImage)
@@ -62,27 +79,22 @@ public class MyPageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         @BindView(R.id.myWriting)
         TextView contentsText;
 
+        DetailCardInfoDAO detailCardInfo;
         private ContentsModel.Result selectedItem;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
             this.view = itemView;
             ButterKnife.bind(this, view);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-//                    Intent intent = new Intent( context, FragmentDetailContents.class );
-////                viewHolder.commentModel.setBoard_id( BINT_board_id );
-//                    intent.putExtra( "", selectedItem);
-//                    context.startActivity(intent);
-                }
-            });
+            detailCardInfo = new DetailCardInfoDAO();
+            itemView.setOnClickListener(this);
         }
 
-        public void bind(ContentsModel.Result setItem) {
-            this.selectedItem = setItem;
-            itemView.setTag(setItem);
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent( context, DetailContentsActivity.class );
+            intent.putExtra( "cardInfo", detailCardInfo);
+            context.startActivity(intent);
         }
     }
 }

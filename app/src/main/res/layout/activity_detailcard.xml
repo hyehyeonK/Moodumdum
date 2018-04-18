@@ -6,7 +6,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.nexters.moodumdum.CommentActivity"
     xmlns:android="http://schemas.android.com/apk/res/android">
-
+    <ImageView
+        android:id="@+id/backImage"
+        android:transitionName="@string/ts_backImg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:visibility="gone"/>
 
     <com.sothree.slidinguppanel.SlidingUpPanelLayout
         xmlns:sothree="http://schemas.android.com/apk/res-auto"
@@ -176,7 +182,6 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="56dp"
-        android:text="TextViewggggg\nn\ng\ng\ng\ng\nggggggggggggggggggggggg\ndddddd\nddd\nddd\ndd\ndd\nd\dnd\dnd\ndddddd\nggg\nㅗㅗㅗㅗㅗ"
         android:textSize="20dp"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toTopOf="parent"
@@ -186,4 +191,11 @@
     <include
         android:id="@+id/include2"
         layout="@layout/fragment_top2" />
+    <ImageView
+        android:id="@+id/motion"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#000000"
+        android:alpha="0.5"
+        android:visibility="gone"/>
 </android.support.constraint.ConstraintLayout>

@@ -19,11 +19,11 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.fashare.stack_layout.StackLayout;
 import com.nexters.moodumdum.DetailContentsActivity;
+import com.nexters.moodumdum.PostLike;
 import com.nexters.moodumdum.R;
 import com.nexters.moodumdum.model.ContentsModel;
-import com.nexters.moodumdum.model.PostCommentModel;
+import com.nexters.moodumdum.model.DetailCardInfoDAO;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,13 +39,14 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
     static FragmentManager fragmentManager;
     static private  boolean detailShow = false;
     static private View currentView;
-
+    static PostLike postLike;
     private static Context context;
     private List<ContentsModel.Result> results = new ArrayList<>();
 
     public StackCardAdapter(Context context, RequestManager glideRequestManager) {
         this.context = context;
         this.glideRequestManager = glideRequestManager;
+        postLike = new PostLike();
     }
 
     public List<ContentsModel.Result> getData() {
@@ -84,16 +85,23 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
         viewHolder.commentCount.setTextColor(Color.parseColor(fontColor));
         viewHolder.likeCount.setText( likeCount );
         viewHolder.likeCount.setTextColor(Color.parseColor(fontColor));
-        viewHolder.contents_like.setColorFilter(Color.parseColor(fontColor));
+        if(item.isIs_liked()) {
+            glideRequestManager.load(R.drawable.like_after).into(viewHolder.contents_like);
+        } else {
+            viewHolder.contents_like.setColorFilter(Color.parseColor(fontColor));
+        }
         viewHolder.contents_comment.setColorFilter(Color.parseColor(fontColor));
-        viewHolder.commentModel = new PostCommentModel();
         viewHolder.line.setBackgroundColor(Color.parseColor(fontColor));
 
-        String board_id = String.valueOf( viewHolder.boardId.getText() );
-        final BigInteger BINT_board_id = new BigInteger(board_id);
-        viewHolder.commentModel.setBoard_id( BINT_board_id );
-        viewHolder.commentModel.setDescription(item.getDescription());
-        viewHolder.commentModel.setColor(fontColor);
+
+
+        viewHolder.detailCardInfo.setBoard_id( item.getId() );
+        viewHolder.detailCardInfo.setDescription(item.getDescription());
+        viewHolder.detailCardInfo.setColor(fontColor);
+        viewHolder.detailCardInfo.setLikeCount(item.getLike_count());
+        viewHolder.detailCardInfo.setCommentCount( item.getComment_count() );
+        viewHolder.detailCardInfo.setLikeCount( item.getLike_count() );
+        viewHolder.detailCardInfo.setIsLike( item.isIs_liked() );
 
     }
 
@@ -102,7 +110,10 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
     public int getItemCount() {
         return results.size();
     }
-    public void showAgain(){
+    public void showAgain(RequestManager glideRequestManager){
+        if(this.glideRequestManager == null) {
+            this.glideRequestManager = glideRequestManager;
+        }
         Log.d("#$$#$","뿌에에에에에");
         if(detailShow == true) {
             currentView.findViewById(R.id.contents_like).setVisibility(View.VISIBLE);
@@ -143,22 +154,24 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
         @BindView(R.id.motion)
         ImageView motionView;
 
-        PostCommentModel commentModel;
+        DetailCardInfoDAO detailCardInfo;
 
         public ItemViewHolder(View itemView) {
             super( itemView );
             this.view = itemView;
             ButterKnife.bind( this, view );
             itemView.setOnTouchListener(this);
+            detailCardInfo = new DetailCardInfoDAO();
         }
         final GestureDetector gd = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
 
             @Override
             public boolean onSingleTapConfirmed(MotionEvent e) {
                 currentView = view;
+//                detailCardInfo.setCurrnetView(view);
                 detailShow = true;
                 Intent intent = new Intent( context, DetailContentsActivity.class );
-                intent.putExtra( "newComment", commentModel);
+                intent.putExtra( "cardInfo", detailCardInfo);
                 contents.setVisibility(View.INVISIBLE);
                 commentCount.setVisibility(View.INVISIBLE);
                 likeCount.setVisibility(View.INVISIBLE);
@@ -171,9 +184,10 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
             @Override
             public boolean onDoubleTap(MotionEvent e) {
                 // 좋아요 눌렀을 때 할 Action
+                postLike.PostComment(detailCardInfo.getBoard_id(), detailCardInfo.getLikeCount(),view,glideRequestManager);
+
                 motionView.setVisibility(View.VISIBLE);
                 GlideDrawableImageViewTarget imageViewTarget = new GlideDrawableImageViewTarget(motionView,1);
-
                 glideRequestManager.load(R.raw.motion_like)
                         .diskCacheStrategy(DiskCacheStrategy.NONE)// 디스크 캐시 저장 off
                         .skipMemoryCache(true)// 메모리 캐시 저장 off
@@ -183,6 +197,7 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
                     @Override
                     public void run() {
                         motionView.setVisibility(View.GONE);
+
                     }
                 },2800);
                 return true;
@@ -195,13 +210,6 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
             return gd.onTouchEvent( event );
         }
 
-//        public void showAgain(){
-//            contents.setVisibility(View.VISIBLE);
-//            commentCount.setVisibility(View.VISIBLE);
-//            likeCount.setVisibility(View.VISIBLE);
-//            contents_like.setVisibility(View.VISIBLE);
-//            contents_comment.setVisibility(View.VISIBLE);
-//        }
     }
 
 

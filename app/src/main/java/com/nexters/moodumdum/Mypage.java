@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,9 +26,6 @@ import retrofit2.Response;
 
 public class Mypage extends AppCompatActivity implements FragmentMyJomun.OnFragmentInteractionListener, FragmentMyWrite.OnFragmentInteractionListener {
 
-
-    @BindView(R.id.btn_back)
-    Button btnBack;
     @BindView(R.id.myName)
     TextView myName;
     @BindView(R.id.mylikeCount)
