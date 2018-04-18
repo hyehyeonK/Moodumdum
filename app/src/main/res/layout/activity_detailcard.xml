@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.nexters.moodumdum.CommentActivity"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <com.sothree.slidinguppanel.SlidingUpPanelLayout
+        xmlns:sothree="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        sothree:umanoPanelHeight="300dp"
+        sothree:umanoOverlay="true"
+        sothree:umanoDragView="@id/CommentListView"
+        sothree:umanoScrollableView="@id/CommentListView"
+        sothree:umanoShadowHeight="0dp"
+        android:id="@+id/sliding">
+
+        <LinearLayout
+            android:id="@+id/backlayout"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </LinearLayout>
+
+
+        <FrameLayout
+            android:id="@+id/comment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/commenttest"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="50dp"
+                android:background="#b0ffffff">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:textColor="@color/darkgray"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="9dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="조문소"
+                    android:textSize="15dp"
+                    app:layout_constraintBottom_toTopOf="@+id/line"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/contents_comment"
+                    android:transitionName="@string/ts_countImg"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="6dp"
+                    android:src="@drawable/contents_comment"
+                    app:layout_constraintBottom_toTopOf="@+id/line"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/commentsCount"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/commentsCount"
+                    android:transitionName="@string/ts_countTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="11dp"
+                    android:src="@drawable/contents_comment"
+                    android:text="0"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toTopOf="@+id/line"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/contents_like"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/contents_like"
+                    android:transitionName="@string/ts_likeImg"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginEnd="6dp"
+                    android:src="@drawable/btn_like"
+                    app:layout_constraintBottom_toTopOf="@+id/line"
+                    app:layout_constraintEnd_toStartOf="@+id/likeCount"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/likeCount"
+                    android:transitionName="@string/ts_likeTxt"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:src="@drawable/contents_comment"
+                    android:text="0"
+                    app:layout_constraintBottom_toTopOf="@+id/line"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/CommentListView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                   android:layout_marginTop="38dp">
+
+                </android.support.v7.widget.RecyclerView>
+
+                <View
+                    android:id="@+id/line"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="38dp"
+                    android:background="#97979797"
+                    app:layout_constraintTop_toBottomOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+        </FrameLayout>
+
+    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+
+    <LinearLayout
+        android:id="@+id/footerComment"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="0dp"
+        android:background="#4a4a4a"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <EditText
+            android:id="@+id/contentsTest"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="    가여운 영혼에게 위로 한 마디.. TYPE"
+            android:textSize="14dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="10dp"
+            android:gravity="right"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/onClickToPostComment"
+                android:layout_width="55dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_send_state" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/contents"
+        android:transitionName="@string/ts_text"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="320dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="56dp"
+        android:text="TextViewggggg\nn\ng\ng\ng\ng\nggggggggggggggggggggggg\ndddddd\nddd\nddd\ndd\ndd\nd\dnd\dnd\ndddddd\nggg\nㅗㅗㅗㅗㅗ"
+        android:textSize="20dp"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/include2" />
+    <include
+        android:id="@+id/include2"
+        layout="@layout/fragment_top2" />
+</android.support.constraint.ConstraintLayout>

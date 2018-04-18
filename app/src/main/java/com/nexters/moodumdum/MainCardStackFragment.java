@@ -73,10 +73,11 @@ public class MainCardStackFragment extends Fragment {
     ImageView nodataImg;
     @BindView(R.id.noDataText)
     TextView nodataText;
+    @BindView(R.id.topView)
+    View topView;
     @BindView(R.id.srl_refresh)
     SwipeRefreshLayout mRefreshLayout;
-
-    private StackCardAdapter stackCardAdapter;
+    public StackCardAdapter stackCardAdapter;
     List<ContentsModel.Result> results = new ArrayList<>();
 
     @BindView(R.id.linearLayout)
@@ -103,7 +104,18 @@ public class MainCardStackFragment extends Fragment {
 //        loadData();
         return view;
     }
-
+//    public void animateTransaction(View view) {
+//        Toast.makeText(getContext(), "클리이이익.", Toast.LENGTH_SHORT).show();
+//        getFragmentManager()
+//                .beginTransaction()
+//                .addSharedElement(mainStackLayout.findViewById(R.id.backImage), getString(R.string.ts_backImg))
+//                .addSharedElement(mainStackLayout.findViewById(R.id.commentCount), getString(R.string.ts_countTxt))
+//                .addSharedElement(mainStackLayout.findViewById(R.id.likeCount), getString(R.string.ts_likeTxt))
+//                .addSharedElement(mainStackLayout.findViewById(R.id.contents_like), getString(R.string.ts_likeImg))
+//                .addSharedElement(mainStackLayout.findViewById(R.id.contents_comment), getString(R.string.ts_countImg))
+//                .replace(R.id.fragment_container, new DetailContentsActivity())
+//                .commit();
+//    }
 //    @Override
 //    public void onResume() {
 //        super.onResume();
@@ -135,7 +147,20 @@ public class MainCardStackFragment extends Fragment {
         topLayoutParams.topMargin = StatusBarHeight;
         view.setLayoutParams(topLayoutParams);
     }
-
+    //다시 보여질 때
+    @Override
+    public void onResume() {
+        Log.d("#####ㅇㄴㅇㄴㅇㄴㅇ", "onResume()");
+        stackCardAdapter.showAgain();
+        topView.setVisibility(View.VISIBLE);
+        super.onResume();
+    }
+    @Override
+    public void onPause() {
+        Log.d("@@@@ㄴㅇㄴㅇㄴㅇ", "onPause()");
+        topView.setVisibility(View.INVISIBLE);
+        super.onPause();
+    }
     public void initView() {
 
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -173,7 +198,7 @@ public class MainCardStackFragment extends Fragment {
                 }
             }
         } );
-
+        stackCardAdapter.setFragmentManagerCard(getFragmentManager());
     }
 
     public void loadData() {

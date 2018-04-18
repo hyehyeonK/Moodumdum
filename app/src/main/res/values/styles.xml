@@ -43,11 +43,18 @@
         <item name="android:windowLightStatusBar">true</item>
 
     </style>
+    <!-- Transitions 화면 전환 효과 -->
+    <style name="AppThemeTransitions" parent="AppThemeTransparent">
+        <!-- Customize your theme here. -->
+        <item name="android:windowContentTransitions">true</item>
+
+    </style>
     <style name="Theme.AppCompat.Translucent">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowAnimationStyle">@android:style/Animation</item>
     </style>
     <!--투명 statusBar-->

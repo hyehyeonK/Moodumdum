@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
+import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -16,7 +18,7 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.fashare.stack_layout.StackLayout;
-import com.nexters.moodumdum.CommentActivity;
+import com.nexters.moodumdum.DetailContentsActivity;
 import com.nexters.moodumdum.R;
 import com.nexters.moodumdum.model.ContentsModel;
 import com.nexters.moodumdum.model.PostCommentModel;
@@ -34,9 +36,9 @@ import butterknife.ButterKnife;
 
 public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder> {
     public static RequestManager glideRequestManager;
-
-    private  boolean isFirst = true;
-
+    static FragmentManager fragmentManager;
+    static private  boolean detailShow = false;
+    static private View currentView;
 
     private static Context context;
     private List<ContentsModel.Result> results = new ArrayList<>();
@@ -78,8 +80,6 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
         }
         ContentsModel.Result.UserDataModel user = item.getUser();
         viewHolder.contents.setTextColor(Color.parseColor(fontColor));
-        viewHolder.writer.setText( user.getNickName() );
-        viewHolder.writer.setTextColor(Color.parseColor(fontColor));
         viewHolder.commentCount.setText( commentCount );
         viewHolder.commentCount.setTextColor(Color.parseColor(fontColor));
         viewHolder.likeCount.setText( likeCount );
@@ -88,10 +88,12 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
         viewHolder.contents_comment.setColorFilter(Color.parseColor(fontColor));
         viewHolder.commentModel = new PostCommentModel();
         viewHolder.line.setBackgroundColor(Color.parseColor(fontColor));
-        
+
         String board_id = String.valueOf( viewHolder.boardId.getText() );
         final BigInteger BINT_board_id = new BigInteger(board_id);
         viewHolder.commentModel.setBoard_id( BINT_board_id );
+        viewHolder.commentModel.setDescription(item.getDescription());
+        viewHolder.commentModel.setColor(fontColor);
 
     }
 
@@ -100,19 +102,30 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
     public int getItemCount() {
         return results.size();
     }
-
+    public void showAgain(){
+        Log.d("#$$#$","뿌에에에에에");
+        if(detailShow == true) {
+            currentView.findViewById(R.id.contents_like).setVisibility(View.VISIBLE);
+            currentView.findViewById(R.id.contents_comment).setVisibility(View.VISIBLE);
+            currentView.findViewById(R.id.commentCount).setVisibility(View.VISIBLE);
+            currentView.findViewById(R.id.likeCount).setVisibility(View.VISIBLE);
+            currentView.findViewById(R.id.contents).setVisibility(View.VISIBLE);
+            detailShow = false;
+        }
+    }
     public void setPostList(List<ContentsModel.Result> results) {
         this.results.clear();
         this.results.addAll(results);
         notifyDataSetChanged();
+    }
+    public void setFragmentManagerCard(FragmentManager fragmentManager){
+        this.fragmentManager = fragmentManager;
     }
     public static class ItemViewHolder extends StackLayout.ViewHolder implements View.OnTouchListener {
         View view;
 
         @BindView(R.id.contents)
         TextView contents;
-        @BindView(R.id.writer)
-        TextView writer;
         @BindView(R.id.commentCount)
         TextView commentCount;
         @BindView(R.id.likeCount)
@@ -139,10 +152,18 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
             itemView.setOnTouchListener(this);
         }
         final GestureDetector gd = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+
             @Override
             public boolean onSingleTapConfirmed(MotionEvent e) {
-                Intent intent = new Intent( context, CommentActivity.class );
+                currentView = view;
+                detailShow = true;
+                Intent intent = new Intent( context, DetailContentsActivity.class );
                 intent.putExtra( "newComment", commentModel);
+                contents.setVisibility(View.INVISIBLE);
+                commentCount.setVisibility(View.INVISIBLE);
+                likeCount.setVisibility(View.INVISIBLE);
+                contents_like.setVisibility(View.INVISIBLE);
+                contents_comment.setVisibility(View.INVISIBLE);
                 context.startActivity(intent);
                 return super.onSingleTapConfirmed( e );
             }
@@ -173,6 +194,15 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
         public boolean onTouch(View v, MotionEvent event) {
             return gd.onTouchEvent( event );
         }
+
+//        public void showAgain(){
+//            contents.setVisibility(View.VISIBLE);
+//            commentCount.setVisibility(View.VISIBLE);
+//            likeCount.setVisibility(View.VISIBLE);
+//            contents_like.setVisibility(View.VISIBLE);
+//            contents_comment.setVisibility(View.VISIBLE);
+//        }
     }
+
 
 }

@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Moodumdum</string>
+    <string name="ts_likeImg">TSlikeImg</string>
+    <string name="ts_likeTxt">TSlikeTxt</string>
+    <string name="ts_countImg">TScountImg</string>
+    <string name="ts_countTxt">TScountTxt</string>
+    <string name="ts_text">TScontents</string>
+    <string name="ts_backImg">TSbackImg</string>
+
 </resources>

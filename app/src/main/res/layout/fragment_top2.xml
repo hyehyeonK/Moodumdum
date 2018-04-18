@@ -1,38 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="56dp">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageButton
-        android:id="@+id/btn_back"
-        android:layout_width="56dp"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/topFrame"
+        android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:paddingRight="10dp"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
-        android:background="@android:color/transparent"
-        android:src="@drawable/btn_back"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:paddingRight="10dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/btn_back"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/category_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        android:textColor="#747474"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btn_back"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/category_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="#747474"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btn_back"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
+
+</FrameLayout>

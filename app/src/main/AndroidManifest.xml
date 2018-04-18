@@ -39,10 +39,18 @@
         <activity android:name=".PlusBackimgActivity"
             android:theme="@style/AppThemeTransparent"/>
         <activity android:name=".CategorySelectedActivityRV"/>
-        <activity android:name=".CommentActivity"
-            android:theme="@style/Theme.AppCompat.Translucent">
+        <activity android:name=".DetailContentsActivity"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:windowSoftInputMode="stateHidden">
+            <!--android:theme="@style/Theme.AppCompat.Translucent">-->
 
         </activity>
+        <!--<activity android:name=".DetailContentsActivity"-->
+            <!--android:windowSoftInputMode="stateAlwaysHidden|adjustResize"-->
+            <!--android:theme="@style/AppThemeTransitions">-->
+            <!--&lt;!&ndash;android:theme="@style/Theme.AppCompat.Translucent">&ndash;&gt;-->
+
+        <!--</activity>-->
     </application>
 
 </manifest>

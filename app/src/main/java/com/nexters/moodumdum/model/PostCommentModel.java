@@ -13,6 +13,7 @@ public class PostCommentModel implements Serializable {
     @SerializedName( "user" ) private String user;
     @SerializedName( "board_id" ) private BigInteger board_id;
     @SerializedName( "description" ) private String description;
+    @SerializedName( "color") private String color;
 
     public BigInteger getBoard_id() {
         return board_id;
@@ -36,5 +37,13 @@ public class PostCommentModel implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 }
