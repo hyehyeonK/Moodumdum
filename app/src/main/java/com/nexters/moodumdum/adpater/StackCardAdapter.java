@@ -127,7 +127,7 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
         if(this.glideRequestManager == null) {
             this.glideRequestManager = glideRequestManager;
         }
-        Log.d("#$$#$","ffffffesss");
+        Log.d("#$$#$",newInfo.getLikeCount()+"");
         ImageView imageView = currentView.findViewById(R.id.contents_like);
         TextView like = currentView.findViewById(R.id.likeCount);
         TextView comment = currentView.findViewById(R.id.commentCount);
@@ -136,8 +136,8 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
                     .into(imageView);
             imageView.setColorFilter(null);
         }
-        like.setText(newInfo.getLikeCount());
-        comment.setText(newInfo.getCommentCount());
+        like.setText(newInfo.getLikeCount() + "");
+        comment.setText(newInfo.getCommentCount() + "");
     }
 
     public void setPostList(List<ContentsModel.Result> results) {
@@ -188,6 +188,7 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
                 detailShow = true;
                 Intent intent = new Intent( context, DetailContentsActivity.class );
                 intent.putExtra( "cardInfo", detailCardInfo);
+                intent.putExtra( "beforeAct", "Main");
                 contents.setVisibility(View.INVISIBLE);
                 commentCount.setVisibility(View.INVISIBLE);
                 likeCount.setVisibility(View.INVISIBLE);

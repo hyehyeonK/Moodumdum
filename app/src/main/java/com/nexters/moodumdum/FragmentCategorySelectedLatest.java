@@ -32,6 +32,7 @@ public class FragmentCategorySelectedLatest extends Fragment {
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     Unbinder unbinder;
+    int dataOffset;
     private String categoryID;
     private SelectedCategoryAdapter selectedCategoryAdapter;
     RecyclerView.LayoutManager linearLayoutManager;
@@ -39,7 +40,7 @@ public class FragmentCategorySelectedLatest extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
-
+        dataOffset = 0;
         getPost();
     }
 
@@ -56,7 +57,7 @@ public class FragmentCategorySelectedLatest extends Fragment {
         recyclerView = (RecyclerView) view.findViewById( R.id.recyclerView);
 //        recyclerView.setHasFixedSize( true );
         linearLayoutManager = new LinearLayoutManager(getActivity());
-        selectedCategoryAdapter = new SelectedCategoryAdapter(getContext());
+//        selectedCategoryAdapter = new SelectedCategoryAdapter(getContext(), getActivity());
         recyclerView.setAdapter(selectedCategoryAdapter);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setHasFixedSize(true);
@@ -75,7 +76,8 @@ public class FragmentCategorySelectedLatest extends Fragment {
 
 
     private void getPost() {
-        MooDumDumService.of().getCategoryContentsInOrderOfPriority(categoryID).enqueue(new Callback<ContentsModel>() {
+        String uuid = ((MainActivity) MainActivity.MainAct).getUUID();
+        MooDumDumService.of().getCategoryContentsInOrderOfPriority(uuid, categoryID, dataOffset).enqueue(new Callback<ContentsModel>() {
             @Override
             public void onResponse(Call<ContentsModel> call, Response<ContentsModel> response) {
                 if (response.isSuccessful()) {

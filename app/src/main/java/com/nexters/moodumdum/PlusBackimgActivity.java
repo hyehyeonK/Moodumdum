@@ -135,9 +135,6 @@ public class PlusBackimgActivity extends AppCompatActivity {
                             Log.d("postMyMemory",response.message());
                             Intent intent = new Intent(getApplication(), Mypage.class);
                             intent.putExtra("plusContents", "Success");
-//                            ((MainCardStackFragment) MainCardStackFragment.MainCardFragment).getPost();
-//                            ((MainCardStackFragment) MainCardStackFragment.MainCardFragment).initView();
-                            ((MainCardStackFragment) MainCardStackFragment.MainCardFragment).refreshData();
                             startActivity(intent);
                         }
                     }

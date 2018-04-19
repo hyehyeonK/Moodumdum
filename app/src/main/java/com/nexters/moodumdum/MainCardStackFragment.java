@@ -162,12 +162,9 @@ public class MainCardStackFragment extends Fragment {
         super.onPause();
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    public void setRefreshInfo(DetailCardInfoDAO newInfo) {
         Log.d("ADSADASD@@#33","SSSS");
-        DetailCardInfoDAO detailCardInfo = (DetailCardInfoDAO) data.getSerializableExtra( "newCardInfo" );
-        stackCardAdapter.reloadInfo(mGlideRequestManager, detailCardInfo);
+        currentCardAdaper.reloadInfo(mGlideRequestManager, newInfo);
     }
 
     public void initView() {

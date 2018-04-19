@@ -24,6 +24,7 @@ public class CategoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_category);
         ButterKnife.bind(this);
         text.setText("");
+        ((MainCardStackFragment) MainCardStackFragment.MainCardFragment).refreshData();
     }
 
 

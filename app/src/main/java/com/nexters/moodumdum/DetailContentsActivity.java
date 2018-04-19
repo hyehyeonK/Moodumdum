@@ -84,7 +84,7 @@ public class DetailContentsActivity extends AppCompatActivity {
     ImageView motionView;
     @BindView(R.id.backlayout)
     LinearLayout backlayout;
-
+    String beforeAct;
     DetailCardInfoDAO detailCardInfo;
     @BindView(R.id.sliding)
     SlidingUpPanelLayout sliding;
@@ -107,6 +107,8 @@ public class DetailContentsActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         detailCardInfo = (DetailCardInfoDAO) intent.getSerializableExtra( "cardInfo" );
+        beforeAct = intent.getStringExtra("beforeAct");
+
 
         stackCardAdapter = new StackCardAdapter( DetailContentsActivity.this, mGlideRequestManager );
         mGlideRequestManager = Glide.with( this );
@@ -308,9 +310,16 @@ public class DetailContentsActivity extends AppCompatActivity {
     public void closeDetaileCard(){
         detailCardInfo.setLikeCount(Integer.parseInt(likeCount.getText().toString()));
         detailCardInfo.setCommentCount(Integer.parseInt(commentsCount.getText().toString()));
-        Intent intent = new Intent();
-        intent.putExtra("newCardInfo", detailCardInfo);
-        setResult(RESULT_OK, intent);
+
+        switch (beforeAct){
+            case "Main":
+                ((MainCardStackFragment) MainCardStackFragment.MainCardFragment).setRefreshInfo(detailCardInfo); break;
+            case "Category":
+                ((CategorySelectedActivityRV) CategorySelectedActivityRV.activity).setRefreshInfo(detailCardInfo); break;
+            case  "MyPage":
+                break;
+        }
+
         this.finish();
     }
 

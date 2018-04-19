@@ -32,6 +32,7 @@ public class FragmentCategorySelectedFavorite extends Fragment{
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     Unbinder unbinder;
+    int dataOffset;
     private String categoryID;
     private SelectedCategoryAdapter selectedCategoryAdapter;
     RecyclerView.LayoutManager linearLayoutManager;
@@ -39,7 +40,7 @@ public class FragmentCategorySelectedFavorite extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
-
+        dataOffset = 0;
         getPost();
     }
 
@@ -55,7 +56,7 @@ public class FragmentCategorySelectedFavorite extends Fragment{
         Context context = view.getContext();
         recyclerView = (RecyclerView) view.findViewById( R.id.recyclerView);
         linearLayoutManager = new LinearLayoutManager(context);
-        selectedCategoryAdapter = new SelectedCategoryAdapter(context);
+//        selectedCategoryAdapter = new SelectedCategoryAdapter(context, getActivity());
         recyclerView.setAdapter(selectedCategoryAdapter);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setHasFixedSize(true);
@@ -74,7 +75,8 @@ public class FragmentCategorySelectedFavorite extends Fragment{
 
 
     private void getPost() {
-        MooDumDumService.of().getCategoryContentsInOrderOfPopularity(categoryID).enqueue(new Callback<ContentsModel>() {
+        String uuid = ((MainActivity) MainActivity.MainAct).getUUID();
+        MooDumDumService.of().getCategoryContentsInOrderOfPopularity(uuid, categoryID, dataOffset).enqueue(new Callback<ContentsModel>() {
             @Override
             public void onResponse(Call<ContentsModel> call, Response<ContentsModel> response) {
                 if (response.isSuccessful()) {

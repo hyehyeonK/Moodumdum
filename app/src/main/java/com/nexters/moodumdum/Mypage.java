@@ -44,7 +44,7 @@ public class Mypage extends AppCompatActivity implements FragmentMyJomun.OnFragm
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_mypage );
         ButterKnife.bind( this );
-
+        ((MainCardStackFragment) MainCardStackFragment.MainCardFragment).refreshData();
         initView();
     }
 

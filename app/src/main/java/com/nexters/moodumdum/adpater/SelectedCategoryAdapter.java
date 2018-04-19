@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.nexters.moodumdum.DetailContentsActivity;
 import com.nexters.moodumdum.R;
 import com.nexters.moodumdum.model.ContentsModel;
@@ -29,9 +30,10 @@ import butterknife.ButterKnife;
  */
 
 public class SelectedCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    public static RequestManager glideRequestManager;
     static private Activity activity;
     static private Context context;
-
+    static private View currentView;
     private List<ContentsModel.Result> results = new ArrayList<>();
 
     public SelectedCategoryAdapter(Context context, Activity activity) { this.context = context; this.activity = activity; }
@@ -76,7 +78,19 @@ public class SelectedCategoryAdapter extends RecyclerView.Adapter<RecyclerView.V
         viewHolder.detailCardInfo.setLikeCount( item.getLike_count() );
         viewHolder.detailCardInfo.setIsLike( item.isIs_liked() );
     }
-
+    public void reloadInfo(DetailCardInfoDAO newInfo){
+        Log.d("#$$#$",newInfo.getLikeCount()+"");
+        ImageView imageView = currentView.findViewById(R.id.favoriteImg);
+        TextView like = currentView.findViewById(R.id.likeCount);
+        TextView comment = currentView.findViewById(R.id.commentsCount);
+        if( newInfo.getIsLike()){
+            Glide.with(context).load(R.drawable.like_after)
+                    .into(imageView);
+            imageView.setColorFilter(null);
+        }
+        like.setText(newInfo.getLikeCount() + "");
+        comment.setText(newInfo.getCommentCount() + "");
+    }
     @Override
     public int getItemCount() {
         return results.size();
@@ -115,9 +129,13 @@ public class SelectedCategoryAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         @Override
         public void onClick(View v) {
+            currentView = view;
             Intent intent = new Intent( context, DetailContentsActivity.class );
             intent.putExtra( "cardInfo", detailCardInfo);
+            intent.putExtra( "beforeAct", "Category");
             context.startActivity(intent);
+
+            //shared element transition 애니메이션
             //            Pair<View, String> p1 = Pair.create((View)contents, contents.getTransitionName());
             //            Pair<View, String> p2 = Pair.create((View)commentsCount, commentsCount.getTransitionName());
             //            Pair<View, String> p3 = Pair.create((View)likeCount, likeCount.getTransitionName());

@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.nexters.moodumdum.DetailContentsActivity;
 import com.nexters.moodumdum.R;
 import com.nexters.moodumdum.model.ContentsModel;
@@ -27,11 +27,13 @@ import butterknife.ButterKnife;
  */
 
 public class MyPageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    public static RequestManager glideRequestManager;
     static private Context context;
     private List<ContentsModel.Result> results = new ArrayList<>();
-
-    public MyPageRecyclerViewAdapter(Context context) {
+    static private View currentView;
+    public MyPageRecyclerViewAdapter(Context context, RequestManager glideRequestManager) {
         this.context = context;
+        this.glideRequestManager = glideRequestManager;
     }
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -49,7 +51,7 @@ public class MyPageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             fontColor = item.getColor();
         }
 
-        Glide.with(context).load(item.getImage_url()).into(viewHolder.backImage);
+        glideRequestManager.load(item.getImage_url()).into(viewHolder.backImage);
         viewHolder.contentsText.setText(item.getDescription());
         viewHolder.contentsText.setTextColor(Color.parseColor(fontColor));
 
@@ -71,6 +73,7 @@ public class MyPageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         this.results = results;
         notifyDataSetChanged();
     }
+
     public static class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         View view;
 
@@ -92,8 +95,10 @@ public class MyPageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
 
         @Override
         public void onClick(View v) {
+            currentView = view;
             Intent intent = new Intent( context, DetailContentsActivity.class );
             intent.putExtra( "cardInfo", detailCardInfo);
+            intent.putExtra( "beforeAct", "MyPage");
             context.startActivity(intent);
         }
     }

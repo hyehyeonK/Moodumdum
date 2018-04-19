@@ -22,6 +22,7 @@ import com.nexters.moodumdum.anim.RecyclerViewDecoration;
 import com.nexters.moodumdum.api.MooDumDumService;
 import com.nexters.moodumdum.model.CategoryInfoModel;
 import com.nexters.moodumdum.model.ContentsModel;
+import com.nexters.moodumdum.model.DetailCardInfoDAO;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,7 +42,7 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
     private SelectedCategoryAdapter currentAdapter;
     String uuid;
     int dataOffset;
-    public Activity activity;
+    public static Activity activity;
     String categoryID ="";
     @BindView(R.id.scrollView)
     StickyScrollView scrollView;
@@ -74,7 +75,10 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
         getCategoryInfo();
         getLatestPost(selectedCategoryAdapter);
     }
-
+    public void setRefreshInfo(DetailCardInfoDAO newInfo) {
+        Log.d("ADSADASD@@#33","SSSS");
+        currentAdapter.reloadInfo(newInfo);
+    }
     private void initView() {
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.nexters.moodumdum.adpater.MyPageRecyclerViewAdapter;
 import com.nexters.moodumdum.api.MooDumDumService;
 import com.nexters.moodumdum.model.ContentsModel;
@@ -28,6 +30,7 @@ import retrofit2.Response;
 
 
 public class FragmentMyWrite extends Fragment {
+    public RequestManager mGlideRequestManager;
     private UUID uuid;
     @BindView(R.id.recyclerView)
     RecyclerView myPageRecyclerView;
@@ -44,6 +47,7 @@ public class FragmentMyWrite extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
+        mGlideRequestManager = Glide.with(this);
         initDataset();
     }
 
@@ -58,7 +62,7 @@ public class FragmentMyWrite extends Fragment {
         mLayoutManager = new GridLayoutManager( getActivity(), 2 );
         myPageRecyclerView.setLayoutManager( mLayoutManager );
         myPageRecyclerView.scrollToPosition( 0 );
-        myPageMyContentsAdapter = new MyPageRecyclerViewAdapter( getContext() );
+        myPageMyContentsAdapter = new MyPageRecyclerViewAdapter( getContext() , mGlideRequestManager);
         myPageRecyclerView.setAdapter( myPageMyContentsAdapter );
         myPageRecyclerView.setItemAnimator( new DefaultItemAnimator() );
         unbinder = ButterKnife.bind( this, view );
