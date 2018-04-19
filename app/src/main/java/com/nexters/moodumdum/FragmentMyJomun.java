@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,6 +75,7 @@ public class FragmentMyJomun extends Fragment {
         MooDumDumService.of().getMyJomunContents(uuid).enqueue(new Callback<ContentsModel>() {
             @Override
             public void onResponse(Call<ContentsModel> call, Response<ContentsModel> response) {
+                Log.d("내가좋아요한글",""+response.message());
                 if (response.isSuccessful()) {
                     final ContentsModel items = response.body();
                     if (items.getResult().isEmpty()) {
@@ -81,7 +83,10 @@ public class FragmentMyJomun extends Fragment {
                         nullJomunText.setVisibility( View.VISIBLE );
                     }
                     myPageMyJomunAdapter.setMyContentsList(items.getResult());
+                    return;
                 }
+                nullJomunImg.setVisibility(View.VISIBLE);
+                nullJomunText.setVisibility( View.VISIBLE );
             }
 
             @Override

@@ -151,14 +151,12 @@ public class MainCardStackFragment extends Fragment {
     //다시 보여질 때
     @Override
     public void onResume() {
-        Log.d("#####ㅇㄴㅇㄴㅇㄴㅇ", "onResume()");
         stackCardAdapter.showAgain(mGlideRequestManager);
         topView.setVisibility(View.VISIBLE);
         super.onResume();
     }
     @Override
     public void onPause() {
-        Log.d("@@@@ㄴㅇㄴㅇㄴㅇ", "onPause()");
         topView.setVisibility(View.INVISIBLE);
         super.onPause();
     }
@@ -167,17 +165,7 @@ public class MainCardStackFragment extends Fragment {
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadData();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        StackCardAdapter reStartAdapter = new StackCardAdapter(getContext(), mGlideRequestManager);
-                        currentCardAdaper = reStartAdapter;
-                        mainStackLayout.setAdapter(reStartAdapter);
-                        reStartAdapter.setPostList(results);
-                        mRefreshLayout.setRefreshing(false);
-                    }
-                }, 1000);
+                refreshData();
             }
         });
         stackCardAdapter = new StackCardAdapter(getContext(), mGlideRequestManager);
@@ -204,6 +192,21 @@ public class MainCardStackFragment extends Fragment {
         stackCardAdapter.setFragmentManagerCard(getFragmentManager());
     }
 
+    public void refreshData(){
+        loadData();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                StackCardAdapter reStartAdapter = new StackCardAdapter(getContext(), mGlideRequestManager);
+                currentCardAdaper = reStartAdapter;
+                mainStackLayout.setAdapter(reStartAdapter);
+                reStartAdapter.setPostList(results);
+                mRefreshLayout.setRefreshing(false);
+            }
+        }, 1000);
+
+
+    }
     public void loadData() {
         String uuid = ((MainActivity)getActivity()).getUUID();
         MooDumDumService.of().getContents(uuid).enqueue( new Callback<ContentsModel>() {

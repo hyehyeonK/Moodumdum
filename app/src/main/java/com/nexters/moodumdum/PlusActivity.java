@@ -67,6 +67,9 @@ public class PlusActivity extends AppCompatActivity {
 //        InputMethodManager imm = (InputMethodManager) getSystemService( Context.INPUT_METHOD_SERVICE);
 //        imm.showSoftInput(contentOfPlus, InputMethodManager.SHOW_FORCED);
 
+        //카테고리 초기화
+        btnEct.setSelected(true);
+        contentsModel.setCategory_id(new BigInteger(btnEct.getTag()+""));
 
     }
 
@@ -77,17 +80,16 @@ public class PlusActivity extends AppCompatActivity {
 
     @OnClick(R.id.onClickToNext)
     public void onOnClickToNextClicked() {
-        if(contentOfPlus.getText().toString().isEmpty()) {
-            Toast.makeText(getBaseContext(), "내용을 입력해 주세요.", Toast.LENGTH_SHORT).show();
+
+        if(contentOfPlus.getText().toString().length() > 0 ){
+        contentsModel.setDescription(contentOfPlus.getText() + "");
+        Intent intent = new Intent( this, PlusBackimgActivity.class );
+        intent.putExtra( "newContents", contentsModel);
+        startActivity( intent );
+        overridePendingTransition(R.anim.rightin_activity,R.anim.not_move_activity);
         }
-        else if(!(btnEct.isSelected()||btnDarkhistory.isSelected()||btnSelfesteem.isSelected()||btnJob.isSelected()||btnFamily.isSelected()||btnRelationship.isSelected()))
-            Toast.makeText(getBaseContext(), "카테고리를 선택해 주세요.", Toast.LENGTH_SHORT).show();
-        else {
-            contentsModel.setDescription( contentOfPlus.getText() + "" );
-            Intent intent = new Intent( this, PlusBackimgActivity.class );
-            intent.putExtra( "newContents", contentsModel );
-            startActivity( intent );
-            overridePendingTransition( R.anim.rightin_activity, R.anim.not_move_activity );
+        else{
+            Toast.makeText(getBaseContext(), "묻을 기억을 작성 해 주세요.", Toast.LENGTH_SHORT).show();
         }
     }
 
