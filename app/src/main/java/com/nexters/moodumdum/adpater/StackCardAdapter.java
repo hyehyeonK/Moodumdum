@@ -100,8 +100,7 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
         viewHolder.detailCardInfo.setDescription(item.getDescription());
         viewHolder.detailCardInfo.setColor(fontColor);
         viewHolder.detailCardInfo.setLikeCount(item.getLike_count());
-        viewHolder.detailCardInfo.setCommentCount( item.getComment_count() );
-        viewHolder.detailCardInfo.setLikeCount( item.getLike_count() );
+//        viewHolder.detailCardInfo.setCommentCount( item.getComment_count() );
         viewHolder.detailCardInfo.setIsLike( item.isIs_liked() );
 
     }
@@ -124,6 +123,23 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
             detailShow = false;
         }
     }
+    public void reloadInfo(RequestManager glideRequestManager, DetailCardInfoDAO newInfo){
+        if(this.glideRequestManager == null) {
+            this.glideRequestManager = glideRequestManager;
+        }
+        Log.d("#$$#$","ffffffesss");
+        ImageView imageView = currentView.findViewById(R.id.contents_like);
+        TextView like = currentView.findViewById(R.id.likeCount);
+        TextView comment = currentView.findViewById(R.id.commentCount);
+        if( newInfo.getIsLike()){
+            glideRequestManager.load(R.drawable.like_after)
+                    .into(imageView);
+            imageView.setColorFilter(null);
+        }
+        like.setText(newInfo.getLikeCount());
+        comment.setText(newInfo.getCommentCount());
+    }
+
     public void setPostList(List<ContentsModel.Result> results) {
         this.results.clear();
         this.results.addAll(results);
@@ -184,7 +200,7 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
             @Override
             public boolean onDoubleTap(MotionEvent e) {
                 // 좋아요 눌렀을 때 할 Action
-                postLike.PostComment(detailCardInfo.getBoard_id(), detailCardInfo.getLikeCount(),view,glideRequestManager);
+                postLike.PostComment(detailCardInfo.getBoard_id(), detailCardInfo.getLikeCount(),contents_like,likeCount ,glideRequestManager);
 
                 motionView.setVisibility(View.VISIBLE);
                 GlideDrawableImageViewTarget imageViewTarget = new GlideDrawableImageViewTarget(motionView,1);

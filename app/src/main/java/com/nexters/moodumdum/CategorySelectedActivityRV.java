@@ -1,5 +1,6 @@
 package com.nexters.moodumdum;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -38,6 +39,9 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
     private SelectedCategoryAdapter reStartAdapter;
     private LinearLayoutManager linearLayoutManager;
     private SelectedCategoryAdapter currentAdapter;
+    String uuid;
+    int dataOffset;
+    public Activity activity;
     String categoryID ="";
     @BindView(R.id.scrollView)
     StickyScrollView scrollView;
@@ -61,7 +65,9 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_selected);
         ButterKnife.bind(this);
-
+        activity = this;
+        dataOffset = 0;
+        uuid = ((MainActivity) MainActivity.MainAct).getUUID();
         Intent intent = getIntent();
         categoryID = intent.getStringExtra("categoryID");
         initView();
@@ -78,7 +84,7 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
                     public void run() {
                         latestBtn.setTextColor(Color.BLACK);
                         favoritBtn.setTextColor(Color.GRAY);
-                        reStartAdapter = new SelectedCategoryAdapter(CategorySelectedActivityRV.this);
+                        reStartAdapter = new SelectedCategoryAdapter(CategorySelectedActivityRV.this, activity);
                         recyclerView.setAdapter(reStartAdapter);
                         getLatestPost(reStartAdapter);
                         mRefreshLayout.setRefreshing(false);
@@ -87,7 +93,7 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
             }
         });
         linearLayoutManager = new LinearLayoutManager(this);
-        selectedCategoryAdapter = new SelectedCategoryAdapter(CategorySelectedActivityRV.this);
+        selectedCategoryAdapter = new SelectedCategoryAdapter(CategorySelectedActivityRV.this, activity);
         recyclerView.setAdapter(selectedCategoryAdapter);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setHasFixedSize(true);
@@ -116,7 +122,7 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
     }
     private void getLatestPost(SelectedCategoryAdapter adapter) {
         currentAdapter = adapter;
-        MooDumDumService.of().getCategoryContentsInOrderOfPriority(categoryID).enqueue(new Callback<ContentsModel>() {
+        MooDumDumService.of().getCategoryContentsInOrderOfPriority(uuid, categoryID, dataOffset).enqueue(new Callback<ContentsModel>() {
             @Override
             public void onResponse(Call<ContentsModel> call, Response<ContentsModel> response) {
                 if (response.isSuccessful()) {
@@ -131,7 +137,7 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
         });
     }
     private void getFavoritePost() {
-        MooDumDumService.of().getCategoryContentsInOrderOfPopularity(categoryID).enqueue(new Callback<ContentsModel>() {
+        MooDumDumService.of().getCategoryContentsInOrderOfPopularity(uuid, categoryID, dataOffset).enqueue(new Callback<ContentsModel>() {
             @Override
             public void onResponse(Call<ContentsModel> call, Response<ContentsModel> response) {
                 if (response.isSuccessful()) {
@@ -147,13 +153,13 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
     }
 
     @OnClick(R.id.latestBtn)
-        public void latestList(){
+    public void latestList(){
         latestBtn.setTextColor(Color.BLACK);
         favoritBtn.setTextColor(Color.GRAY);
         getLatestPost(currentAdapter);
     }
     @OnClick(R.id.favoriteBtn)
-        public void favoritList(){
+    public void favoritList(){
         latestBtn.setTextColor(Color.GRAY);
         favoritBtn.setTextColor(Color.BLACK);
         getFavoritePost();

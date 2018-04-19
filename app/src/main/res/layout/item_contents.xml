@@ -16,12 +16,14 @@
 
     <ImageView
         android:id="@+id/backImage"
+        android:transitionName="@string/ts_backImg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"/>
 
     <TextView
         android:id="@+id/contents"
+        android:transitionName="@string/ts_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="65dp"
@@ -29,6 +31,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:gravity="center"
+        android:ellipsize="end"
+        android:maxLines="4"
         android:text="글귀"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,6 +51,7 @@
 
     <ImageView
         android:id="@+id/commentImg"
+        android:transitionName="@string/ts_countImg"
         android:layout_width="20dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
@@ -57,6 +62,7 @@
 
     <TextView
         android:id="@+id/commentsCount"
+        android:transitionName="@string/ts_countTxt"
         android:layout_width="30dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
@@ -67,17 +73,19 @@
 
     <ImageView
         android:id="@+id/favoriteImg"
+        android:transitionName="@string/ts_likeImg"
         android:layout_width="20dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/likeCount"
-        app:srcCompat="@drawable/contents_like" />
+        app:srcCompat="@drawable/btn_like" />
 
 
     <TextView
         android:id="@+id/likeCount"
+        android:transitionName="@string/ts_likeTxt"
         android:layout_width="30dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"

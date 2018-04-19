@@ -62,10 +62,8 @@ public class DetailContentsActivity extends AppCompatActivity {
     ImageView contents_comment;
     @BindView(R.id.commentsCount)
     TextView commentsCount;
-    int currentCommentsCount;
     @BindView(R.id.contents_like)
     ImageView contents_like;
-    int currentLikesCount;
     @BindView(R.id.likeCount)
     TextView likeCount;
     @BindView(R.id.CommentListView)
@@ -84,6 +82,8 @@ public class DetailContentsActivity extends AppCompatActivity {
     TextView contents;
     @BindView(R.id.motion)
     ImageView motionView;
+    @BindView(R.id.backlayout)
+    LinearLayout backlayout;
 
     DetailCardInfoDAO detailCardInfo;
     @BindView(R.id.sliding)
@@ -95,7 +95,7 @@ public class DetailContentsActivity extends AppCompatActivity {
     private CommentAdapter mCommentAdapter;
     private LinearLayoutManager mLinearLayoutManager;
     BigInteger board_id;
-
+    String uuid;
     List<ContentsModel.Result> contentsResults = new ArrayList<>();
     List<CommentModel.Result> commentResults = new ArrayList<>();
 
@@ -112,11 +112,12 @@ public class DetailContentsActivity extends AppCompatActivity {
         mGlideRequestManager = Glide.with( this );
         gestureDetector = new GestureDetector(this, new GestureListener());
         postLike = new PostLike();
-
+        uuid = ((MainActivity) MainActivity.MainAct).getUUID();
         initView();
     }
 
     public void initView() {
+
 //        currentView = detailCardInfo.getCurrnetView();
         //컨텐츠텍스트 초기화 및 스크롤 생성
         currentColor = detailCardInfo.getColor();
@@ -131,19 +132,10 @@ public class DetailContentsActivity extends AppCompatActivity {
 
             }
         };
-//        contents.setOnTouchListener(gestureListener);
+        backlayout.setOnTouchListener(gestureListener);
 
         btn_back.setColorFilter(Color.parseColor(currentColor));
-        currentLikesCount = detailCardInfo.getLikeCount() ;
-        likeCount.setText( currentLikesCount + "");
-        currentCommentsCount = detailCardInfo.getCommentCount() ;
-        commentsCount.setText( currentCommentsCount + "");
-
-        Log.d("dsdsdasd!!!info",detailCardInfo.getIsLike() +", " + detailCardInfo.getLikeCount());
-        if(detailCardInfo.getIsLike()){
-            mGlideRequestManager.load(R.drawable.like_after).into(contents_like);
-        }
-
+        getCommentHeader();
 
         if(detailCardInfo.getBackImagUrl() !=null){
             backImage.setVisibility(View.VISIBLE);
@@ -188,23 +180,29 @@ public class DetailContentsActivity extends AppCompatActivity {
 
     }
 
-//    public void getCommentHeader() {
-//        String board_id = detailCardInfo.getBoard_id().toString();
-//
-//        MooDumDumService.of().getContentsSelected( board_id ).enqueue( new Callback<ContentsModel.Result>() {
-//            @Override
-//            public void onResponse(Call<ContentsModel.Result> call, Response<ContentsModel.Result> response) {
-//                ContentsModel.Result items = response.body();
-//                likeCount.setText( String.valueOf( items.getLike_count() ) );
-//                commentsCount.setText( String.valueOf( items.getComment_count() ) );
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ContentsModel.Result> call, Throwable t) {
-//
-//            }
-//        } );
-//    }
+    public void getCommentHeader() {
+        String board_id = detailCardInfo.getBoard_id().toString();
+
+        MooDumDumService.of().getContentsSelected( board_id, uuid ).enqueue( new Callback<ContentsModel.Result>() {
+            @Override
+            public void onResponse(Call<ContentsModel.Result> call, Response<ContentsModel.Result> response) {
+                ContentsModel.Result items = response.body();
+                Log.d("SDDSF###", items.toString());
+                likeCount.setText( items.getLike_count() + "");
+                commentsCount.setText( String.valueOf( items.getComment_count() ) );
+                if( items.isIs_liked()){
+                    mGlideRequestManager.load(R.drawable.like_after)
+                            .into(contents_like);
+                    contents_like.setColorFilter(null);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ContentsModel.Result> call, Throwable t) {
+
+            }
+        } );
+    }
 
 
     public void getCommentContent() {
@@ -243,9 +241,8 @@ public class DetailContentsActivity extends AppCompatActivity {
             public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
                 Toast.makeText( getBaseContext(), "조문글을 남겼어요.", Toast.LENGTH_SHORT ).show();
                 getCommentContent();
-//                getCommentHeader();
-                currentCommentsCount++;
-                commentsCount.setText(currentCommentsCount + "");
+                getCommentHeader();
+//                commentsCount.setText(currentCommentsCount + "");
 //                TextView countTextView = currentView.findViewById(R.id.commentCount);
 //                countTextView.setText(currentCommentsCount+"");
                 contentsTest.setText( null );
@@ -259,20 +256,24 @@ public class DetailContentsActivity extends AppCompatActivity {
     }
     @Override
     public boolean onTouchEvent(MotionEvent e) {
-        switch (e.getAction() & MotionEvent.ACTION_MASK)
-        {
-            // 터치가 눌렸을때 터치 이벤트를 활성화한다.
-            case MotionEvent.ACTION_DOWN:
-                contents.getParent().requestDisallowInterceptTouchEvent(true);
-                break;
-            // 터치가 끝났을때 터치 이벤트를 비활성화한다 [원상복구]
-            case MotionEvent.ACTION_UP:
-                contents.getParent().requestDisallowInterceptTouchEvent(false);
-                break;
-        }
+//        switch (e.getAction() & MotionEvent.ACTION_MASK)
+//        {
+//            // 터치가 눌렸을때 터치 이벤트를 활성화한다.
+//            case MotionEvent.ACTION_DOWN:
+//                contents.getParent().requestDisallowInterceptTouchEvent(true);
+//                break;
+//            // 터치가 끝났을때 터치 이벤트를 비활성화한다 [원상복구]
+//            case MotionEvent.ACTION_UP:
+//                contents.getParent().requestDisallowInterceptTouchEvent(false);
+//                break;
+//        }
         return gestureDetector.onTouchEvent(e);
     }
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+            return super.onScroll(e1, e2, distanceX, distanceY);
+        }
 
         @Override
         public boolean onDown(MotionEvent e) {
@@ -281,29 +282,42 @@ public class DetailContentsActivity extends AppCompatActivity {
         // event when double tap occurs
         @Override
         public boolean onDoubleTap(MotionEvent e) {
-//            postLike.PostComment(detailCardInfo.getBoard_id(), detailCardInfo.getLikeCount(),currentView, mGlideRequestManager);
-            motionView.setVisibility(View.VISIBLE);
-            GlideDrawableImageViewTarget imageViewTarget = new GlideDrawableImageViewTarget(motionView,1);
-            mGlideRequestManager.load(R.raw.motion_like)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)// 디스크 캐시 저장 off
-                    .skipMemoryCache(true)// 메모리 캐시 저장 off
-                    .into(imageViewTarget);
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    motionView.setVisibility(View.GONE);
 
-                }
-            },2800);
+            motionLikeAnimation();
             return true;
         }
     }
+    public void motionLikeAnimation(){
+        postLike.PostComment(detailCardInfo.getBoard_id(), detailCardInfo);
+        motionView.setVisibility(View.VISIBLE);
+        GlideDrawableImageViewTarget imageViewTarget = new GlideDrawableImageViewTarget(motionView,1);
+        mGlideRequestManager.load(R.raw.motion_like)
+//                .diskCacheStrategy(DiskCacheStrategy.NONE)// 디스크 캐시 저장 off
+//                .skipMemoryCache(true)// 메모리 캐시 저장 off
+                .into(imageViewTarget);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                motionView.setVisibility(View.GONE);
+                getCommentHeader();
+            }
+        },2800);
+    }
     @OnClick(R.id.btn_back)
     public void closeDetaileCard(){
+        detailCardInfo.setLikeCount(Integer.parseInt(likeCount.getText().toString()));
+        detailCardInfo.setCommentCount(Integer.parseInt(commentsCount.getText().toString()));
+        Intent intent = new Intent();
+        intent.putExtra("newCardInfo", detailCardInfo);
+        setResult(RESULT_OK, intent);
         this.finish();
     }
 
+    @OnClick(R.id.contents_like)
+    public void setLike() {
+        motionLikeAnimation();
+    }
 }
 
 

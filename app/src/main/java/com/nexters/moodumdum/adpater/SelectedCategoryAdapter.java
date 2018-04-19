@@ -1,5 +1,6 @@
 package com.nexters.moodumdum.adpater;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -28,12 +29,12 @@ import butterknife.ButterKnife;
  */
 
 public class SelectedCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
+    static private Activity activity;
     static private Context context;
 
     private List<ContentsModel.Result> results = new ArrayList<>();
 
-    public SelectedCategoryAdapter(Context context) { this.context = context; }
+    public SelectedCategoryAdapter(Context context, Activity activity) { this.context = context; this.activity = activity; }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -60,7 +61,12 @@ public class SelectedCategoryAdapter extends RecyclerView.Adapter<RecyclerView.V
         viewHolder.likeCount.setText(item.getLike_count()+"");
         viewHolder.likeCount.setTextColor(Color.parseColor(fontColor));
         viewHolder.commentImg.setColorFilter(Color.parseColor(fontColor));
-        viewHolder.favoriteImg.setColorFilter(Color.parseColor(fontColor));
+        if (item.isIs_liked()) {
+            Glide.with(context).load(R.drawable.like_after).into(viewHolder.favoriteImg);
+            viewHolder.favoriteImg.setColorFilter(null);
+        } else {
+            viewHolder.favoriteImg.setColorFilter(Color.parseColor(fontColor));
+        }
 
         viewHolder.detailCardInfo.setBoard_id( item.getId() );
         viewHolder.detailCardInfo.setDescription(item.getDescription());
@@ -112,6 +118,14 @@ public class SelectedCategoryAdapter extends RecyclerView.Adapter<RecyclerView.V
             Intent intent = new Intent( context, DetailContentsActivity.class );
             intent.putExtra( "cardInfo", detailCardInfo);
             context.startActivity(intent);
+            //            Pair<View, String> p1 = Pair.create((View)contents, contents.getTransitionName());
+            //            Pair<View, String> p2 = Pair.create((View)commentsCount, commentsCount.getTransitionName());
+            //            Pair<View, String> p3 = Pair.create((View)likeCount, likeCount.getTransitionName());
+            //            Pair<View, String> p4 = Pair.create((View)backImage, backImage.getTransitionName());
+            //            Pair<View, String> p5 = Pair.create((View)commentImg, commentImg.getTransitionName());
+            //            Pair<View, String> p6 = Pair.create((View)favoriteImg, favoriteImg.getTransitionName());
+            //            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity,p1,p2,p3,p4,p5,p6);
+            //            context.startActivity(intent, options.toBundle());
         }
     }
 }

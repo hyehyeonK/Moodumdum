@@ -35,6 +35,10 @@
     </style>
     <!--커스텀-->
     <style name="AppTheme.StatusBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowSharedElementEnterTransition">@transition/change_detail_transform</item>
+        <item name="android:windowSharedElementExitTransition">@transition/change_detail_transform</item>
+
         <!--Status Bar 배경색-->
         <!--<item name="android:statusBarColor">#000000</item>-->
         <!--Status Bar 배경색-->
@@ -56,11 +60,17 @@
         <item name="windowNoTitle">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowAnimationStyle">@android:style/Animation</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowSharedElementEnterTransition">@transition/change_detail_transform</item>
+        <item name="android:windowSharedElementExitTransition">@transition/change_detail_transform</item>
     </style>
     <!--투명 statusBar-->
     <style name="AppThemeTransparent" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowSharedElementEnterTransition">@transition/change_detail_transform</item>
+        <item name="android:windowSharedElementExitTransition">@transition/change_detail_transform</item>
     </style>
 </resources>

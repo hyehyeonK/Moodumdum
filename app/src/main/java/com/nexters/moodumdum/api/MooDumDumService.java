@@ -19,7 +19,7 @@ import retrofit2.Call;
 
 public class MooDumDumService {
     private  MooDumDumAPI api;
-
+    final static int limit = 10;
     private static class InstanceHolder {
         private static final MooDumDumService INSTANCE = new MooDumDumService();
     }
@@ -48,17 +48,17 @@ public class MooDumDumService {
         return  api.getMyJomunContents(userId);
     }
     public Call<ImageModel> getBackgroundImage() {return  api.getBackgroundImage();}
-    public Call<ContentsModel.Result> getContentsSelected(String board_id) { return api.getContentsSelected( board_id );}
+    public Call<ContentsModel.Result> getContentsSelected(String board_id, String uuid) { return api.getContentsSelected( board_id, uuid );}
 
     //카테고리 관련
     public Call<CategoryInfoModel> getCategoryInfo (String category_id) {
         return api.getCategoryInfo(category_id);
     }
-    public Call<ContentsModel> getCategoryContentsInOrderOfPriority (String category_id) {
-        return  api.getCategoryContentsInOrderOfPriority(category_id);
+    public Call<ContentsModel> getCategoryContentsInOrderOfPriority (String uuid, String category_id, int offset ) {
+        return  api.getCategoryContentsInOrderOfPriority(category_id,limit, offset, uuid);
     }
-    public Call<ContentsModel> getCategoryContentsInOrderOfPopularity (String category_id) {
-        return  api.getCategoryContentsInOrderOfPopularity(category_id);
+    public Call<ContentsModel> getCategoryContentsInOrderOfPopularity (String uuid, String category_id, int offset) {
+        return  api.getCategoryContentsInOrderOfPopularity(category_id,limit,offset, uuid);
     }
 
     //댓글 관련

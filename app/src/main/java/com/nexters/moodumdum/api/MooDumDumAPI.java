@@ -49,7 +49,8 @@ public interface MooDumDumAPI {
 
     //board_id로 글 가져오기
     @GET("api/board/{board_id}")
-    Call<ContentsModel.Result> getContentsSelected(@Path( "board_id" )String board_id);
+    Call<ContentsModel.Result> getContentsSelected(@Path( "board_id" )String board_id,
+                                                   @Query( "user" ) String uuid);
 
     //내가 쓴 글 가져오기
     @GET("api/board/search/user/{userId}")
@@ -72,11 +73,17 @@ public interface MooDumDumAPI {
 
    //카테고리별 컨텐츠 가져오기 ( 최신순 )
     @GET("api/board/search/category/{category_id}")
-    Call<ContentsModel> getCategoryContentsInOrderOfPriority (@Path("category_id") String category_id);
+    Call<ContentsModel> getCategoryContentsInOrderOfPriority (@Path("category_id") String category_id,
+                                                              @Query("limit") int limit,
+                                                              @Query("offset") int offset,
+                                                              @Query("user") String uuid);
 
     //카테고리별 컨텐츠 가져오기 ( 인기순 )
     @GET("api/board/search/category/favorite/{category_id}")
-    Call<ContentsModel> getCategoryContentsInOrderOfPopularity (@Path("category_id") String category_id);
+    Call<ContentsModel> getCategoryContentsInOrderOfPopularity (@Path("category_id") String category_id,
+                                                                @Query("limit") int limit,
+                                                                @Query("offset") int offset,
+                                                                @Query("user") String uuid);
 
     //모든 댓글 가져오기
     @GET("api/board/comment/")

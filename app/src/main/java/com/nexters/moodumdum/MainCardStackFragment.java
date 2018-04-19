@@ -31,6 +31,7 @@ import com.fashare.stack_layout.transformer.AngleTransformer;
 import com.nexters.moodumdum.adpater.StackCardAdapter;
 import com.nexters.moodumdum.api.MooDumDumService;
 import com.nexters.moodumdum.model.ContentsModel;
+import com.nexters.moodumdum.model.DetailCardInfoDAO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -160,6 +161,15 @@ public class MainCardStackFragment extends Fragment {
         topView.setVisibility(View.INVISIBLE);
         super.onPause();
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("ADSADASD@@#33","SSSS");
+        DetailCardInfoDAO detailCardInfo = (DetailCardInfoDAO) data.getSerializableExtra( "newCardInfo" );
+        stackCardAdapter.reloadInfo(mGlideRequestManager, detailCardInfo);
+    }
+
     public void initView() {
 
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
