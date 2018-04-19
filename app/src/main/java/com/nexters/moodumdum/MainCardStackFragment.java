@@ -78,6 +78,7 @@ public class MainCardStackFragment extends Fragment {
     @BindView(R.id.srl_refresh)
     SwipeRefreshLayout mRefreshLayout;
     public StackCardAdapter stackCardAdapter;
+    private StackCardAdapter currentCardAdaper;
     List<ContentsModel.Result> results = new ArrayList<>();
 
     @BindView(R.id.linearLayout)
@@ -171,6 +172,7 @@ public class MainCardStackFragment extends Fragment {
                     @Override
                     public void run() {
                         StackCardAdapter reStartAdapter = new StackCardAdapter(getContext(), mGlideRequestManager);
+                        currentCardAdaper = reStartAdapter;
                         mainStackLayout.setAdapter(reStartAdapter);
                         reStartAdapter.setPostList(results);
                         mRefreshLayout.setRefreshing(false);
@@ -179,6 +181,7 @@ public class MainCardStackFragment extends Fragment {
             }
         });
         stackCardAdapter = new StackCardAdapter(getContext(), mGlideRequestManager);
+        currentCardAdaper = stackCardAdapter;
         mainStackLayout.setAdapter( stackCardAdapter );
         mainStackLayout.invalidate();
         mainStackLayout.addPageTransformer(
@@ -209,8 +212,15 @@ public class MainCardStackFragment extends Fragment {
                 if (response.isSuccessful()) {
                     final ContentsModel items = response.body();
                     results = items.getResult();
-//                    stackCardAdapter.setPostList(results);
-//                    stackCardAdapter.notifyDataSetChanged();
+                    new Handler().postDelayed( new Runnable() {
+
+                        @Override
+                        public void run() {
+                            currentCardAdaper.getData().addAll(results);
+                            currentCardAdaper.notifyDataSetChanged();
+                        }
+                    }, 1000 );
+
                 }
                 Log.d( "RESULT@@@@@", response.message() );
             }
@@ -220,16 +230,6 @@ public class MainCardStackFragment extends Fragment {
                 Log.e( "RESULT@@@@@", "ERRR####" + t );
             }
         } );
-
-        new Handler().postDelayed( new Runnable() {
-
-            @Override
-            public void run() {
-//                stackCardAdapter.getData().addAll( Arrays.asList( String.valueOf( page * 3 ), String.valueOf( page * 3 + 1 ), String.valueOf( page * 3 + 2 ) ) );
-//                stackCardAdapter.notifyDataSetChanged();
-
-            }
-        }, 1000 );
     }
 
     /**

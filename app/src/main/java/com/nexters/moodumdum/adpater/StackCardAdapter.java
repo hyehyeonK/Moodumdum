@@ -49,6 +49,7 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
         postLike = new PostLike();
     }
 
+
     public List<ContentsModel.Result> getData() {
         return results;
     }
@@ -64,7 +65,7 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
     public void onBindViewHolder(StackLayout.ViewHolder holder, int position) {
         final ItemViewHolder viewHolder = (ItemViewHolder) holder;
         ContentsModel.Result item = results.get( position );
-
+        Log.d("SDSDSD", position+"");
         String commentCount = String.valueOf( item.getComment_count() );
         String likeCount = String.valueOf( item.getLike_count() );
 
@@ -104,7 +105,6 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
         viewHolder.detailCardInfo.setIsLike( item.isIs_liked() );
 
     }
-
 
     @Override
     public int getItemCount() {
