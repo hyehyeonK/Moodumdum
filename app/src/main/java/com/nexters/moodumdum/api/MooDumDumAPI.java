@@ -94,8 +94,14 @@ public interface MooDumDumAPI {
                                       @Field( "description") String description);
 
     // 댓글 삭제
-    @DELETE("api/board/comment/{id}")
+    @DELETE("api/board/comment/{id}/")
     Call<ServerResponse> delComment (@Path( "id") BigInteger id);
+
+    // 댓글 좋아요
+    @FormUrlEncoded
+    @POST("api/board/comment/like/")
+    Call<ServerResponse> postCommentLike(@Field( "comment_id" ) BigInteger comment_id,
+                                         @Field( "user" ) String user);
 
     // User Data 가져오기
     @GET("api/user/info/{user_id}")

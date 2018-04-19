@@ -114,8 +114,6 @@ public class DetailContentsActivity extends AppCompatActivity {
         postLike = new PostLike();
 
         initView();
-
-
     }
 
     public void initView() {
@@ -156,7 +154,7 @@ public class DetailContentsActivity extends AppCompatActivity {
         }
 
         mLinearLayoutManager = new LinearLayoutManager( this );
-        mCommentAdapter = new CommentAdapter( DetailContentsActivity.this );
+        mCommentAdapter = new CommentAdapter( DetailContentsActivity.this, mGlideRequestManager );
         CommentListView.setAdapter( mCommentAdapter );
         CommentListView.setNestedScrollingEnabled( false );
         CommentListView.setHasFixedSize( false );
@@ -208,6 +206,7 @@ public class DetailContentsActivity extends AppCompatActivity {
 //        } );
 //    }
 
+
     public void getCommentContent() {
         board_id = detailCardInfo.getBoard_id();
         MooDumDumService.of().getComment( board_id ).enqueue( new Callback<CommentModel>() {
@@ -216,7 +215,6 @@ public class DetailContentsActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     final CommentModel items = response.body();
                     mCommentAdapter.setPostList( items.getResult() );
-
                 }
             }
 
@@ -305,6 +303,7 @@ public class DetailContentsActivity extends AppCompatActivity {
     public void closeDetaileCard(){
         this.finish();
     }
+
 }
 
 

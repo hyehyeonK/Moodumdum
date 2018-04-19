@@ -33,7 +33,7 @@
             android:background="@android:color/transparent"
             android:padding="15dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/mypage"
+            android:src="@drawable/btn_mypage"
             app:layout_constraintEnd_toEndOf="parent" />
 
     </android.support.constraint.ConstraintLayout>

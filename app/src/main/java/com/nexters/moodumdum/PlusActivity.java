@@ -11,6 +11,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nexters.moodumdum.model.PostContentsModel;
 
@@ -76,13 +77,19 @@ public class PlusActivity extends AppCompatActivity {
 
     @OnClick(R.id.onClickToNext)
     public void onOnClickToNextClicked() {
-        contentsModel.setDescription(contentOfPlus.getText() + "");
-        Intent intent = new Intent( this, PlusBackimgActivity.class );
-        intent.putExtra( "newContents", contentsModel);
-        startActivity( intent );
-        overridePendingTransition(R.anim.rightin_activity,R.anim.not_move_activity);
+        if(contentOfPlus.getText().toString().isEmpty()) {
+            Toast.makeText(getBaseContext(), "내용을 입력해 주세요.", Toast.LENGTH_SHORT).show();
+        }
+        else if(!(btnEct.isSelected()||btnDarkhistory.isSelected()||btnSelfesteem.isSelected()||btnJob.isSelected()||btnFamily.isSelected()||btnRelationship.isSelected()))
+            Toast.makeText(getBaseContext(), "카테고리를 선택해 주세요.", Toast.LENGTH_SHORT).show();
+        else {
+            contentsModel.setDescription( contentOfPlus.getText() + "" );
+            Intent intent = new Intent( this, PlusBackimgActivity.class );
+            intent.putExtra( "newContents", contentsModel );
+            startActivity( intent );
+            overridePendingTransition( R.anim.rightin_activity, R.anim.not_move_activity );
+        }
     }
-
 
     @OnClick({R.id.btn_relationship, R.id.btn_family, R.id.btn_job, R.id.btn_selfesteem, R.id.btn_darkhistory, R.id.btn_ect})
     public void onViewClicked(Button button) {
@@ -100,6 +107,5 @@ public class PlusActivity extends AppCompatActivity {
         //여기 선택했을때 contentsModel.setImage_url() 추가하기
         button.setSelected( true );
     }
-
 
 }
