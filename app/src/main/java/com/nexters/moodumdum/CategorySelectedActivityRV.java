@@ -11,9 +11,11 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amar.library.ui.StickyScrollView;
 import com.bumptech.glide.Glide;
@@ -41,7 +43,15 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
     private SelectedCategoryAdapter currentAdapter;
     String uuid;
+    private int currentState;
+    final static int LATEST = 0;
+    final static int FAVORIT = 1;
     int dataOffset;
+    int getItemCount;
+    boolean noMoreData;
+    int int_scrollViewPos; // 현재 스크롤 포지션
+    int int_TextView_lines; // 스크롤뷰 크기
+
     public static Activity activity;
     String categoryID ="";
     @BindView(R.id.scrollView)
@@ -68,12 +78,16 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
         ButterKnife.bind(this);
         activity = this;
         dataOffset = 0;
+        currentState = LATEST;
+        noMoreData = false;
         uuid = ((MainActivity) MainActivity.MainAct).getUUID();
         Intent intent = getIntent();
         categoryID = intent.getStringExtra("categoryID");
+        selectedCategoryAdapter = new SelectedCategoryAdapter(CategorySelectedActivityRV.this, activity);
+        currentAdapter = selectedCategoryAdapter;
         initView();
         getCategoryInfo();
-        getLatestPost(selectedCategoryAdapter);
+        getLatestPost();
     }
     public void setRefreshInfo(DetailCardInfoDAO newInfo) {
         Log.d("ADSADASD@@#33","SSSS");
@@ -89,21 +103,24 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
                         latestBtn.setTextColor(Color.BLACK);
                         favoritBtn.setTextColor(Color.GRAY);
                         reStartAdapter = new SelectedCategoryAdapter(CategorySelectedActivityRV.this, activity);
-                        recyclerView.setAdapter(reStartAdapter);
-                        getLatestPost(reStartAdapter);
+                        currentAdapter = reStartAdapter;
+                        recyclerView.setAdapter(currentAdapter);
+                        dataOffset = 0;
+                        noMoreData = false;
+                        getLatestPost();
                         mRefreshLayout.setRefreshing(false);
                     }
                 }, 1000);
             }
         });
         linearLayoutManager = new LinearLayoutManager(this);
-        selectedCategoryAdapter = new SelectedCategoryAdapter(CategorySelectedActivityRV.this, activity);
         recyclerView.setAdapter(selectedCategoryAdapter);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new RecyclerViewDecoration(12));
+        reloadAtBottom();
     }
     private void getCategoryInfo() {
         MooDumDumService.of().getCategoryInfo(categoryID).enqueue(new Callback<CategoryInfoModel>() {
@@ -124,14 +141,21 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
             }
         });
     }
-    private void getLatestPost(SelectedCategoryAdapter adapter) {
-        currentAdapter = adapter;
+    private void getLatestPost() {
         MooDumDumService.of().getCategoryContentsInOrderOfPriority(uuid, categoryID, dataOffset).enqueue(new Callback<ContentsModel>() {
             @Override
             public void onResponse(Call<ContentsModel> call, Response<ContentsModel> response) {
                 if (response.isSuccessful()) {
                     final ContentsModel items = response.body();
-                    currentAdapter.setPostList(items.getResult());
+                    if(items.getNext() == null){
+                        noMoreData = true;
+                    }
+                    if(dataOffset == 0 ) {
+                        currentAdapter.setPostList(items.getResult());
+                    } else {
+                        currentAdapter.addMoreItem(items.getResult());
+                    }
+                    dataOffset += 10;
                 }
             }
 
@@ -146,7 +170,15 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
             public void onResponse(Call<ContentsModel> call, Response<ContentsModel> response) {
                 if (response.isSuccessful()) {
                     final ContentsModel items = response.body();
-                    currentAdapter.setPostList(items.getResult());
+                    if(items.getNext() == null){
+                        noMoreData = true;
+                    }
+                    if(dataOffset == 0) {
+                        currentAdapter.setPostList(items.getResult());
+                    } else {
+                        currentAdapter.addMoreItem(items.getResult());
+                    }
+                    dataOffset =+ 10;
                 }
             }
 
@@ -158,15 +190,34 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
 
     @OnClick(R.id.latestBtn)
     public void latestList(){
+        currentState = LATEST;
+        dataOffset = 0;
+        noMoreData = false;
         latestBtn.setTextColor(Color.BLACK);
         favoritBtn.setTextColor(Color.GRAY);
-        getLatestPost(currentAdapter);
+        getLatestPost();
+        scrollView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                scrollView.scrollTo(0,0);
+            }
+        },500);
     }
+
     @OnClick(R.id.favoriteBtn)
     public void favoritList(){
+        currentState = FAVORIT;
+        dataOffset = 0;
+        noMoreData = false;
         latestBtn.setTextColor(Color.GRAY);
         favoritBtn.setTextColor(Color.BLACK);
         getFavoritePost();
+        scrollView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                scrollView.scrollTo(0,0);
+            }
+        },500);
     }
 
     @OnClick(R.id.btn_back)
@@ -179,6 +230,33 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
     public void onViewClicked() {
         Intent intent = new Intent( getApplicationContext(), PlusActivity.class );
         startActivity( intent );
+    }
+
+    public void reloadAtBottom(){
+        //Detect Bottom ScrollView
+        scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged() {
+                int_scrollViewPos = scrollView.getScrollY();
+                int_TextView_lines = scrollView.getChildAt(0).getBottom() - scrollView.getHeight();
+                if(int_TextView_lines == int_scrollViewPos){
+                    if(!noMoreData) {
+                        switch (currentState) {
+                            case LATEST:
+                                getLatestPost();
+                                break;
+                            case FAVORIT:
+                                getFavoritePost();
+                                break;
+                        }
+                    } else {
+                        Toast.makeText(getBaseContext(), "더이상 로드할 글이 없습니다.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+            }
+        });
+
     }
 }
 
