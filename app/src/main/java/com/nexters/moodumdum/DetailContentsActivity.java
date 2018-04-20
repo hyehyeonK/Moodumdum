@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -75,15 +74,13 @@ public class DetailContentsActivity extends AppCompatActivity {
     @BindView(R.id.CommentListView)
     RecyclerView CommentListView;
     @BindView(R.id.footerComment)
-    LinearLayout footerComment;
+    ConstraintLayout footerComment;
     @BindView(R.id.contentsTest)
     EditText contentsTest;
     @BindView(R.id.commenttest)
     ConstraintLayout commenttest;
     @BindView(R.id.btn_back)
     ImageButton btn_back;
-    @BindView(R.id.onClickToPostComment)
-    Button onClickToPostComment;
     @BindView(R.id.contents)
     TextView contents;
     @BindView(R.id.motion)
@@ -110,13 +107,14 @@ public class DetailContentsActivity extends AppCompatActivity {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_detailcard );
         ButterKnife.bind( this );
+
         getStatusBarHeight();
         setActionbarMarginTop(topFrame);
         setActionbarMarginTop2(sliding);
         Intent intent = getIntent();
         detailCardInfo = (DetailCardInfoDAO) intent.getSerializableExtra( "cardInfo" );
         beforeAct = intent.getStringExtra("beforeAct");
-
+//        contentsTest.getBackground().setColorFilter(Color.parseColor("#ffffffff"), PorterDuff.Mode.SRC_ATOP);
 
         stackCardAdapter = new StackCardAdapter( DetailContentsActivity.this, mGlideRequestManager );
         mGlideRequestManager = Glide.with( this );

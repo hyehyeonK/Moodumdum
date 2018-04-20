@@ -41,7 +41,7 @@
         <activity android:name=".CategorySelectedActivityRV"/>
         <activity android:name=".DetailContentsActivity"
             android:theme="@style/Theme.AppCompat.Translucent"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="adjustPan">
             <!--android:theme="@style/Theme.AppCompat.Translucent">-->
 
         </activity>

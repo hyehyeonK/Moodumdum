@@ -86,7 +86,6 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
         getLatestPost();
     }
     public void setRefreshInfo(DetailCardInfoDAO newInfo) {
-        Log.d("ADSADASD@@#33","SSSS");
         currentAdapter.reloadInfo(newInfo);
     }
     private void initView() {
@@ -96,8 +95,6 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        latestBtn.setTextColor(Color.BLACK);
-                        favoritBtn.setTextColor(Color.GRAY);
                         currentAdapter = new SelectedCategoryAdapter(CategorySelectedActivityRV.this, activity);
                         recyclerView.setAdapter(currentAdapter);
                         dataOffset = 0;
@@ -197,9 +194,13 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
         if(!noMoreData) {
             switch (currentState) {
                 case LATEST:
+                    latestBtn.setTextColor(Color.BLACK);
+                    favoritBtn.setTextColor(Color.GRAY);
                     getLatestPost();
                     break;
                 case FAVORIT:
+                    latestBtn.setTextColor(Color.GRAY);
+                    favoritBtn.setTextColor(Color.BLACK);
                     getFavoritePost();
                     break;
             }
@@ -212,9 +213,7 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
         currentState = LATEST;
         dataOffset = 0;
         noMoreData = false;
-        latestBtn.setTextColor(Color.BLACK);
-        favoritBtn.setTextColor(Color.GRAY);
-        getLatestPost();
+        relode();
         scrollView.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -228,9 +227,7 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
         currentState = FAVORIT;
         dataOffset = 0;
         noMoreData = false;
-        latestBtn.setTextColor(Color.GRAY);
-        favoritBtn.setTextColor(Color.BLACK);
-        getFavoritePost();
+        relode();
         scrollView.postDelayed(new Runnable() {
             @Override
             public void run() {
