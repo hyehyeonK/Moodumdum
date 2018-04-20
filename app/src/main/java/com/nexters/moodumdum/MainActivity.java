@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     Fragment cardFragment;
     public static Activity MainAct;
     public static Context MainActivityContext;
+    private DeviceUuidFactory uuidFactory;
+    private String nickName;
 
 
     @Override
@@ -64,13 +66,13 @@ public class MainActivity extends AppCompatActivity {
         //첫 실행 이면
         if (isFirstRun) {
             //UUID 생성
-            DeviceUuidFactory uuidFactory = new DeviceUuidFactory(this);
+            uuidFactory = new DeviceUuidFactory(this);
             UUID uuid = uuidFactory.getDeviceUuid();
 
             //랜덤 닉네임 생성
             Random random = new Random();
             int randomNum = random.nextInt(nickNameList.length);
-            String nickName = nickNameList[randomNum];
+            nickName = nickNameList[randomNum];
 
             //서버에 보내기
             postUserData(uuid + "", nickName + " 영혼");
@@ -90,6 +92,11 @@ public class MainActivity extends AppCompatActivity {
     }
     public String getUUID(){
         return UUID;
+    }
+    public void reloadUUID(){
+        UUID uuid = uuidFactory.getDeviceUuid();
+        //서버에 보내기
+        postUserData(uuid + "", nickName + " 영혼");
     }
     public void setCardFragment(){
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -113,7 +120,10 @@ public class MainActivity extends AppCompatActivity {
                         }
                         else {
                             Log.d("@@@postUserDataErr", "유저 정보 저장 실패");
-                            ErrAlert();
+                            if(response.body() == null){
+                                reloadUUID();
+                            }
+                            else { ErrAlert();}
                         }
                     }
 
@@ -126,6 +136,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void ErrAlert() {
+        //정보 삭제
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.clear();
+        editor.commit();
+
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 MainActivity.this);
 

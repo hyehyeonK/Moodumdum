@@ -274,9 +274,6 @@ public class DetailContentsActivity extends AppCompatActivity {
                 Toast.makeText( getBaseContext(), "조문글을 남겼어요.", Toast.LENGTH_SHORT ).show();
                 getCommentContent();
                 getCommentHeader();
-//                commentsCount.setText(currentCommentsCount + "");
-//                TextView countTextView = currentView.findViewById(R.id.commentCount);
-//                countTextView.setText(currentCommentsCount+"");
                 contentsTest.setText( null );
             }
 
@@ -288,17 +285,6 @@ public class DetailContentsActivity extends AppCompatActivity {
     }
     @Override
     public boolean onTouchEvent(MotionEvent e) {
-//        switch (e.getAction() & MotionEvent.ACTION_MASK)
-//        {
-//            // 터치가 눌렸을때 터치 이벤트를 활성화한다.
-//            case MotionEvent.ACTION_DOWN:
-//                contents.getParent().requestDisallowInterceptTouchEvent(true);
-//                break;
-//            // 터치가 끝났을때 터치 이벤트를 비활성화한다 [원상복구]
-//            case MotionEvent.ACTION_UP:
-//                contents.getParent().requestDisallowInterceptTouchEvent(false);
-//                break;
-//        }
         return gestureDetector.onTouchEvent(e);
     }
     private class GestureListener extends GestureDetector.SimpleOnGestureListener {

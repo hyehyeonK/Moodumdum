@@ -6,10 +6,7 @@ package com.nexters.moodumdum.factory;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.provider.Settings.Secure;
-import android.telephony.TelephonyManager;
 
-import java.io.UnsupportedEncodingException;
 import java.util.UUID;
 
 public class DeviceUuidFactory {
@@ -28,33 +25,29 @@ public class DeviceUuidFactory {
                     if (id != null) {
                         uuid = UUID.fromString(id);
                     } else {
-                        final String androidId = Secure.getString(
-                                context.getContentResolver(), Secure.ANDROID_ID);
-                        try {
-                            if (!"9774d56d682e549c".equals(androidId)) {
-                                uuid = UUID.nameUUIDFromBytes(androidId
-                                        .getBytes("utf8"));
-                            } else {
-
-
-                                final  String deviceId = ((TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
-                                uuid = deviceId != null ? UUID.nameUUIDFromBytes(deviceId.getBytes("utf8")) : UUID.randomUUID();
-                            }
-                        } catch (SecurityException e) { //사용자가 permission 사용 허가를 하지 않았을 경우
-                            throw new SecurityException(e); // 경고장 띄우기로 바꾸기
-                        } catch (UnsupportedEncodingException e) {
-                            throw new RuntimeException(e);
-                        }
-
-                        prefs.edit()
-                                .putString(PREFS_DEVICE_ID, uuid.toString())
-                                .commit();
+//                        final String androidId = Secure.getString(
+//                                context.getContentResolver(), Secure.ANDROID_ID);
+//                        try {
+//                            if (!"9774d56d682e549c".equals(androidId)) {
+//                                uuid = UUID.nameUUIDFromBytes(androidId
+//                                        .getBytes("utf8"));
+//                            } else {
+//
+//
+//                                final  String deviceId = ((TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE)).getDeviceId();
+//                                uuid = deviceId != null ? UUID.nameUUIDFromBytes(deviceId.getBytes("utf8")) : UUID.randomUUID();
+//                            }
+//                        } catch (SecurityException e) { //사용자가 permission 사용 허가를 하지 않았을 경우
+//                            throw new SecurityException(e); // 경고장 띄우기로 바꾸기
+//                        } catch (UnsupportedEncodingException e) {
+//                            throw new RuntimeException(e);
+//                        }
+                        uuid = UUID.randomUUID();
                     }
                 }
             }
         }
     }
-
     public UUID getDeviceUuid() {
         return uuid;
     }
