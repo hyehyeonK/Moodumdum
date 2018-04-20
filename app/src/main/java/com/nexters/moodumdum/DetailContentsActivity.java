@@ -336,8 +336,8 @@ public class DetailContentsActivity extends AppCompatActivity {
             }
         },2800);
     }
-    @OnClick(R.id.btn_back)
-    public void closeDetaileCard(){
+
+    public void finishDeatailCard(){
         detailCardInfo.setLikeCount(Integer.parseInt(likeCount.getText().toString()));
         detailCardInfo.setCommentCount(Integer.parseInt(commentsCount.getText().toString()));
 
@@ -352,8 +352,17 @@ public class DetailContentsActivity extends AppCompatActivity {
 
         this.finish();
     }
+    @Override
+    public void onBackPressed() {
+        finishDeatailCard();
+    }
+    @OnClick(R.id.btn_back)
+    public void closeDetaileCard(){
+        finishDeatailCard();
+    }
 
-    @OnClick(R.id.contents_like)
+
+    @OnClick({R.id.contents_like,R.id.likeCount})
     public void setLike() {
         motionLikeAnimation();
     }
