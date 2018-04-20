@@ -4,9 +4,6 @@ package com.nexters.moodumdum.factory;
  * Created by kimhyehyeon on 2018. 2. 18..
  */
 
-import android.content.Context;
-import android.content.SharedPreferences;
-
 import java.util.UUID;
 
 public class DeviceUuidFactory {
@@ -15,16 +12,28 @@ public class DeviceUuidFactory {
     protected static final String PREFS_DEVICE_ID = "device_id";
     protected volatile static UUID uuid;
 
-    public DeviceUuidFactory(Context context) {
-        if (uuid == null) {
-            synchronized (DeviceUuidFactory.class) {
-                if (uuid == null) {
-                    final SharedPreferences prefs = context
-                            .getSharedPreferences(PREFS_FILE, 0);
-                    final String id = prefs.getString(PREFS_DEVICE_ID, null);
-                    if (id != null) {
-                        uuid = UUID.fromString(id);
-                    } else {
+    public DeviceUuidFactory(){
+        uuid = UUID.randomUUID();
+    }
+    public UUID getDeviceUuid() {
+        return uuid;
+    }
+}
+
+
+
+//아래 사용했던 코드는 디바이스 고유 아이디 값을 찾는 거였음
+//    public DeviceUuidFactory(Context context) {
+//
+//        if (uuid == null) {
+//            synchronized (DeviceUuidFactory.class) {
+//                if (uuid == null) {
+//                    final SharedPreferences prefs = context
+//                            .getSharedPreferences(PREFS_FILE, 0);
+//                    final String id = prefs.getString(PREFS_DEVICE_ID, null);
+//                    if (id != null) {
+//                        uuid = UUID.fromString(id);
+//                    } else {
 //                        final String androidId = Secure.getString(
 //                                context.getContentResolver(), Secure.ANDROID_ID);
 //                        try {
@@ -42,13 +51,13 @@ public class DeviceUuidFactory {
 //                        } catch (UnsupportedEncodingException e) {
 //                            throw new RuntimeException(e);
 //                        }
-                        uuid = UUID.randomUUID();
-                    }
-                }
-            }
-        }
-    }
-    public UUID getDeviceUuid() {
-        return uuid;
-    }
-}
+//                        uuid = UUID.randomUUID();
+//                        checkDup(uuid+"");
+//                        prefs.edit()
+//                                .putString(PREFS_DEVICE_ID, uuid.toString())
+//                                .commit();
+//                    }
+//                }
+//            }
+//        }
+//    }

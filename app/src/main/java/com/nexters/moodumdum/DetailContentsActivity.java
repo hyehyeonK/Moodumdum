@@ -31,7 +31,6 @@ import com.nexters.moodumdum.adpater.CommentAdapter;
 import com.nexters.moodumdum.adpater.StackCardAdapter;
 import com.nexters.moodumdum.anim.RecyclerViewDecoration;
 import com.nexters.moodumdum.api.MooDumDumService;
-import com.nexters.moodumdum.factory.DeviceUuidFactory;
 import com.nexters.moodumdum.model.CommentModel;
 import com.nexters.moodumdum.model.ContentsModel;
 import com.nexters.moodumdum.model.DetailCardInfoDAO;
@@ -41,7 +40,6 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -219,7 +217,6 @@ public class DetailContentsActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ContentsModel.Result> call, Response<ContentsModel.Result> response) {
                 ContentsModel.Result items = response.body();
-                Log.d("SDDSF###", items.toString());
                 likeCount.setText( items.getLike_count() + "");
                 commentsCount.setText( String.valueOf( items.getComment_count() ) );
                 if( items.isIs_liked()){
@@ -262,13 +259,9 @@ public class DetailContentsActivity extends AppCompatActivity {
 
     public void PostComment() {
         board_id = detailCardInfo.getBoard_id();
-        DeviceUuidFactory uuidFactory = new DeviceUuidFactory( this );
-        UUID uuid = uuidFactory.getDeviceUuid();
-
-        String user = uuid + "";
         String description = contentsTest.getText().toString();
 
-        MooDumDumService.of().postComment( user, board_id, description ).enqueue( new Callback<ServerResponse>() {
+        MooDumDumService.of().postComment( uuid, board_id, description ).enqueue( new Callback<ServerResponse>() {
             @Override
             public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
                 Toast.makeText( getBaseContext(), "조문글을 남겼어요.", Toast.LENGTH_SHORT ).show();

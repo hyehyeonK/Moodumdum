@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         //첫 실행 이면
         if (isFirstRun) {
             //UUID 생성
-            uuidFactory = new DeviceUuidFactory(this);
+            uuidFactory = new DeviceUuidFactory();
             UUID uuid = uuidFactory.getDeviceUuid();
 
             //랜덤 닉네임 생성
