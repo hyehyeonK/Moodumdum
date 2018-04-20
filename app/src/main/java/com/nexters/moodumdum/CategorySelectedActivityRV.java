@@ -38,8 +38,6 @@ import retrofit2.Response;
  */
 
 public class CategorySelectedActivityRV extends AppCompatActivity {
-    private SelectedCategoryAdapter selectedCategoryAdapter;
-    private SelectedCategoryAdapter reStartAdapter;
     private LinearLayoutManager linearLayoutManager;
     private SelectedCategoryAdapter currentAdapter;
     String uuid;
@@ -47,7 +45,6 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
     final static int LATEST = 0;
     final static int FAVORIT = 1;
     int dataOffset;
-    int getItemCount;
     boolean noMoreData;
     int int_scrollViewPos; // 현재 스크롤 포지션
     int int_TextView_lines; // 스크롤뷰 크기
@@ -83,8 +80,7 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
         uuid = ((MainActivity) MainActivity.MainAct).getUUID();
         Intent intent = getIntent();
         categoryID = intent.getStringExtra("categoryID");
-        selectedCategoryAdapter = new SelectedCategoryAdapter(CategorySelectedActivityRV.this, activity);
-        currentAdapter = selectedCategoryAdapter;
+        currentAdapter = new SelectedCategoryAdapter(CategorySelectedActivityRV.this, activity);
         initView();
         getCategoryInfo();
         getLatestPost();
@@ -102,11 +98,11 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
                     public void run() {
                         latestBtn.setTextColor(Color.BLACK);
                         favoritBtn.setTextColor(Color.GRAY);
-                        reStartAdapter = new SelectedCategoryAdapter(CategorySelectedActivityRV.this, activity);
-                        currentAdapter = reStartAdapter;
+                        currentAdapter = new SelectedCategoryAdapter(CategorySelectedActivityRV.this, activity);
                         recyclerView.setAdapter(currentAdapter);
                         dataOffset = 0;
                         noMoreData = false;
+                        relode();
                         getLatestPost();
                         mRefreshLayout.setRefreshing(false);
                     }
@@ -114,13 +110,23 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
             }
         });
         linearLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setAdapter(selectedCategoryAdapter);
+        recyclerView.setAdapter(currentAdapter);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.addItemDecoration(new RecyclerViewDecoration(12));
-        reloadAtBottom();
+        scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged() {
+                int_scrollViewPos = scrollView.getScrollY();
+                int_TextView_lines = scrollView.getChildAt(0).getBottom() - scrollView.getHeight();
+                if(int_TextView_lines == int_scrollViewPos){
+                    relode();
+                }
+
+            }
+        });
     }
     private void getCategoryInfo() {
         MooDumDumService.of().getCategoryInfo(categoryID).enqueue(new Callback<CategoryInfoModel>() {
@@ -178,7 +184,7 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
                     } else {
                         currentAdapter.addMoreItem(items.getResult());
                     }
-                    dataOffset =+ 10;
+                    dataOffset += 10;
                 }
             }
 
@@ -187,7 +193,20 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
             }
         });
     }
-
+    public void relode(){
+        if(!noMoreData) {
+            switch (currentState) {
+                case LATEST:
+                    getLatestPost();
+                    break;
+                case FAVORIT:
+                    getFavoritePost();
+                    break;
+            }
+        } else {
+            Toast.makeText(getBaseContext(), "더이상 로드할 글이 없습니다.", Toast.LENGTH_SHORT).show();
+        }
+    }
     @OnClick(R.id.latestBtn)
     public void latestList(){
         currentState = LATEST;
@@ -230,33 +249,6 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
     public void onViewClicked() {
         Intent intent = new Intent( getApplicationContext(), PlusActivity.class );
         startActivity( intent );
-    }
-
-    public void reloadAtBottom(){
-        //Detect Bottom ScrollView
-        scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-            @Override
-            public void onScrollChanged() {
-                int_scrollViewPos = scrollView.getScrollY();
-                int_TextView_lines = scrollView.getChildAt(0).getBottom() - scrollView.getHeight();
-                if(int_TextView_lines == int_scrollViewPos){
-                    if(!noMoreData) {
-                        switch (currentState) {
-                            case LATEST:
-                                getLatestPost();
-                                break;
-                            case FAVORIT:
-                                getFavoritePost();
-                                break;
-                        }
-                    } else {
-                        Toast.makeText(getBaseContext(), "더이상 로드할 글이 없습니다.", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-            }
-        });
-
     }
 }
 

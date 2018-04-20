@@ -1,6 +1,7 @@
 package com.nexters.moodumdum;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +17,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -55,7 +57,11 @@ public class DetailContentsActivity extends AppCompatActivity {
     static PostLike postLike;
     ScrollingMovementMethod scroll;
     String currentColor;
+    public int StatusBarHeight;
 //    View currentView;
+
+    @BindView(R.id.topFrame)
+    ConstraintLayout topFrame;
     @BindView(R.id.backImage)
     ImageView backImage;
     @BindView(R.id.contents_comment)
@@ -104,7 +110,9 @@ public class DetailContentsActivity extends AppCompatActivity {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_detailcard );
         ButterKnife.bind( this );
-
+        getStatusBarHeight();
+        setActionbarMarginTop(topFrame);
+        setActionbarMarginTop2(sliding);
         Intent intent = getIntent();
         detailCardInfo = (DetailCardInfoDAO) intent.getSerializableExtra( "cardInfo" );
         beforeAct = intent.getStringExtra("beforeAct");
@@ -117,7 +125,31 @@ public class DetailContentsActivity extends AppCompatActivity {
         uuid = ((MainActivity) MainActivity.MainAct).getUUID();
         initView();
     }
+    public void getStatusBarHeight(){
+        int statusHeight = 0;
+        int screenSizeType = (this.getResources().getConfiguration().screenLayout &
+                Configuration.SCREENLAYOUT_SIZE_MASK);
 
+        if(screenSizeType != Configuration.SCREENLAYOUT_SIZE_XLARGE) {
+            int resourceId = this.getResources().getIdentifier("status_bar_height", "dimen", "android");
+
+            if (resourceId > 0) {
+                statusHeight = this.getResources().getDimensionPixelSize(resourceId);
+            }
+        }
+        StatusBarHeight = statusHeight;
+    }
+
+    public void setActionbarMarginTop(final View view){
+        FrameLayout.LayoutParams topLayoutParams = (FrameLayout.LayoutParams) view.getLayoutParams();
+        topLayoutParams.topMargin = StatusBarHeight;
+        view.setLayoutParams(topLayoutParams);
+    }
+    public void setActionbarMarginTop2(final View view){
+        ConstraintLayout.LayoutParams topLayoutParams = (ConstraintLayout.LayoutParams) view.getLayoutParams();
+        topLayoutParams.topMargin = StatusBarHeight;
+        view.setLayoutParams(topLayoutParams);
+    }
     public void initView() {
 
 //        currentView = detailCardInfo.getCurrnetView();

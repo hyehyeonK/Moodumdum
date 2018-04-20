@@ -218,7 +218,7 @@ public class MainCardStackFragment extends Fragment {
         String uuid = ((MainActivity)getActivity()).getUUID();
         MooDumDumService.of().getContents(uuid).enqueue( new Callback<ContentsModel>() {
             @Override
-            public void onResponse(Call<ContentsModel> call, Response<ContentsModel> response) {
+            public void onResponse(Call<ContentsModel> call, final Response<ContentsModel> response) {
                 if (response.isSuccessful()) {
                     final ContentsModel items = response.body();
                     results = items.getResult();
@@ -226,8 +226,9 @@ public class MainCardStackFragment extends Fragment {
 
                         @Override
                         public void run() {
-                            currentCardAdaper.getData().addAll(results);
-                            currentCardAdaper.notifyDataSetChanged();
+//                            currentCardAdaper.getData().addAll(results);
+//                            currentCardAdaper.notifyDataSetChanged();
+                            currentCardAdaper.addMoreData(results);
                         }
                     }, 1000 );
 

@@ -63,6 +63,7 @@ public class FragmentMyJomun extends Fragment {
         myPageMyJomunAdapter = new MyPageRecyclerViewAdapter( getContext(),mGlideRequestManager );
         myPageRecyclerView.setAdapter( myPageMyJomunAdapter );
         myPageRecyclerView.setItemAnimator( new DefaultItemAnimator() );
+
         unbinder = ButterKnife.bind( this, view );
         return view;
     }
