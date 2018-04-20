@@ -43,19 +43,20 @@ public class PostCommentLike {
             public void run() {
                 glideRequestManager.load(R.drawable.like_after).into(imageView);
                 imageView.setColorFilter(null);
-                textView.setText((count + 1) +"");
+//                textView.setText((count + 1) +"");
             }
-        },2700);
+        },200);
     }
 
-    public void PostCommentLike(BigInteger comment_id, View currnetView, RequestManager glideRequestManager) {
-        this.currnetView = currnetView;
+    public void PostCommentLike(BigInteger comment_id, ImageView imageView, RequestManager glideRequestManager) {
+        this.imageView = imageView;
         this.glideRequestManager = glideRequestManager;
         String uuid = ((MainActivity) MainActivity.MainAct).getUUID();
         boolean result = false;
         MooDumDumService.of().postCommentLike( comment_id, uuid ).enqueue( new Callback<ServerResponse>() {
             @Override
             public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
+                returnResult();
             }
 
             @Override

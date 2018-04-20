@@ -2,6 +2,7 @@ package com.nexters.moodumdum.api;
 
 import com.nexters.moodumdum.model.CategoryInfoModel;
 import com.nexters.moodumdum.model.CommentModel;
+import com.nexters.moodumdum.model.CommentUserModel;
 import com.nexters.moodumdum.model.ContentsModel;
 import com.nexters.moodumdum.model.ImageModel;
 import com.nexters.moodumdum.model.PutUserDataModel;
@@ -92,6 +93,10 @@ public interface MooDumDumAPI {
     //댓글 가져오기
     @GET("api/board/search/comment/{board_id}")
     Call<CommentModel> getComment (@Path( "board_id" ) BigInteger board_id);
+
+    // user id로 댓글 가져오기
+    @GET("api/board/comment/?user={user_id}")
+    Call<CommentUserModel> getCommentWithUser (@Path( "user_id" ) String user_id);
 
     //댓글 쓰기
     @FormUrlEncoded

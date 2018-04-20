@@ -3,6 +3,7 @@ package com.nexters.moodumdum.api;
 import com.nexters.moodumdum.factory.RetrofitFactory;
 import com.nexters.moodumdum.model.CategoryInfoModel;
 import com.nexters.moodumdum.model.CommentModel;
+import com.nexters.moodumdum.model.CommentUserModel;
 import com.nexters.moodumdum.model.ContentsModel;
 import com.nexters.moodumdum.model.ImageModel;
 import com.nexters.moodumdum.model.PutUserDataModel;
@@ -69,6 +70,7 @@ public class MooDumDumService {
     public Call<CommentModel> getComment(BigInteger board_id) {
         return api.getComment( board_id );
     }
+    public Call<CommentUserModel> getCommentWithUser(String user_id) {return api.getCommentWithUser( user_id );}
     public Call<ServerResponse> postComment(String user, BigInteger board_id , String description) {
         return api.postComment( user, board_id, description );
     }

@@ -11,7 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.RequestManager;
-import com.nexters.moodumdum.MainActivity;
 import com.nexters.moodumdum.PostCommentLike;
 import com.nexters.moodumdum.R;
 import com.nexters.moodumdum.api.MooDumDumService;
@@ -33,7 +32,6 @@ import retrofit2.Response;
  */
 
 public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
 
     private Context context;
     private List<CommentModel.Result> results = new ArrayList<>();
@@ -96,7 +94,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             CommentModel.Result item = results.get( position );
             BigInteger comment_id = item.getId();
 
-            // 임시로
+            // 댓글을 쓴 사람만 삭제하도록
             switch (v.getId()) {
                 case R.id.btnDel:
                     MooDumDumService.of().delComment( comment_id ).enqueue( new Callback<ServerResponse>() {
@@ -112,19 +110,19 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     } );
 
                 case R.id.btnLike:
-//                    postCommentLike.PostCommentLike( comment_id, view,glideRequestManager);
-                        String user = ((MainActivity) MainActivity.MainAct).getUUID();
-                    MooDumDumService.of().postCommentLike(comment_id, user ).enqueue( new Callback<ServerResponse>() {
-                        @Override
-                        public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
-                            Toast.makeText( context, "댓글 조아여.", Toast.LENGTH_SHORT ).show();
-                        }
-
-                        @Override
-                        public void onFailure(Call<ServerResponse> call, Throwable t) {
-
-                        }
-                    } );
+                   postCommentLike.PostCommentLike( comment_id, imageLike,glideRequestManager);
+//                        String user = ((MainActivity) MainActivity.MainAct).getUUID();
+//                    MooDumDumService.of().postCommentLike(comment_id, user ).enqueue( new Callback<ServerResponse>() {
+//                        @Override
+//                        public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
+//                            Toast.makeText( context, "댓글 조아여.", Toast.LENGTH_SHORT ).show();
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<ServerResponse> call, Throwable t) {
+//
+//                        }
+//                    } );
 
             }
         }
