@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <com.mcxtzhang.swipemenulib.SwipeMenuLayout
-
+        android:id="@+id/swipeMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
