@@ -12,11 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nexters.moodumdum.api.MooDumDumService;
-import com.nexters.moodumdum.factory.DeviceUuidFactory;
 import com.nexters.moodumdum.model.PutUserDataModel;
 import com.nexters.moodumdum.model.UserDataModel;
-
-import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -77,9 +74,7 @@ public class NameEditActivity extends AppCompatActivity {
     }
 
     public void getUserData() {
-        DeviceUuidFactory uuidFactory = new DeviceUuidFactory( this );
-        UUID uid = uuidFactory.getDeviceUuid();
-        String uuid = uid.toString();
+        String uuid = ((MainActivity) MainActivity.MainAct).getUUID();
 
         MooDumDumService.of().getUserData( uuid ).enqueue( new Callback<UserDataModel>() {
             @Override
@@ -105,15 +100,11 @@ public class NameEditActivity extends AppCompatActivity {
     }
 
     public void putUserData() {
-        DeviceUuidFactory uuidFactory = new DeviceUuidFactory( this );
-        final UUID uid = uuidFactory.getDeviceUuid();
-
-        String user_id = uid.toString();
+        String uuid = ((MainActivity) MainActivity.MainAct).getUUID();
         final String name = editName.getText().toString();
-        String user = user_id;
         String profile_image = "";  // 프로필 이미지는 필요없음
 
-        MooDumDumService.of().putUserData( user_id, user, name, profile_image).enqueue( new Callback<PutUserDataModel>() {
+        MooDumDumService.of().putUserData( uuid, uuid, name, profile_image).enqueue( new Callback<PutUserDataModel>() {
             @Override
             public void onResponse(Call<PutUserDataModel> call, Response<PutUserDataModel> response) {
                 Intent intent = new Intent();

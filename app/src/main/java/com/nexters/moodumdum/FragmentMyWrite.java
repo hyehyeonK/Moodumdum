@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +66,21 @@ public class FragmentMyWrite extends Fragment {
         myPageMyContentsAdapter = new MyPageRecyclerViewAdapter( getContext() , mGlideRequestManager);
         myPageRecyclerView.setAdapter( myPageMyContentsAdapter );
         myPageRecyclerView.setItemAnimator( new DefaultItemAnimator() );
+
+        myPageRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+
+                if(dy > 0) { //scroll down 이면
+                    Log.d("ASDS",mLayoutManager.getChildCount()+"");
+//                    visibleItemCount = mLayoutManager.getChildCount();
+//                    totalItemCount = mLayoutManager.getItemCount();
+//                    pastVisiblesItems = mLayoutManager.fin
+                }
+            }
+        });
+
+
         unbinder = ButterKnife.bind( this, view );
 
         return view;
