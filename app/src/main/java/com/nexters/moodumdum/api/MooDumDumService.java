@@ -42,11 +42,11 @@ public class MooDumDumService {
         return  api.postDoLike(uuid, board_id, uuid);
     }
     public Call<ContentsModel> getContents(String uuid) { return api.getContents(uuid);}
-    public Call<ContentsModel> getMyContents(String userId) {
-        return  api.getMyContents(userId);
+    public Call<ContentsModel> getMyContents(String userId, int offset) {
+        return  api.getMyContents(userId,limit,offset);
     }
-    public Call<ContentsModel> getMyJomunContents(String userId) {
-        return  api.getMyJomunContents(userId);
+    public Call<ContentsModel> getMyJomunContents(String userId, int offset) {
+        return  api.getMyJomunContents(userId, limit, offset);
     }
     public Call<ImageModel> getBackgroundImage() {return  api.getBackgroundImage();}
     public Call<ContentsModel.Result> getContentsSelected(String board_id, String uuid) { return api.getContentsSelected( board_id, uuid );}

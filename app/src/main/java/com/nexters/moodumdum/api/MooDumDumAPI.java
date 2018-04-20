@@ -55,7 +55,9 @@ public interface MooDumDumAPI {
 
     //내가 쓴 글 가져오기
     @GET("api/board/search/user/{userId}")
-    Call<ContentsModel> getMyContents (@Path("userId") String userId);
+    Call<ContentsModel> getMyContents (@Path("userId") String userId,
+                                       @Query("limit") int limit,
+                                       @Query("offset") int offset);
 
     //좋아요 보내기
     @FormUrlEncoded
@@ -66,7 +68,9 @@ public interface MooDumDumAPI {
 
     //내가 좋아요 한 글 가져오기
     @GET("api/board/user/like/{userId}")
-    Call<ContentsModel> getMyJomunContents (@Path("userId") String userId);
+    Call<ContentsModel> getMyJomunContents (@Path("userId") String userId,
+                                            @Query("limit") int limit,
+                                            @Query("offset") int offset);
 
     //카테고리 베너및 타이틀 가져오기
     @GET("api/board/category/{category_id}")

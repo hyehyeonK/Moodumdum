@@ -32,6 +32,8 @@ import retrofit2.Response;
 public class FragmentMyJomun extends Fragment {
     public RequestManager mGlideRequestManager;
     private UUID uuid;
+    int dataOffset;
+    boolean noMoreData;
     @BindView(R.id.recyclerView)
     RecyclerView myPageRecyclerView;
     Unbinder unbinder;
@@ -46,6 +48,8 @@ public class FragmentMyJomun extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         mGlideRequestManager = Glide.with(this);
+        dataOffset = 0;
+        noMoreData = false;
         initDataset();
     }
 
@@ -63,11 +67,26 @@ public class FragmentMyJomun extends Fragment {
         myPageMyJomunAdapter = new MyPageRecyclerViewAdapter( getContext(),mGlideRequestManager );
         myPageRecyclerView.setAdapter( myPageMyJomunAdapter );
         myPageRecyclerView.setItemAnimator( new DefaultItemAnimator() );
-
+        myPageRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if(dy > 0) { //scroll down 이면
+                    if(isGridBottom(myPageRecyclerView) && !noMoreData){ //스크롤 마지막이면
+                        initDataset();
+                    }
+                }
+            }
+        });
         unbinder = ButterKnife.bind( this, view );
         return view;
     }
-
+    public boolean isGridBottom(RecyclerView recyclerView) {
+        GridLayoutManager layoutManager = (GridLayoutManager) recyclerView.getLayoutManager();
+        int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
+        int visibleItemCount = layoutManager.getChildCount();
+        int totalItemCount = layoutManager.getItemCount();
+        return visibleItemCount > 0 && lastVisibleItemPosition == totalItemCount - 1 && !recyclerView.canScrollVertically(1);
+    }
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated( savedInstanceState );
@@ -76,7 +95,7 @@ public class FragmentMyJomun extends Fragment {
 
     private void initDataset() {
         String uuid = ((MainActivity) MainActivity.MainAct).getUUID();
-        MooDumDumService.of().getMyJomunContents(uuid).enqueue(new Callback<ContentsModel>() {
+        MooDumDumService.of().getMyJomunContents(uuid, dataOffset).enqueue(new Callback<ContentsModel>() {
             @Override
             public void onResponse(Call<ContentsModel> call, Response<ContentsModel> response) {
                 Log.d("내가좋아요한글",""+response.message());
@@ -86,7 +105,16 @@ public class FragmentMyJomun extends Fragment {
                         nullJomunImg.setVisibility(View.VISIBLE);
                         nullJomunText.setVisibility( View.VISIBLE );
                     }
-                    myPageMyJomunAdapter.setMyContentsList(items.getResult());
+                    if(items.getNext() == null){
+                        noMoreData = true;
+                    }
+                    if(dataOffset == 0 ) {
+                        myPageMyJomunAdapter.setMyContentsList(items.getResult());
+                    } else {
+                        myPageMyJomunAdapter.addMoreItem(items.getResult());
+                    }
+                    dataOffset += 10;
+
                     return;
                 }
                 nullJomunImg.setVisibility(View.VISIBLE);
@@ -111,4 +139,11 @@ public class FragmentMyJomun extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+//    public void scrollToTop() {
+//        int smoothPos = 14;
+//        if (mLayoutManager.findLastVisibleItemPosition() > smoothPos) {
+//            mRvPosts.scrollToPosition(smoothPos);
+//        }
+//        mRvPosts.smoothScrollToPosition(0);
+//    }
 }

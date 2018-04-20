@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +32,8 @@ import retrofit2.Response;
 public class FragmentMyWrite extends Fragment {
     public RequestManager mGlideRequestManager;
     private UUID uuid;
+    int dataOffset;
+    boolean noMoreData;
     @BindView(R.id.recyclerView)
     RecyclerView myPageRecyclerView;
     Unbinder unbinder;
@@ -49,6 +50,8 @@ public class FragmentMyWrite extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         mGlideRequestManager = Glide.with(this);
+        dataOffset = 0;
+        noMoreData = false;
         initDataset();
     }
 
@@ -70,12 +73,10 @@ public class FragmentMyWrite extends Fragment {
         myPageRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-
                 if(dy > 0) { //scroll down 이면
-                    Log.d("ASDS",mLayoutManager.getChildCount()+"");
-//                    visibleItemCount = mLayoutManager.getChildCount();
-//                    totalItemCount = mLayoutManager.getItemCount();
-//                    pastVisiblesItems = mLayoutManager.fin
+                    if(isGridBottom(myPageRecyclerView) && !noMoreData){ //스크롤 마지막이면
+                        initDataset();
+                    }
                 }
             }
         });
@@ -85,7 +86,13 @@ public class FragmentMyWrite extends Fragment {
 
         return view;
     }
-
+    public boolean isGridBottom(RecyclerView recyclerView) {
+        GridLayoutManager layoutManager = (GridLayoutManager) recyclerView.getLayoutManager();
+        int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
+        int visibleItemCount = layoutManager.getChildCount();
+        int totalItemCount = layoutManager.getItemCount();
+        return visibleItemCount > 0 && lastVisibleItemPosition == totalItemCount - 1 && !recyclerView.canScrollVertically(1);
+    }
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated( savedInstanceState );
@@ -94,7 +101,7 @@ public class FragmentMyWrite extends Fragment {
 
     private void initDataset() {
         String uuid = ((MainActivity) MainActivity.MainAct).getUUID();
-        MooDumDumService.of().getMyContents(uuid).enqueue(new Callback<ContentsModel>() {
+        MooDumDumService.of().getMyContents(uuid, dataOffset).enqueue(new Callback<ContentsModel>() {
             @Override
             public void onResponse(Call<ContentsModel> call, Response<ContentsModel> response) {
                 if (response.isSuccessful()) {
@@ -102,8 +109,18 @@ public class FragmentMyWrite extends Fragment {
                     if (items.getResult().isEmpty()) {
                         nullWriteImg.setVisibility(View.VISIBLE);
                         nullWriteText.setVisibility( View.VISIBLE );
+                        return;
                     }
-                    myPageMyContentsAdapter.setMyContentsList(items.getResult());
+                    if(items.getNext() == null){
+                        noMoreData = true;
+                    }
+                    if(dataOffset == 0 ) {
+                        myPageMyContentsAdapter.setMyContentsList(items.getResult());
+                    } else {
+                        myPageMyContentsAdapter.addMoreItem(items.getResult());
+                    }
+                    dataOffset += 10;
+
                 }
             }
 

@@ -73,6 +73,10 @@ public class MyPageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         this.results = results;
         notifyDataSetChanged();
     }
+    public void addMoreItem(List<ContentsModel.Result> results){
+        this.results.addAll(results);
+        notifyDataSetChanged();
+    }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         View view;
