@@ -237,7 +237,7 @@ public class DetailContentsActivity extends AppCompatActivity {
     // uuid로 불러오기
     public void getCommentContent() {
         board_id = detailCardInfo.getBoard_id();
-        MooDumDumService.of().getComment( board_id,"33bb704f-70bd-32db-981d-31db85bc5c72").enqueue( new Callback<CommentModel>() {
+        MooDumDumService.of().getComment( board_id,uuid).enqueue( new Callback<CommentModel>() {
             @Override
             public void onResponse(Call<CommentModel> call, Response<CommentModel> response) {
                 if (response.isSuccessful()) {
