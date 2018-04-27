@@ -234,20 +234,25 @@ public class DetailContentsActivity extends AppCompatActivity {
     }
 
 
+    // uuid로 불러오기
     public void getCommentContent() {
         board_id = detailCardInfo.getBoard_id();
-        MooDumDumService.of().getComment( board_id ).enqueue( new Callback<CommentModel>() {
+        MooDumDumService.of().getComment( board_id,"33bb704f-70bd-32db-981d-31db85bc5c72").enqueue( new Callback<CommentModel>() {
             @Override
             public void onResponse(Call<CommentModel> call, Response<CommentModel> response) {
                 if (response.isSuccessful()) {
                     final CommentModel items = response.body();
                     mCommentAdapter.setPostList( items.getResult() );
+                    Toast.makeText( getBaseContext(), "성공", Toast.LENGTH_SHORT ).show();
                 }
+                else
+                    Toast.makeText( getBaseContext(), uuid, Toast.LENGTH_SHORT ).show();
             }
 
             @Override
             public void onFailure(Call<CommentModel> call, Throwable t) {
                 Log.d("getCommentContent()","ServerFailure");
+                Toast.makeText( getBaseContext(), "실패", Toast.LENGTH_SHORT ).show();
             }
         } );
     }

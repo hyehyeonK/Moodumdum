@@ -50,8 +50,9 @@ public class PostCommentLike {
         },200);
     }
 
-    public void PostCommentLike(BigInteger comment_id, ImageView imageView, TextView textView, RequestManager glideRequestManager) {
+    public void PostCommentLike(BigInteger comment_id, int count, ImageView imageView, TextView textView, RequestManager glideRequestManager) {
         this.imageView = imageView;
+        this.count = count;
         this.glideRequestManager = glideRequestManager;
         this.textView = textView;
         String uuid = ((MainActivity) MainActivity.MainAct).getUUID();

@@ -67,9 +67,13 @@ public class MooDumDumService {
 
     public Call<CommentModel> getCommentAll() {return api.getCommentAll();}
 
-    public Call<CommentModel> getComment(BigInteger board_id) {
-        return api.getComment( board_id );
+//    public Call<CommentModel> getComment(BigInteger board_id) {
+//        return api.getComment( board_id );
+//    }
+    public Call<CommentModel> getComment(BigInteger board_id, String user) {
+        return api.getComment( board_id, user );
     }
+
     public Call<CommentUserModel> getCommentWithUser(String user_id) {return api.getCommentWithUser( user_id );}
     public Call<ServerResponse> postComment(String user, BigInteger board_id , String description) {
         return api.postComment( user, board_id, description );

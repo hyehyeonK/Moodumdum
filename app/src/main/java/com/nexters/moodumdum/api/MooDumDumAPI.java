@@ -94,9 +94,14 @@ public interface MooDumDumAPI {
     @GET("api/board/comment/")
     Call<CommentModel> getCommentAll ();
 
+//    //댓글 가져오기
+//    @GET("api/board/search/comment/{board_id}")
+//    Call<CommentModel> getComment (@Path( "board_id" ) BigInteger board_id);
+
     //댓글 가져오기
-    @GET("api/board/search/comment/{board_id}")
-    Call<CommentModel> getComment (@Path( "board_id" ) BigInteger board_id);
+    @GET("api/board/search/comment/{board_id}/")
+    Call<CommentModel> getComment (@Path( "board_id" ) BigInteger board_id,
+                                   @Query( "user" ) String user);
 
     // user id로 댓글 가져오기
     @GET("api/board/comment/?user={user_id}")

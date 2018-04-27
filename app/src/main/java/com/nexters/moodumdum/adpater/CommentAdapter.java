@@ -57,24 +57,38 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ItemViewHolder viewHolder = (ItemViewHolder) holder;
-//        final CommentUserModel.Result commentUserItem = CommentUserResults.get( position );
         final CommentModel.Result item = results.get( position );
+
         viewHolder.WriterOfComment.setText( item.getUser().getNickName() );
         viewHolder.contentOfComment.setText( item.getDescription() );
 
         String user = ((MainActivity) MainActivity.MainAct).getUUID();
+        String fontColor = "#e27171";
 
-        if(!item.getUser().getUuid().equals( user )) viewHolder.swipeMenu.setSwipeEnable( false );
-        else viewHolder.swipeMenu.setSwipeEnable( true );
+        if(!item.getUser().getUuid().equals( user ))
+            viewHolder.swipeMenu.setSwipeEnable( false );
+        else
+            viewHolder.swipeMenu.setSwipeEnable( true );
 
-        // 여기 수정
-        if (item.isIs_liked()) {
-            viewHolder.imageLike.setImageResource( R.drawable.like_after );
-//            glideRequestManager.load( R.drawable.like_after ).into( viewHolder.imageLike );
-            viewHolder.imageLike.setColorFilter( null );
-        }
-//
         viewHolder.likeCount.setText( "공감 " + item.getLike_count() + "개" );
+
+         //여기 수정
+        if(item.isIs_liked()) {
+//            glideRequestManager.load(R.drawable.like_after).into(viewHolder.imageLike);
+            glideRequestManager.load(R.drawable.like_after)
+                    .into(viewHolder.imageLike);
+            viewHolder.imageLike.setColorFilter(null);
+        } else {
+            glideRequestManager.load(R.drawable.btn_like)
+                    .into(viewHolder.imageLike);
+            viewHolder.imageLike.setColorFilter(null);
+        }
+
+//        if( item.getIsLike()){
+//            glideRequestManager.load(R.drawable.like_after)
+//                    .into(imageView);
+//            imageView.setColorFilter(null);
+//        }
 
     }
 
@@ -118,7 +132,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             int position = getAdapterPosition();
             final CommentModel.Result item = results.get( position );
             BigInteger comment_id = item.getId();
-            String user = ((MainActivity) MainActivity.MainAct).getUUID();
+            final String user = ((MainActivity) MainActivity.MainAct).getUUID();
 
             switch (v.getId()) {
                 case R.id.btnDel:
@@ -127,7 +141,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
                                 Toast.makeText( context, "조문글을 삭제했어요.", Toast.LENGTH_SHORT ).show();
 
-                                MooDumDumService.of().getComment( item.getBoard_id() ).enqueue( new Callback<CommentModel>() {
+                                MooDumDumService.of().getComment( item.getBoard_id(),user ).enqueue( new Callback<CommentModel>() {
                                     @Override
                                     public void onResponse(Call<CommentModel> call, Response<CommentModel> response) {
                                         setPostList( response.body().getResult() );
@@ -147,10 +161,25 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         } );
 
                 case R.id.btnLike:
-                    postCommentLike.PostCommentLike( comment_id, imageLike, likeCount, glideRequestManager );
+                    postCommentLike.PostCommentLike( comment_id, item.getLike_count(), imageLike, likeCount, glideRequestManager );
+
+                    MooDumDumService.of().getComment( item.getBoard_id(),user ).enqueue( new Callback<CommentModel>() {
+                        @Override
+                        public void onResponse(Call<CommentModel> call, Response<CommentModel> response) {
+                            setPostList( response.body().getResult() );
+                        }
+
+                        @Override
+                        public void onFailure(Call<CommentModel> call, Throwable t) {
+
+                        }
+                    } );
+
+                    Toast.makeText( context, item.isIs_liked()+"", Toast.LENGTH_SHORT ).show();
+            }
 
             }
         }
     }
-}
+
 

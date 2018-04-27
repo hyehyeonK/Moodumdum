@@ -163,6 +163,9 @@ public class CommentModel implements Serializable {
             return user;
         }
 
+        public void setIs_liked(boolean is_liked) {
+            this.is_liked = is_liked;
+        }
 
         public String getDescription() {
             return description;
