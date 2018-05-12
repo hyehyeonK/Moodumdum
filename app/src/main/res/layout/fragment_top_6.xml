@@ -4,10 +4,10 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <!--<ImageView-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="100dp"-->
-    <!--android:src="@drawable/gredient"-->
-    <!--android:scaleType="fitXY"/>-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="100dp"-->
+        <!--android:src="@drawable/gredient"-->
+        <!--android:scaleType="fitXY"/>-->
     <android.support.constraint.ConstraintLayout
         android:id="@+id/topFrame"
         android:layout_width="match_parent"

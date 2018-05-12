@@ -50,9 +50,11 @@ import retrofit2.Response;
 
 public class MainCardStackFragment extends Fragment {
     public RequestManager mGlideRequestManager;
-    public static Fragment MainCardFragment ;
+    public static Fragment MainCardFragment;
     public static Context MainCardFragment_context;
     public int StatusBarHeight;
+    @BindView(R.id.gradient)
+    View gradient;
     private String uuid;
     @BindView(R.id.topFrame)
     ConstraintLayout topFrame;
@@ -96,24 +98,24 @@ public class MainCardStackFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        final View view =  inflater.inflate(R.layout.fragment_main, container, false);
+        final View view = inflater.inflate( R.layout.fragment_main, container, false );
         ButterKnife.bind( this, view );
         MainCardFragment = MainCardStackFragment.this;
         MainCardFragment_context = getContext();
-        uuid = PropertyManagement.getUserId(getContext());
+        uuid = PropertyManagement.getUserId( getContext() );
         //Menu top margin 주기
         getStatusBarHeight();
-        setActionbarMarginTop(topFrame);
-        mGlideRequestManager = Glide.with(this);
+        setActionbarMarginTop( topFrame );
+        mGlideRequestManager = Glide.with( this );
         getPost();
         initView();
 //        loadData();
         return view;
     }
 
-    public void setButtonColor(){
-        myPageBtn.setColorFilter(Color.WHITE);
-        menuBtn.setColorFilter(Color.WHITE);
+    public void setButtonColor() {
+        myPageBtn.setColorFilter( Color.WHITE );
+        menuBtn.setColorFilter( Color.WHITE );
     }
 //    public void animateTransaction(View view) {
 //        Toast.makeText(getContext(), "클리이이익.", Toast.LENGTH_SHORT).show();
@@ -138,53 +140,55 @@ public class MainCardStackFragment extends Fragment {
 
     int curPage = 0;
 
-    public void getStatusBarHeight(){
+    public void getStatusBarHeight() {
         int statusHeight = 0;
         int screenSizeType = (getContext().getResources().getConfiguration().screenLayout &
                 Configuration.SCREENLAYOUT_SIZE_MASK);
 
-        if(screenSizeType != Configuration.SCREENLAYOUT_SIZE_XLARGE) {
-            int resourceId = getContext().getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (screenSizeType != Configuration.SCREENLAYOUT_SIZE_XLARGE) {
+            int resourceId = getContext().getResources().getIdentifier( "status_bar_height", "dimen", "android" );
 
             if (resourceId > 0) {
-                statusHeight = getContext().getResources().getDimensionPixelSize(resourceId);
+                statusHeight = getContext().getResources().getDimensionPixelSize( resourceId );
             }
         }
         StatusBarHeight = statusHeight;
     }
 
-    public void setActionbarMarginTop(final View view){
+    public void setActionbarMarginTop(final View view) {
         FrameLayout.LayoutParams topLayoutParams = (FrameLayout.LayoutParams) view.getLayoutParams();
         topLayoutParams.topMargin = StatusBarHeight;
-        view.setLayoutParams(topLayoutParams);
+        view.setLayoutParams( topLayoutParams );
     }
+
     //다시 보여질 때
     @Override
     public void onResume() {
-        stackCardAdapter.showAgain(mGlideRequestManager);
-        topView.setVisibility(View.VISIBLE);
+        stackCardAdapter.showAgain( mGlideRequestManager );
+        topView.setVisibility( View.VISIBLE );
         super.onResume();
     }
+
     @Override
     public void onPause() {
-        topView.setVisibility(View.INVISIBLE);
+        topView.setVisibility( View.INVISIBLE );
         super.onPause();
     }
 
     public void setRefreshInfo(DetailCardInfoDAO newInfo) {
-        Log.d("ADSADASD@@#33","SSSS");
-        currentCardAdaper.reloadInfo(mGlideRequestManager, newInfo);
+        Log.d( "ADSADASD@@#33", "SSSS" );
+        currentCardAdaper.reloadInfo( mGlideRequestManager, newInfo );
     }
 
     public void initView() {
 
-        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        mRefreshLayout.setOnRefreshListener( new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 refreshData();
             }
-        });
-        stackCardAdapter = new StackCardAdapter(getContext(), mGlideRequestManager, getActivity());
+        } );
+        stackCardAdapter = new StackCardAdapter( getContext(), mGlideRequestManager, getActivity() );
         currentCardAdaper = stackCardAdapter;
         mainStackLayout.setAdapter( stackCardAdapter );
         mainStackLayout.invalidate();
@@ -197,34 +201,36 @@ public class MainCardStackFragment extends Fragment {
         mainStackLayout.setOnSwipeListener( new StackLayout.OnSwipeListener() {
             @Override
             public void onSwiped(View swipedView, int swipedItemPos, boolean isSwipeLeft, int itemLeft) {
-                Log.d("itemLeft@@@@@",itemLeft+" , " + results.size());
+                Log.d( "itemLeft@@@@@", itemLeft + " , " + results.size() );
                 if (itemLeft == 3) {
-                    Log.d("재로드!!!!!!@@@@",itemLeft+" , " + results.size());
+                    Log.d( "재로드!!!!!!@@@@", itemLeft + " , " + results.size() );
 //                    getPost();
                     loadData();
                 }
             }
         } );
-        stackCardAdapter.setFragmentManagerCard(getFragmentManager());
+        stackCardAdapter.setFragmentManagerCard( getFragmentManager() );
+        gradient.setVisibility( View.INVISIBLE );
     }
 
-    public void refreshData(){
+    public void refreshData() {
         loadData();
-        new Handler().postDelayed(new Runnable() {
+        new Handler().postDelayed( new Runnable() {
             @Override
             public void run() {
-                StackCardAdapter reStartAdapter = new StackCardAdapter(getContext(), mGlideRequestManager, getActivity());
+                StackCardAdapter reStartAdapter = new StackCardAdapter( getContext(), mGlideRequestManager, getActivity() );
                 currentCardAdaper = reStartAdapter;
-                mainStackLayout.setAdapter(reStartAdapter);
-                reStartAdapter.setPostList(results);
-                mRefreshLayout.setRefreshing(false);
+                mainStackLayout.setAdapter( reStartAdapter );
+                reStartAdapter.setPostList( results );
+                mRefreshLayout.setRefreshing( false );
             }
-        }, 1000);
+        }, 1000 );
 
 
     }
+
     public void loadData() {
-        MooDumDumService.of().getContents(uuid).enqueue( new Callback<ContentsModel>() {
+        MooDumDumService.of().getContents( uuid ).enqueue( new Callback<ContentsModel>() {
             @Override
             public void onResponse(Call<ContentsModel> call, final Response<ContentsModel> response) {
                 if (response.isSuccessful()) {
@@ -236,7 +242,7 @@ public class MainCardStackFragment extends Fragment {
                         public void run() {
 //                            currentCardAdaper.getData().addAll(results);
 //                            currentCardAdaper.notifyDataSetChanged();
-                            currentCardAdaper.addMoreData(results);
+                            currentCardAdaper.addMoreData( results );
                         }
                     }, 1000 );
 
@@ -258,20 +264,22 @@ public class MainCardStackFragment extends Fragment {
     public void desableView() {
 
         getToggleAnimation( linearLayoutMain, linearLayoutMain.getHeight(), linear.getHeight() ).start();
-        Animation alphaAnim = AnimationUtils.loadAnimation(getContext(),R.anim.load_fadeout);
-        firstView.startAnimation(alphaAnim);
+        Animation alphaAnim = AnimationUtils.loadAnimation( getContext(), R.anim.load_fadeout );
+        firstView.startAnimation( alphaAnim );
 
         setButtonColor();
         Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
+        handler.postDelayed( new Runnable() {
             @Override
             public void run() {
-                firstView.setVisibility(View.GONE);
+                firstView.setVisibility( View.GONE );
             }
-        },500);
+        }, 500 );
+        gradient.setVisibility( View.VISIBLE );
 
 
     }
+
     // touch view animation
     private ValueAnimator getToggleAnimation(final View view, int startHeight, int endHeight) {
         ValueAnimator animator = ValueAnimator.ofInt( startHeight, endHeight );
@@ -290,29 +298,29 @@ public class MainCardStackFragment extends Fragment {
     }
 
     public void getPost() {
-        MooDumDumService.of().getContents(uuid).enqueue( new Callback<ContentsModel>() {
+        MooDumDumService.of().getContents( uuid ).enqueue( new Callback<ContentsModel>() {
             @Override
             public void onResponse(Call<ContentsModel> call, Response<ContentsModel> response) {
                 if (response.isSuccessful()) {
                     final ContentsModel items = response.body();
                     results = items.getResult();
-                    if(results.size()>0){
-                        firstView.setVisibility(View.VISIBLE);
-                        nodataImg.setVisibility(View.GONE);
-                        nodataText.setVisibility(View.GONE);
-                        ContentsModel.Result firstItem = results.get(0);
+                    if (results.size() > 0) {
+                        firstView.setVisibility( View.VISIBLE );
+                        nodataImg.setVisibility( View.GONE );
+                        nodataText.setVisibility( View.GONE );
+                        ContentsModel.Result firstItem = results.get( 0 );
                         ContentsModel.Result.UserDataModel user = firstItem.getUser();
-                        mGlideRequestManager.load(firstItem.getImage_url()).into(firstbackImage);
-                        firstContents.setText(firstItem.getDescription());
-                        firstContents.setTextColor(Color.parseColor(firstItem.getColor()));
-                        firstWriter.setText(user.getNickName());
-                        firstWriter.setTextColor(Color.parseColor(firstItem.getColor()));
+                        mGlideRequestManager.load( firstItem.getImage_url() ).into( firstbackImage );
+                        firstContents.setText( firstItem.getDescription() );
+                        firstContents.setTextColor( Color.parseColor( firstItem.getColor() ) );
+                        firstWriter.setText( user.getNickName() );
+                        firstWriter.setTextColor( Color.parseColor( firstItem.getColor() ) );
 
-                        stackCardAdapter.setPostList(results);
+                        stackCardAdapter.setPostList( results );
                     } else {
-                        firstView.setVisibility(View.GONE);
-                        nodataImg.setVisibility(View.VISIBLE);
-                        nodataText.setVisibility(View.VISIBLE);
+                        firstView.setVisibility( View.GONE );
+                        nodataImg.setVisibility( View.VISIBLE );
+                        nodataText.setVisibility( View.VISIBLE );
                     }
                 }
                 Log.d( "RESULT@@@@@", response.message() );
@@ -324,11 +332,12 @@ public class MainCardStackFragment extends Fragment {
             }
         } );
     }
+
     @OnClick(R.id.onClickToMyPage)
     void onClickToMyPage() {
 
         Intent intent = new Intent( getContext(), Mypage.class );
-        intent.putExtra("plusContents", "no");
+        intent.putExtra( "plusContents", "no" );
         startActivity( intent );
     }
 
@@ -345,5 +354,9 @@ public class MainCardStackFragment extends Fragment {
     }
 
 
-
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+//        null.unbind();
+    }
 }
