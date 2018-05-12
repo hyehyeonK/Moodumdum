@@ -369,6 +369,7 @@ public class DetailContentsActivity extends AppCompatActivity {
         }
 
         this.finish();
+        overridePendingTransition(R.anim.load_fadein, R.anim.load_fadeout);
     }
     @Override
     public void onBackPressed() {
