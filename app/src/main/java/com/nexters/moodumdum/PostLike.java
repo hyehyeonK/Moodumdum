@@ -92,7 +92,8 @@ public class PostLike {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                glideRequestManager.load(R.drawable.like_after).into(imageView);
+                imageView.setSelected(true);
+//                glideRequestManager.load(R.drawable.like_after).into(imageView);
                 imageView.setColorFilter(null);
                 textView.setText((count + 1) +"");
             }

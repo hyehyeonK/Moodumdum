@@ -137,7 +137,7 @@ public interface MooDumDumAPI {
                                         @Field( "profile_image" ) String profile_image);
 
 
-    
+
     @DELETE("api/board/like/{user}/{board}/")
     Call<ServerResponse> deleteContentsLike( @Path( "user" ) String user_id,
                                              @Path( "board" ) BigInteger boardId);

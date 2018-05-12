@@ -25,7 +25,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.nexters.moodumdum.adpater.CommentAdapter;
 import com.nexters.moodumdum.adpater.StackCardAdapter;
@@ -115,8 +114,8 @@ public class DetailContentsActivity extends AppCompatActivity {
         beforeAct = intent.getStringExtra("beforeAct");
 //        contentsTest.getBackground().setColorFilter(Color.parseColor("#ffffffff"), PorterDuff.Mode.SRC_ATOP);
 
-        stackCardAdapter = new StackCardAdapter( DetailContentsActivity.this, mGlideRequestManager );
-        mGlideRequestManager = Glide.with( this );
+        stackCardAdapter = new StackCardAdapter( DetailContentsActivity.this, mGlideRequestManager , this);
+
         gestureDetector = new GestureDetector(this, new GestureListener());
         postLike = new PostLike();
         uuid = PropertyManagement.getUserId(DetailContentsActivity.this);
@@ -148,6 +147,25 @@ public class DetailContentsActivity extends AppCompatActivity {
         view.setLayoutParams(topLayoutParams);
     }
     public void initView() {
+        switch (beforeAct){
+            case "Main":
+                mGlideRequestManager = Glide.with( this );
+                break;
+            case "Category":
+                CategorySelectedActivityRV categorySelectedActivityRV = (CategorySelectedActivityRV) CategorySelectedActivityRV.activity;
+                mGlideRequestManager = categorySelectedActivityRV.mGlideRequestManager;
+                break;
+            case  "MyPage":
+                Mypage myPage = (Mypage) Mypage.activity;
+                mGlideRequestManager = myPage.glideRequestManager;
+                break;
+        }
+        if(detailCardInfo.getBackImagUrl() !=null){
+            mGlideRequestManager.load(detailCardInfo.getBackImagUrl())
+                    .into(backImage);
+        } else {
+            backImage.setVisibility(View.INVISIBLE);
+        }
 
 //        currentView = detailCardInfo.getCurrnetView();
         //컨텐츠텍스트 초기화 및 스크롤 생성
@@ -168,13 +186,7 @@ public class DetailContentsActivity extends AppCompatActivity {
         btn_back.setColorFilter(Color.parseColor(currentColor));
         getCommentHeader();
 
-        if(detailCardInfo.getBackImagUrl() !=null){
-            backImage.setVisibility(View.VISIBLE);
-            mGlideRequestManager.load(detailCardInfo.getBackImagUrl())
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)// 디스크 캐시 저장 off
-                    .skipMemoryCache(true)// 메모리 캐시 저장 off
-                    .into(backImage);
-        }
+
 
         mLinearLayoutManager = new LinearLayoutManager( this );
         mCommentAdapter = new CommentAdapter( DetailContentsActivity.this, mGlideRequestManager );
@@ -330,7 +342,7 @@ public class DetailContentsActivity extends AppCompatActivity {
         MooDumDumService.of().deleteContentsLike( uuid, board_id ).enqueue( new Callback<ServerResponse>() {
             @Override
             public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
-                Toast.makeText( getBaseContext(), "좋아요 취소", Toast.LENGTH_SHORT ).show();
+                detailCardInfo.setIsLike(false);
                 getCommentContent();
                 getCommentHeader();
             }
@@ -345,6 +357,7 @@ public class DetailContentsActivity extends AppCompatActivity {
     public void finishDeatailCard(){
         detailCardInfo.setLikeCount(Integer.parseInt(likeCount.getText().toString()));
         detailCardInfo.setCommentCount(Integer.parseInt(commentsCount.getText().toString()));
+        Log.d("LIKE####","???"+detailCardInfo.getIsLike());
 
         switch (beforeAct){
             case "Main":

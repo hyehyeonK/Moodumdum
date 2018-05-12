@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.nexters.moodumdum.DetailContentsActivity;
 import com.nexters.moodumdum.R;
@@ -36,7 +37,11 @@ public class SelectedCategoryAdapter extends RecyclerView.Adapter<RecyclerView.V
     static private View currentView;
     private List<ContentsModel.Result> results = new ArrayList<>();
 
-    public SelectedCategoryAdapter(Context context, Activity activity) { this.context = context; this.activity = activity; }
+    public SelectedCategoryAdapter(Context context, Activity activity , RequestManager glideRequestManager ) {
+        this.context = context;
+        this.activity = activity;
+        this.glideRequestManager = glideRequestManager;
+    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -53,7 +58,7 @@ public class SelectedCategoryAdapter extends RecyclerView.Adapter<RecyclerView.V
             fontColor = item.getColor();
         }
         ContentsModel.Result.UserDataModel user = item.getUser();
-        Glide.with(context).load(item.getImage_url()).into(viewHolder.backImage);
+        glideRequestManager.load(item.getImage_url()).into(viewHolder.backImage);
         viewHolder.nickName.setText(user.getNickName());
         viewHolder.nickName.setTextColor(Color.parseColor(fontColor));
         viewHolder.contents.setText(item.getDescription());
@@ -64,7 +69,7 @@ public class SelectedCategoryAdapter extends RecyclerView.Adapter<RecyclerView.V
         viewHolder.likeCount.setTextColor(Color.parseColor(fontColor));
         viewHolder.commentImg.setColorFilter(Color.parseColor(fontColor));
         if (item.isIs_liked()) {
-            Glide.with(context).load(R.drawable.like_after).into(viewHolder.favoriteImg);
+            glideRequestManager.load(R.drawable.like_after).into(viewHolder.favoriteImg);
             viewHolder.favoriteImg.setColorFilter(null);
         } else {
             viewHolder.favoriteImg.setColorFilter(Color.parseColor(fontColor));
@@ -84,9 +89,13 @@ public class SelectedCategoryAdapter extends RecyclerView.Adapter<RecyclerView.V
         TextView like = currentView.findViewById(R.id.likeCount);
         TextView comment = currentView.findViewById(R.id.commentsCount);
         if( newInfo.getIsLike()){
-            Glide.with(context).load(R.drawable.like_after)
+            glideRequestManager.load(R.drawable.like_after)
                     .into(imageView);
             imageView.setColorFilter(null);
+        } else {
+            glideRequestManager.load(R.drawable.btn_like)
+                    .into(imageView);
+            imageView.setColorFilter(Color.parseColor(newInfo.getColor()));
         }
         like.setText(newInfo.getLikeCount() + "");
         comment.setText(newInfo.getCommentCount() + "");
@@ -137,17 +146,17 @@ public class SelectedCategoryAdapter extends RecyclerView.Adapter<RecyclerView.V
             Intent intent = new Intent( context, DetailContentsActivity.class );
             intent.putExtra( "cardInfo", detailCardInfo);
             intent.putExtra( "beforeAct", "Category");
-            context.startActivity(intent);
+//            context.startActivity(intent);
 
             //shared element transition 애니메이션
-            //            Pair<View, String> p1 = Pair.create((View)contents, contents.getTransitionName());
-            //            Pair<View, String> p2 = Pair.create((View)commentsCount, commentsCount.getTransitionName());
-            //            Pair<View, String> p3 = Pair.create((View)likeCount, likeCount.getTransitionName());
-            //            Pair<View, String> p4 = Pair.create((View)backImage, backImage.getTransitionName());
-            //            Pair<View, String> p5 = Pair.create((View)commentImg, commentImg.getTransitionName());
-            //            Pair<View, String> p6 = Pair.create((View)favoriteImg, favoriteImg.getTransitionName());
-            //            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity,p1,p2,p3,p4,p5,p6);
-            //            context.startActivity(intent, options.toBundle());
+                        Pair<View, String> p1 = Pair.create((View)contents, contents.getTransitionName());
+                        Pair<View, String> p2 = Pair.create((View)commentsCount, commentsCount.getTransitionName());
+                        Pair<View, String> p3 = Pair.create((View)likeCount, likeCount.getTransitionName());
+                        Pair<View, String> p4 = Pair.create((View)backImage, backImage.getTransitionName());
+                        Pair<View, String> p5 = Pair.create((View)commentImg, commentImg.getTransitionName());
+                        Pair<View, String> p6 = Pair.create((View)favoriteImg, favoriteImg.getTransitionName());
+                        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity,p1, p2, p3, p4, p5, p6);
+                        context.startActivity(intent, options.toBundle());
         }
     }
 }

@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.nexters.moodumdum.adpater.MyPageRecyclerViewAdapter;
 import com.nexters.moodumdum.api.MooDumDumService;
@@ -48,7 +47,8 @@ public class FragmentMyJomun extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
-        mGlideRequestManager = Glide.with(this);
+        Mypage myPage = (Mypage) Mypage.activity;
+        mGlideRequestManager = myPage.glideRequestManager;
         dataOffset = 0;
         noMoreData = false;
         initDataset();
@@ -65,7 +65,7 @@ public class FragmentMyJomun extends Fragment {
         mLayoutManager = new GridLayoutManager( getActivity(), 2 );
         myPageRecyclerView.setLayoutManager( mLayoutManager );
         myPageRecyclerView.scrollToPosition( 0 );
-        myPageMyJomunAdapter = new MyPageRecyclerViewAdapter( getContext(),mGlideRequestManager );
+        myPageMyJomunAdapter = new MyPageRecyclerViewAdapter( getContext(),mGlideRequestManager ,getActivity());
         myPageRecyclerView.setAdapter( myPageMyJomunAdapter );
         myPageRecyclerView.setItemAnimator( new DefaultItemAnimator() );
         myPageRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

@@ -16,9 +16,11 @@
             android:id="@+id/backImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:transitionName="@string/ts_backImg"
             android:scaleType="fitXY"/>
         <TextView
             android:id="@+id/myWriting"
+            android:transitionName="@string/ts_text"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="10dp"

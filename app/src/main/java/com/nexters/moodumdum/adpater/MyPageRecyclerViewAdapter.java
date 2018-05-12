@@ -1,8 +1,11 @@
 package com.nexters.moodumdum.adpater;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,11 +32,13 @@ import butterknife.ButterKnife;
 public class MyPageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static RequestManager glideRequestManager;
     static private Context context;
+    static private Activity activity;
     private List<ContentsModel.Result> results = new ArrayList<>();
     static private View currentView;
-    public MyPageRecyclerViewAdapter(Context context, RequestManager glideRequestManager) {
+    public MyPageRecyclerViewAdapter(Context context, RequestManager glideRequestManager, Activity activity) {
         this.context = context;
         this.glideRequestManager = glideRequestManager;
+        this.activity = activity;
     }
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -103,7 +108,15 @@ public class MyPageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
             Intent intent = new Intent( context, DetailContentsActivity.class );
             intent.putExtra( "cardInfo", detailCardInfo);
             intent.putExtra( "beforeAct", "MyPage");
-            context.startActivity(intent);
+            Pair<View, String> p1 = Pair.create((View)contentsText, contentsText.getTransitionName());
+//            Pair<View, String> p2 = Pair.create((View)commentsCount, commentsCount.getTransitionName());
+//            Pair<View, String> p3 = Pair.create((View)likeCount, likeCount.getTransitionName());
+            Pair<View, String> p4 = Pair.create((View)backImage, backImage.getTransitionName());
+//            Pair<View, String> p5 = Pair.create((View)commentImg, commentImg.getTransitionName());
+//            Pair<View, String> p6 = Pair.create((View)favoriteImg, favoriteImg.getTransitionName());
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity,p1, p4 );
+            context.startActivity(intent, options.toBundle());
+//            context.startActivity(intent);
         }
     }
 }

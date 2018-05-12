@@ -1,5 +1,6 @@
 package com.nexters.moodumdum.adpater;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,14 +23,22 @@ import com.fashare.stack_layout.StackLayout;
 import com.nexters.moodumdum.DetailContentsActivity;
 import com.nexters.moodumdum.PostLike;
 import com.nexters.moodumdum.R;
+import com.nexters.moodumdum.api.MooDumDumService;
+import com.nexters.moodumdum.common.PropertyManagement;
 import com.nexters.moodumdum.model.ContentsModel;
 import com.nexters.moodumdum.model.DetailCardInfoDAO;
+import com.nexters.moodumdum.model.ServerResponse;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by kimhyehyeon on 2018. 2. 22..
@@ -40,12 +50,14 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
     static private  boolean detailShow = false;
     static private View currentView;
     static PostLike postLike;
+    static private Activity activity;
     private static Context context;
     private List<ContentsModel.Result> results = new ArrayList<>();
 
-    public StackCardAdapter(Context context, RequestManager glideRequestManager) {
+    public StackCardAdapter(Context context, RequestManager glideRequestManager, Activity activity) {
         this.context = context;
         this.glideRequestManager = glideRequestManager;
+        this.activity = activity;
         postLike = new PostLike();
     }
 
@@ -87,7 +99,8 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
         viewHolder.likeCount.setText( likeCount );
         viewHolder.likeCount.setTextColor(Color.parseColor(fontColor));
         if(item.isIs_liked()) {
-            glideRequestManager.load(R.drawable.like_after).into(viewHolder.contents_like);
+//            glideRequestManager.load(R.drawable.like_after).into(viewHolder.contents_like);
+            viewHolder.contents_like.setSelected(true);
         } else {
             viewHolder.contents_like.setColorFilter(Color.parseColor(fontColor));
         }
@@ -131,10 +144,13 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
         ImageView imageView = currentView.findViewById(R.id.contents_like);
         TextView like = currentView.findViewById(R.id.likeCount);
         TextView comment = currentView.findViewById(R.id.commentCount);
+        imageView.setSelected(newInfo.getIsLike());
         if( newInfo.getIsLike()){
-            glideRequestManager.load(R.drawable.like_after)
-                    .into(imageView);
+//            glideRequestManager.load(R.drawable.like_after)
+//                    .into(imageView);
             imageView.setColorFilter(null);
+        } else {
+            imageView.setColorFilter(Color.parseColor(newInfo.getColor()));
         }
         like.setText(newInfo.getLikeCount() + "");
         comment.setText(newInfo.getCommentCount() + "");
@@ -168,7 +184,7 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
         @BindView(R.id.backImage)
         ImageView backImage;
         @BindView(R.id.contents_like)
-        ImageView contents_like;
+        ImageButton contents_like;
         @BindView(R.id.contents_comment)
         ImageView contents_comment;
         @BindView(R.id.motion)
@@ -198,29 +214,22 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
                 likeCount.setVisibility(View.INVISIBLE);
                 contents_like.setVisibility(View.INVISIBLE);
                 contents_comment.setVisibility(View.INVISIBLE);
+
+//                Pair<View, String> p1 = Pair.create((View)contents, contents.getTransitionName());
+//                Pair<View, String> p2 = Pair.create((View)commentCount, commentCount.getTransitionName());
+//                Pair<View, String> p3 = Pair.create((View)likeCount, likeCount.getTransitionName());
+//                Pair<View, String> p5 = Pair.create((View)contents_comment, contents_comment.getTransitionName());
+//                Pair<View, String> p6 = Pair.create((View)contents_like, contents_like.getTransitionName());
+//                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity,p1, p2, p3, p5, p6);
+//                context.startActivity(intent, options.toBundle());
                 context.startActivity(intent);
-                return super.onSingleTapConfirmed( e );
+                return true;
             }
 
             @Override
             public boolean onDoubleTap(MotionEvent e) {
                 // 좋아요 눌렀을 때 할 Action
-                postLike.PostComment(detailCardInfo.getBoard_id(), detailCardInfo.getLikeCount(),contents_like,likeCount ,glideRequestManager,context);
-
-                motionView.setVisibility(View.VISIBLE);
-                GlideDrawableImageViewTarget imageViewTarget = new GlideDrawableImageViewTarget(motionView,1);
-                glideRequestManager.load(R.raw.motion_like)
-                        .diskCacheStrategy(DiskCacheStrategy.NONE)// 디스크 캐시 저장 off
-                        .skipMemoryCache(true)// 메모리 캐시 저장 off
-                        .into(imageViewTarget);
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        motionView.setVisibility(View.GONE);
-
-                    }
-                },2800);
+                likeMtion();
                 return true;
             }
 
@@ -231,6 +240,56 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
             return gd.onTouchEvent( event );
         }
 
+        @OnClick(R.id.contents_like)
+        public void setLikeMotion(){
+            if (contents_like.isSelected()) {
+                cancelContentsLike();
+            } else {
+                likeMtion();
+            }
+
+        }
+
+        private void likeMtion(){
+            postLike.PostComment(detailCardInfo.getBoard_id(), detailCardInfo.getLikeCount(),contents_like,likeCount ,glideRequestManager,context);
+
+            motionView.setVisibility(View.VISIBLE);
+            GlideDrawableImageViewTarget imageViewTarget = new GlideDrawableImageViewTarget(motionView,1);
+            glideRequestManager.load(R.raw.motion_like)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)// 디스크 캐시 저장 off
+                    .skipMemoryCache(true)// 메모리 캐시 저장 off
+                    .into(imageViewTarget);
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    motionView.setVisibility(View.GONE);
+
+                }
+            },2800);
+        }
+
+        private void cancelContentsLike() {
+            BigInteger board_id = detailCardInfo.getBoard_id();
+            String uuid = PropertyManagement.getUserId(context);
+            MooDumDumService.of().deleteContentsLike( uuid, board_id ).enqueue(new Callback<ServerResponse>() {
+                @Override
+                public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
+                    int like = Integer.parseInt(likeCount.getText().toString()) - 1;
+                    detailCardInfo.setLikeCount(like);
+                    likeCount.setText(like +"");
+                    contents_like.setSelected(false);
+                    contents_like.setColorFilter(Color.parseColor(detailCardInfo.getColor()));
+                    detailCardInfo.setIsLike(false);
+                }
+
+                @Override
+                public void onFailure(Call<ServerResponse> call, Throwable t) {
+                    Log.d( "@cancelLikeOnFailure", "좋아요 취소 실패" );
+                }
+            } );
+
+        }
     }
 
 

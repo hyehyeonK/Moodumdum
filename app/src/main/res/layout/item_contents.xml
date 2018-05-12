@@ -6,14 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="220dp">
 
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="155dp" />
-
     <ImageView
         android:id="@+id/backImage"
         android:transitionName="@string/ts_backImg"
@@ -21,80 +13,87 @@
         android:layout_height="match_parent"
         android:scaleType="fitXY"/>
 
-    <TextView
-        android:id="@+id/contents"
-        android:transitionName="@string/ts_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="65dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:ellipsize="end"
-        android:maxLines="4"
-        android:text="글귀"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/nickName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginStart="16dp"
-        android:text="닉네임"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/commentImg"
-        android:transitionName="@string/ts_countImg"
-        android:layout_width="20dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/commentsCount"
-        app:srcCompat="@drawable/contents_comment" />
+        <TextView
+            android:id="@+id/contents"
+            android:transitionName="@string/ts_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:ellipsize="end"
+            android:maxLines="4"
+            android:text="글귀"/>
 
-    <TextView
-        android:id="@+id/commentsCount"
-        android:transitionName="@string/ts_countTxt"
-        android:layout_width="30dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginEnd="8dp"
-        android:text="100"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/favoriteImg" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/nickName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="20dp"
+                android:text="닉네임" />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical">
 
-    <ImageView
-        android:id="@+id/favoriteImg"
-        android:transitionName="@string/ts_likeImg"
-        android:layout_width="20dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/likeCount"
-        app:srcCompat="@drawable/btn_like" />
+                <ImageView
+                    android:id="@+id/commentImg"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@+id/commentsCount"
+                    android:layout_marginEnd="3dp"
+                    android:transitionName="@string/ts_countImg"
+                    app:srcCompat="@drawable/contents_comment" />
 
+                <TextView
+                    android:id="@+id/commentsCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:layout_toStartOf="@+id/favoriteImg"
+                    android:text="100"
+                    android:transitionName="@string/ts_countTxt" />
 
-    <TextView
-        android:id="@+id/likeCount"
-        android:transitionName="@string/ts_likeTxt"
-        android:layout_width="30dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginEnd="8dp"
-        android:text="0"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+                <ImageView
+                    android:id="@+id/favoriteImg"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="3dp"
+                    android:layout_toStartOf="@+id/likeCount"
+                    android:transitionName="@string/ts_likeImg"
+                    app:srcCompat="@drawable/selector_like_btn" />
 
 
+                <TextView
+                    android:id="@+id/likeCount"
+                    android:layout_width="30dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="16dp"
+                    android:text="0"
+                    android:transitionName="@string/ts_likeTxt"/>
+            </RelativeLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
 
 
 </android.support.constraint.ConstraintLayout>

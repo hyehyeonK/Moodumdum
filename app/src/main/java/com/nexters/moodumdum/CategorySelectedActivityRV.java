@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.amar.library.ui.StickyScrollView;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.nexters.moodumdum.adpater.SelectedCategoryAdapter;
 import com.nexters.moodumdum.anim.RecyclerViewDecoration;
 import com.nexters.moodumdum.api.MooDumDumService;
@@ -43,6 +44,8 @@ import retrofit2.Response;
 public class CategorySelectedActivityRV extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
     private SelectedCategoryAdapter currentAdapter;
+    public RequestManager mGlideRequestManager;
+    public CategorySelectedActivityRV categorySelectedActivityRV;
     String uuid;
     private int currentState;
     final static int LATEST = 0;
@@ -81,11 +84,13 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
         activity = this;
         dataOffset = 0;
         currentState = LATEST;
+        mGlideRequestManager = Glide.with(CategorySelectedActivityRV.this);
         noMoreData = false;
         uuid = PropertyManagement.getUserId(CategorySelectedActivityRV.this);
         Intent intent = getIntent();
         categoryID = intent.getStringExtra("categoryID");
-        currentAdapter = new SelectedCategoryAdapter(CategorySelectedActivityRV.this, activity);
+        currentAdapter = new SelectedCategoryAdapter(CategorySelectedActivityRV.this, activity, mGlideRequestManager);
+        categorySelectedActivityRV = this;
         initView();
         getCategoryInfo();
         getLatestPost();
@@ -100,7 +105,7 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        currentAdapter = new SelectedCategoryAdapter(CategorySelectedActivityRV.this, activity);
+                        currentAdapter = new SelectedCategoryAdapter(CategorySelectedActivityRV.this, activity, mGlideRequestManager);
                         recyclerView.setAdapter(currentAdapter);
                         dataOffset = 0;
                         noMoreData = false;
@@ -138,7 +143,7 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
                     final CategoryInfoModel category = response.body();
                     Log.d("결과", category + "");
                     categoryTitle.setText(category.getTitle() + " 무덤");
-                    Glide.with(CategorySelectedActivityRV.this).load(category.getBanner()).into(categoryBanner);
+                    mGlideRequestManager.load(category.getBanner()).into(categoryBanner);
 
                 }
             }

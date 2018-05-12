@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.nexters.moodumdum.adpater.MyPageTabAdapter;
 import com.nexters.moodumdum.api.MooDumDumService;
 import com.nexters.moodumdum.common.PropertyManagement;
@@ -32,8 +34,11 @@ public class Mypage extends AppCompatActivity implements FragmentMyJomun.OnFragm
     TextView myBoardCount;
     @BindView(R.id.btn_editName)
     ImageView btnEditName;
+
+    public static Activity activity;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    public static RequestManager glideRequestManager;
 
     UserDataModel userDataModel = new UserDataModel();
 
@@ -42,12 +47,13 @@ public class Mypage extends AppCompatActivity implements FragmentMyJomun.OnFragm
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_mypage );
         ButterKnife.bind( this );
+        activity =this;
         ((MainCardStackFragment) MainCardStackFragment.MainCardFragment).refreshData();
         initView();
     }
 
     public void initView() {
-
+        glideRequestManager = Glide.with(this);
         tabLayout = (TabLayout) findViewById( R.id.tablayout );
         viewPager = (ViewPager) findViewById( R.id.viewPager );
 

@@ -60,10 +60,6 @@ public class MainCardStackFragment extends Fragment {
     ConstraintLayout firstView;
     @BindView(R.id.imageView3)
     ImageView imageView3;
-    @BindView(R.id.onClickToMenu)
-    ImageButton onClickToMenu;
-    @BindView(R.id.onClickToMyPage)
-    ImageButton onClickToMyPage;
     @BindView(R.id.onClickToPlus)
     Button onClickToPlus;
     @BindView(R.id.firstbackImage)
@@ -78,6 +74,11 @@ public class MainCardStackFragment extends Fragment {
     TextView nodataText;
     @BindView(R.id.topView)
     View topView;
+    @BindView(R.id.onClickToMyPage)
+    ImageButton myPageBtn;
+    @BindView(R.id.onClickToMenu)
+    ImageButton menuBtn;
+
     @BindView(R.id.srl_refresh)
     SwipeRefreshLayout mRefreshLayout;
     public StackCardAdapter stackCardAdapter;
@@ -108,6 +109,11 @@ public class MainCardStackFragment extends Fragment {
         initView();
 //        loadData();
         return view;
+    }
+
+    public void setButtonColor(){
+        myPageBtn.setColorFilter(Color.WHITE);
+        menuBtn.setColorFilter(Color.WHITE);
     }
 //    public void animateTransaction(View view) {
 //        Toast.makeText(getContext(), "클리이이익.", Toast.LENGTH_SHORT).show();
@@ -178,7 +184,7 @@ public class MainCardStackFragment extends Fragment {
                 refreshData();
             }
         });
-        stackCardAdapter = new StackCardAdapter(getContext(), mGlideRequestManager);
+        stackCardAdapter = new StackCardAdapter(getContext(), mGlideRequestManager, getActivity());
         currentCardAdaper = stackCardAdapter;
         mainStackLayout.setAdapter( stackCardAdapter );
         mainStackLayout.invalidate();
@@ -207,7 +213,7 @@ public class MainCardStackFragment extends Fragment {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                StackCardAdapter reStartAdapter = new StackCardAdapter(getContext(), mGlideRequestManager);
+                StackCardAdapter reStartAdapter = new StackCardAdapter(getContext(), mGlideRequestManager, getActivity());
                 currentCardAdaper = reStartAdapter;
                 mainStackLayout.setAdapter(reStartAdapter);
                 reStartAdapter.setPostList(results);
@@ -254,6 +260,8 @@ public class MainCardStackFragment extends Fragment {
         getToggleAnimation( linearLayoutMain, linearLayoutMain.getHeight(), linear.getHeight() ).start();
         Animation alphaAnim = AnimationUtils.loadAnimation(getContext(),R.anim.load_fadeout);
         firstView.startAnimation(alphaAnim);
+
+        setButtonColor();
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
