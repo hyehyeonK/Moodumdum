@@ -40,13 +40,14 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private List<CommentModel.Result> results = new ArrayList<>();
     static PostCommentLike postCommentLike;
     public static RequestManager glideRequestManager;
-
-    public CommentAdapter(Context context, RequestManager glideRequestManager) {
+    private TextView like,comment;
+    public CommentAdapter(Context context, RequestManager glideRequestManager, TextView like, TextView comment) {
         this.context = context;
         this.glideRequestManager = glideRequestManager;
         postCommentLike = new PostCommentLike();
+        this.like = like;
+        this.comment = comment;
     }
-
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ItemViewHolder( LayoutInflater.from( parent.getContext() ).inflate( R.layout.item_comment, parent, false ) );
@@ -71,6 +72,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (item.isIs_liked()) {
             viewHolder.btnLike.setColorFilter( null );
         }
+        viewHolder.contentOfComment.setTag(item.getBoard_id());
     }
 
     @Override
@@ -143,11 +145,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                             setPostList( response.body().getResult() );
                             String count = String.valueOf( results.size() );
                             Toast.makeText( context, count+"", Toast.LENGTH_SHORT ).show();
-                            PropertyManagement.putCommentLikeCount( context, String.valueOf( item.getLike_count() ) );
+//                            PropertyManagement.putCommentLikeCount( context, String.valueOf( item.getLike_count() ) );
                             DetailContentsActivity detailContentsActivity = new DetailContentsActivity();
-//                            detailContentsActivity.getCommentLike( item.getBoard_id().toString() );
-//                            detailContentsActivity.setCommentLike(response.body().getCount());
-//                            detailContentsActivity.getCommentHeader( item.getBoard_id().toString() );
+                            detailContentsActivity.reLoadCommentCount( contentOfComment.getTag().toString(), like, comment);
 
                             Toast.makeText( context, "조문글을 삭제했어요.", Toast.LENGTH_SHORT ).show();
                         }

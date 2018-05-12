@@ -54,6 +54,7 @@ public class DetailContentsActivity extends AppCompatActivity {
     static PostLike postLike;
     ScrollingMovementMethod scroll;
     String currentColor;
+    public TextView countLike, countComment;
     public int StatusBarHeight;
 //    View currentView;
 
@@ -105,7 +106,7 @@ public class DetailContentsActivity extends AppCompatActivity {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_detailcard );
         ButterKnife.bind( this );
-
+        Log.d(">?????",likeCount +"");
         getStatusBarHeight();
         setActionbarMarginTop(topFrame);
         setActionbarMarginTop2(sliding);
@@ -187,12 +188,12 @@ public class DetailContentsActivity extends AppCompatActivity {
         backlayout.setOnTouchListener(gestureListener);
 
         btn_back.setColorFilter(Color.parseColor(currentColor));
-        getCommentHeader(String.valueOf(board_id));
+        getCommentHeader();
 
 
 
         mLinearLayoutManager = new LinearLayoutManager( this );
-        mCommentAdapter = new CommentAdapter( DetailContentsActivity.this, mGlideRequestManager );
+        mCommentAdapter = new CommentAdapter( DetailContentsActivity.this, mGlideRequestManager , likeCount, commentsCount);
         CommentListView.setAdapter( mCommentAdapter );
         CommentListView.setNestedScrollingEnabled( false );
         CommentListView.setHasFixedSize( false );
@@ -248,22 +249,41 @@ public class DetailContentsActivity extends AppCompatActivity {
 //            }
 //        } );
 //    }
+public void getCommentHeader() {
+    String board_id = detailCardInfo.getBoard_id().toString();
 
-    public void getCommentHeader(String board_id) {
-//        String board_id = detailCardInfo.getBoard_id().toString();
+    MooDumDumService.of().getContentsSelected( board_id, uuid ).enqueue( new Callback<ContentsModel.Result>() {
+        @Override
+        public void onResponse(Call<ContentsModel.Result> call, Response<ContentsModel.Result> response) {
+            ContentsModel.Result items = response.body();
+            likeCount.setText( items.getLike_count() + "");
+            commentsCount.setText( String.valueOf( items.getComment_count() ) );
+            contents_like.setSelected(items.isIs_liked());
+            if( items.isIs_liked()){
+//                    mGlideRequestManager.load(R.drawable.like_after)
+//                            .into(contents_like);
+                contents_like.setColorFilter(null);
+            }
+        }
+
+        @Override
+        public void onFailure(Call<ContentsModel.Result> call, Throwable t) {
+
+        }
+    } );
+}
+    public void reLoadCommentCount(String board_id, TextView likeCount, TextView commentsCount ) {
+        this.countLike = likeCount;
+        this.countComment = commentsCount;
+        Log.d(">?????",likeCount +"");
         MooDumDumService.of().getContentsSelected( board_id, uuid ).enqueue( new Callback<ContentsModel.Result>() {
             @Override
             public void onResponse(Call<ContentsModel.Result> call, Response<ContentsModel.Result> response) {
                 ContentsModel.Result items = response.body();
-                likeCount.setText( items.getLike_count() + "");
-                commentsCount.setText( String.valueOf( items.getComment_count() ) );
-                contents_like.setSelected(items.isIs_liked());
-                if( items.isIs_liked()){
-//                    mGlideRequestManager.load(R.drawable.like_after)
-//                            .into(contents_like);
-                    contents_like.setColorFilter(null);
-                }
-                PropertyManagement.putCommentLikeCount( getBaseContext(), likeCount.getText().toString() );
+                Log.d("count!!!!",items.getLike_count() +"" );
+                countLike.setText( items.getLike_count() + "");
+                countComment.setText( String.valueOf( items.getComment_count() ) );
+//                PropertyManagement.putCommentLikeCount( getBaseContext(), countLike.getText().toString() );
             }
 
             @Override
@@ -313,7 +333,7 @@ public class DetailContentsActivity extends AppCompatActivity {
             public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
                 Toast.makeText( getBaseContext(), "조문글을 남겼어요.", Toast.LENGTH_SHORT ).show();
                 getCommentContent();
-                getCommentHeader(String.valueOf( board_id ));
+                getCommentHeader();
                 contentsTest.setText( null );
             }
 
@@ -360,7 +380,7 @@ public class DetailContentsActivity extends AppCompatActivity {
             @Override
             public void run() {
                 motionView.setVisibility(View.GONE);
-                getCommentHeader(String.valueOf( board_id ));
+                getCommentHeader();
             }
         },2800);
     }
@@ -372,7 +392,7 @@ public class DetailContentsActivity extends AppCompatActivity {
             public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
                 detailCardInfo.setIsLike(false);
                 getCommentContent();
-                getCommentHeader(String.valueOf( board_id ));
+                getCommentHeader();
             }
 
             @Override

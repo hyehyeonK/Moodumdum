@@ -45,13 +45,13 @@ public class PropertyManagement {
         return preferences.getString(DATA_COMMENT_LIKE_COUNT, null);
     }
 
-    public static String putCommentLikeCount(Context context, String like_count) {
-        SharedPreferences preferences = context.getSharedPreferences(KEY_ID, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(DATA_COMMENT_LIKE_COUNT, like_count);
-        editor.apply();
-        return preferences.getString(DATA_COMMENT_LIKE_COUNT, null);
-    }
+//    public static String putCommentLikeCount(Context context, String like_count) {
+//        SharedPreferences preferences = context.getSharedPreferences(KEY_ID, Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = preferences.edit();
+//        editor.putString(DATA_COMMENT_LIKE_COUNT, like_count);
+//        editor.apply();
+//        return preferences.getString(DATA_COMMENT_LIKE_COUNT, null);
+//    }
 
 
 // 로그아웃
