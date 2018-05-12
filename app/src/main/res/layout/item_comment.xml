@@ -67,7 +67,7 @@
                     android:layout_marginEnd="30dp"
                     android:layout_centerVertical="true"
                     android:layout_centerHorizontal="true"
-                    android:src="@drawable/btn_like"/>
+                    android:src="@drawable/selector_like_btn"/>
 
             </RelativeLayout>
 

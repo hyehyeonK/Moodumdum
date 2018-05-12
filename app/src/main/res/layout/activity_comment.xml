@@ -154,7 +154,7 @@
             android:id="@+id/contentsTest"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_gravity="left"
+            android:layout_gravity="left|center_vertical"
             android:layout_weight="1"
             android:background="@null"
             android:hint="    가여운 영혼에게 위로 한 마디.. TYPE"

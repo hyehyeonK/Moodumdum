@@ -12,6 +12,8 @@ public class PropertyManagement {
     private static final String DATA_USER_ID = "USER_ID";
 //    private static final String DATA_USER_PROFILE = "USER_PROFILE";
     private static final String DATA_USER_NICKNAME = "USER_NICKNAME";
+//    private static final String DATA_COMMENT_LIKE_COUNT = "LIKE_COUNT";
+    private static final String DATA_COMMENT_LIKE_COUNT = "LIKE_COUNT";
 
     public static void putUserId(Context context, String userId) {
         SharedPreferences preferences = context.getSharedPreferences(KEY_ID, Context.MODE_PRIVATE);
@@ -25,7 +27,6 @@ public class PropertyManagement {
         return preferences.getString(DATA_USER_ID, null);
     }
 
-
     public static void putUserProfile(Context context, String user_nickName) {
         SharedPreferences preferences = context.getSharedPreferences(KEY_ID, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
@@ -33,9 +34,23 @@ public class PropertyManagement {
 //        editor.putString(DATA_USER_PROFILE, user_nickProfile_url);
         editor.apply();
     }
+
     public static String getUserProfile(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(KEY_ID, Context.MODE_PRIVATE);
         return preferences.getString(DATA_USER_NICKNAME, null);
+    }
+
+    public static String getCommentLikeCount(Context context) {
+        SharedPreferences preferences = context.getSharedPreferences(KEY_ID, Context.MODE_PRIVATE);
+        return preferences.getString(DATA_COMMENT_LIKE_COUNT, null);
+    }
+
+    public static String putCommentLikeCount(Context context, String like_count) {
+        SharedPreferences preferences = context.getSharedPreferences(KEY_ID, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(DATA_COMMENT_LIKE_COUNT, like_count);
+        editor.apply();
+        return preferences.getString(DATA_COMMENT_LIKE_COUNT, null);
     }
 
 

@@ -115,6 +115,8 @@ public class DetailContentsActivity extends AppCompatActivity {
 //        contentsTest.getBackground().setColorFilter(Color.parseColor("#ffffffff"), PorterDuff.Mode.SRC_ATOP);
 
         stackCardAdapter = new StackCardAdapter( DetailContentsActivity.this, mGlideRequestManager , this);
+        board_id = detailCardInfo.getBoard_id();
+        mGlideRequestManager = Glide.with( this );
 
         gestureDetector = new GestureDetector(this, new GestureListener());
         postLike = new PostLike();
@@ -167,6 +169,7 @@ public class DetailContentsActivity extends AppCompatActivity {
             backImage.setVisibility(View.INVISIBLE);
         }
 
+
 //        currentView = detailCardInfo.getCurrnetView();
         //컨텐츠텍스트 초기화 및 스크롤 생성
         currentColor = detailCardInfo.getColor();
@@ -184,7 +187,7 @@ public class DetailContentsActivity extends AppCompatActivity {
         backlayout.setOnTouchListener(gestureListener);
 
         btn_back.setColorFilter(Color.parseColor(currentColor));
-        getCommentHeader();
+        getCommentHeader(String.valueOf(board_id));
 
 
 
@@ -223,9 +226,31 @@ public class DetailContentsActivity extends AppCompatActivity {
 
     }
 
-    public void getCommentHeader() {
-        String board_id = detailCardInfo.getBoard_id().toString();
+//    public void getCommentHeader() {
+//        String board_id = detailCardInfo.getBoard_id().toString();
+//        MooDumDumService.of().getContentsSelected( board_id, uuid ).enqueue( new Callback<ContentsModel.Result>() {
+//            @Override
+//            public void onResponse(Call<ContentsModel.Result> call, Response<ContentsModel.Result> response) {
+//                ContentsModel.Result items = response.body();
+//                likeCount.setText( items.getLike_count() + "");
+//                commentsCount.setText( String.valueOf( items.getComment_count() ) );
+//                contents_like.setSelected(items.isIs_liked());
+//                if( items.isIs_liked()){
+////                    mGlideRequestManager.load(R.drawable.like_after)
+////                            .into(contents_like);
+//                    contents_like.setColorFilter(null);
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ContentsModel.Result> call, Throwable t) {
+//
+//            }
+//        } );
+//    }
 
+    public void getCommentHeader(String board_id) {
+//        String board_id = detailCardInfo.getBoard_id().toString();
         MooDumDumService.of().getContentsSelected( board_id, uuid ).enqueue( new Callback<ContentsModel.Result>() {
             @Override
             public void onResponse(Call<ContentsModel.Result> call, Response<ContentsModel.Result> response) {
@@ -238,6 +263,7 @@ public class DetailContentsActivity extends AppCompatActivity {
 //                            .into(contents_like);
                     contents_like.setColorFilter(null);
                 }
+                PropertyManagement.putCommentLikeCount( getBaseContext(), likeCount.getText().toString() );
             }
 
             @Override
@@ -247,6 +273,10 @@ public class DetailContentsActivity extends AppCompatActivity {
         } );
     }
 
+    public void setCommentLike(int count) {
+        String cc = String.valueOf( count );
+        commentsCount.setText( cc );
+    }
 
     // uuid로 불러오기
     public void getCommentContent() {
@@ -257,7 +287,6 @@ public class DetailContentsActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     final CommentModel items = response.body();
                     mCommentAdapter.setPostList( items.getResult() );
-                    Toast.makeText( getBaseContext(), "성공", Toast.LENGTH_SHORT ).show();
                 }
                 else
                     Toast.makeText( getBaseContext(), uuid, Toast.LENGTH_SHORT ).show();
@@ -266,7 +295,6 @@ public class DetailContentsActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<CommentModel> call, Throwable t) {
                 Log.d("getCommentContent()","ServerFailure");
-                Toast.makeText( getBaseContext(), "실패", Toast.LENGTH_SHORT ).show();
             }
         } );
     }
@@ -285,7 +313,7 @@ public class DetailContentsActivity extends AppCompatActivity {
             public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
                 Toast.makeText( getBaseContext(), "조문글을 남겼어요.", Toast.LENGTH_SHORT ).show();
                 getCommentContent();
-                getCommentHeader();
+                getCommentHeader(String.valueOf( board_id ));
                 contentsTest.setText( null );
             }
 
@@ -332,7 +360,7 @@ public class DetailContentsActivity extends AppCompatActivity {
             @Override
             public void run() {
                 motionView.setVisibility(View.GONE);
-                getCommentHeader();
+                getCommentHeader(String.valueOf( board_id ));
             }
         },2800);
     }
@@ -344,7 +372,7 @@ public class DetailContentsActivity extends AppCompatActivity {
             public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
                 detailCardInfo.setIsLike(false);
                 getCommentContent();
-                getCommentHeader();
+                getCommentHeader(String.valueOf( board_id ));
             }
 
             @Override

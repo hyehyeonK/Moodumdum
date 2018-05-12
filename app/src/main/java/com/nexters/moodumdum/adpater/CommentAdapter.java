@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.RequestManager;
 import com.mcxtzhang.swipemenulib.SwipeMenuLayout;
+import com.nexters.moodumdum.DetailContentsActivity;
 import com.nexters.moodumdum.PostCommentLike;
 import com.nexters.moodumdum.R;
 import com.nexters.moodumdum.api.MooDumDumService;
@@ -25,6 +26,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,12 +36,8 @@ import retrofit2.Response;
  */
 
 public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-
-
     private Context context;
     private List<CommentModel.Result> results = new ArrayList<>();
-
     static PostCommentLike postCommentLike;
     public static RequestManager glideRequestManager;
 
@@ -61,35 +59,18 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         viewHolder.WriterOfComment.setText( item.getUser().getNickName() );
         viewHolder.contentOfComment.setText( item.getDescription() );
+        String user = PropertyManagement.getUserId( context );
 
-        String user = PropertyManagement.getUserId(context);
-        String fontColor = "#e27171";
-
-        if(!item.getUser().getUuid().equals( user ))
+        if (!item.getUser().getUuid().equals( user ))
             viewHolder.swipeMenu.setSwipeEnable( false );
         else
             viewHolder.swipeMenu.setSwipeEnable( true );
 
         viewHolder.likeCount.setText( "공감 " + item.getLike_count() + "개" );
-
-         //여기 수정
-        if(item.isIs_liked()) {
-//            glideRequestManager.load(R.drawable.like_after).into(viewHolder.imageLike);
-            glideRequestManager.load(R.drawable.like_after)
-                    .into(viewHolder.imageLike);
-            viewHolder.imageLike.setColorFilter(null);
-        } else {
-            glideRequestManager.load(R.drawable.btn_like)
-                    .into(viewHolder.imageLike);
-            viewHolder.imageLike.setColorFilter(null);
+        viewHolder.btnLike.setSelected( item.isIs_liked() );
+        if (item.isIs_liked()) {
+            viewHolder.btnLike.setColorFilter( null );
         }
-
-//        if( item.getIsLike()){
-//            glideRequestManager.load(R.drawable.like_after)
-//                    .into(imageView);
-//            imageView.setColorFilter(null);
-//        }
-
     }
 
     @Override
@@ -102,9 +83,8 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         notifyDataSetChanged();
     }
 
-    public class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ItemViewHolder extends RecyclerView.ViewHolder {
         View view;
-
         @BindView(R.id.WriterOfComment)
         TextView WriterOfComment;
         @BindView(R.id.contentOfComment)
@@ -112,7 +92,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         @BindView(R.id.btnDel)
         Button btnDel;
         @BindView(R.id.btnLike)
-        ImageView imageLike;
+        ImageView btnLike;
         @BindView(R.id.likeCount)
         TextView likeCount;
         @BindView(R.id.swipeMenu)
@@ -122,64 +102,68 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             super( itemView );
             this.view = itemView;
             ButterKnife.bind( this, view );
-
-            btnDel.setOnClickListener( this );
-            imageLike.setOnClickListener( this );
         }
 
-        @Override
-        public void onClick(View v) {
+
+        @OnClick(R.id.btnLike)
+        public void onBtnLikeClicked() {
             int position = getAdapterPosition();
             final CommentModel.Result item = results.get( position );
             BigInteger comment_id = item.getId();
-            final String user = PropertyManagement.getUserId(context);
+            final String user = PropertyManagement.getUserId( context );
 
-            switch (v.getId()) {
-                case R.id.btnDel:
-                        MooDumDumService.of().delComment( comment_id ).enqueue( new Callback<ServerResponse>() {
-                            @Override
-                            public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
-                                Toast.makeText( context, "조문글을 삭제했어요.", Toast.LENGTH_SHORT ).show();
+            postCommentLike.PostCommentLike( comment_id, item.getLike_count(), btnLike, likeCount, glideRequestManager, context );
+            MooDumDumService.of().getComment( item.getBoard_id(), user ).enqueue( new Callback<CommentModel>() {
+                @Override
+                public void onResponse(Call<CommentModel> call, Response<CommentModel> response) {
+                    setPostList( response.body().getResult() );
+                    btnLike.setSelected( true );
+                    Toast.makeText( context, "조문글 like.", Toast.LENGTH_SHORT ).show();
+                }
 
-                                MooDumDumService.of().getComment( item.getBoard_id(),user ).enqueue( new Callback<CommentModel>() {
-                                    @Override
-                                    public void onResponse(Call<CommentModel> call, Response<CommentModel> response) {
-                                        setPostList( response.body().getResult() );
-                                    }
+                @Override
+                public void onFailure(Call<CommentModel> call, Throwable t) {
+                }
+            } );
+        }
 
-                                    @Override
-                                    public void onFailure(Call<CommentModel> call, Throwable t) {
+        @OnClick(R.id.btnDel)
+        public void onBtnDelClicked() {
+            int position = getAdapterPosition();
+            final CommentModel.Result item = results.get( position );
+            BigInteger comment_id = item.getId();
+            final String user = PropertyManagement.getUserId( context );
 
-                                    }
-                                } );
-                            }
-
-                            @Override
-                            public void onFailure(Call<ServerResponse> call, Throwable t) {
-
-                            }
-                        } );
-
-                case R.id.btnLike:
-                    postCommentLike.PostCommentLike( comment_id, item.getLike_count(), imageLike, likeCount, glideRequestManager , context);
-
-                    MooDumDumService.of().getComment( item.getBoard_id(),user ).enqueue( new Callback<CommentModel>() {
+            MooDumDumService.of().delComment( comment_id ).enqueue( new Callback<ServerResponse>() {
+                @Override
+                public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
+                    MooDumDumService.of().getComment( item.getBoard_id(), user ).enqueue( new Callback<CommentModel>() {
                         @Override
                         public void onResponse(Call<CommentModel> call, Response<CommentModel> response) {
                             setPostList( response.body().getResult() );
+                            String count = String.valueOf( results.size() );
+                            Toast.makeText( context, count+"", Toast.LENGTH_SHORT ).show();
+                            PropertyManagement.putCommentLikeCount( context, String.valueOf( item.getLike_count() ) );
+                            DetailContentsActivity detailContentsActivity = new DetailContentsActivity();
+//                            detailContentsActivity.getCommentLike( item.getBoard_id().toString() );
+//                            detailContentsActivity.setCommentLike(response.body().getCount());
+//                            detailContentsActivity.getCommentHeader( item.getBoard_id().toString() );
+
+                            Toast.makeText( context, "조문글을 삭제했어요.", Toast.LENGTH_SHORT ).show();
                         }
 
                         @Override
                         public void onFailure(Call<CommentModel> call, Throwable t) {
-
                         }
                     } );
+                }
 
-                    Toast.makeText( context, item.isIs_liked()+"", Toast.LENGTH_SHORT ).show();
-            }
-
-            }
+                @Override
+                public void onFailure(Call<ServerResponse> call, Throwable t) {
+                }
+            } );
         }
     }
+}
 
 

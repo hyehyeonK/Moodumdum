@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
 
         initView();
         checkFirstRun();
-
     }
     public void initView() {
         MainAct = MainActivity.this;

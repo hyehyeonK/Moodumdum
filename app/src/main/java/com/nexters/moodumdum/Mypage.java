@@ -40,8 +40,6 @@ public class Mypage extends AppCompatActivity implements FragmentMyJomun.OnFragm
     private ViewPager viewPager;
     public static RequestManager glideRequestManager;
 
-    UserDataModel userDataModel = new UserDataModel();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
@@ -56,7 +54,6 @@ public class Mypage extends AppCompatActivity implements FragmentMyJomun.OnFragm
         glideRequestManager = Glide.with(this);
         tabLayout = (TabLayout) findViewById( R.id.tablayout );
         viewPager = (ViewPager) findViewById( R.id.viewPager );
-
         tabLayout.addTab( tabLayout.newTab().setText( "내가 쓴 글" ) );
 
         MyPageTabAdapter tabAdapter = new MyPageTabAdapter( getSupportFragmentManager() );
@@ -71,25 +68,21 @@ public class Mypage extends AppCompatActivity implements FragmentMyJomun.OnFragm
             PlusActivity plusActivity = (PlusActivity) PlusActivity.plusActivity;
             plusActivity.finish();
         }
-
         getMyData();
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult( requestCode, resultCode, data );
-        if (requestCode == 1) {
-            if(resultCode == Activity.RESULT_OK){
-                String nameEditResult = data.getStringExtra("name");
-                myName.setText( nameEditResult );
-            }
-        }
+        PropertyManagement.getUserId( this );
+        myName.setText( PropertyManagement.getUserProfile( this ) );
     }
 
     public void getMyData() {
-        String uuid = PropertyManagement.getUserId(Mypage.this);
+        PropertyManagement.getUserId( this );
+        myName.setText( PropertyManagement.getUserProfile( this ) );
 
+        String uuid = PropertyManagement.getUserId(Mypage.this);
         MooDumDumService.of().getUserData( uuid ).enqueue( new Callback<UserDataModel>() {
             @Override
             public void onResponse(Call<UserDataModel> call, Response<UserDataModel> response) {
@@ -98,10 +91,8 @@ public class Mypage extends AppCompatActivity implements FragmentMyJomun.OnFragm
                 myBoardCount.setText( String.valueOf( items.getBoard_count() ) );
                 mylikeCount.setText( String.valueOf( items.getLike_count() ) );
             }
-
             @Override
             public void onFailure(Call<UserDataModel> call, Throwable t) {
-
             }
         } );
     }
@@ -128,7 +119,6 @@ public class Mypage extends AppCompatActivity implements FragmentMyJomun.OnFragm
     @OnClick(R.id.btn_editName)
     public void onBtnEditNameClicked() {
         Intent intent = new Intent( this, NameEditActivity.class );
-        intent.putExtra( "myName", myName.getText() );
         startActivityForResult( intent, 1  );
     }
 

@@ -1,5 +1,6 @@
 package com.nexters.moodumdum;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -36,6 +37,7 @@ public class NameEditActivity extends AppCompatActivity {
     @BindView(R.id.btn_ok)
     TextView btnOk;
     String uuid;
+    Context context = getBaseContext();
     UserDataModel userDataModel = new UserDataModel();
     PutUserDataModel putUserDataModel = new PutUserDataModel( "",null );
 
@@ -45,14 +47,11 @@ public class NameEditActivity extends AppCompatActivity {
         setContentView( R.layout.activity_name_edit );
         ButterKnife.bind( this );
 
-        Intent intent = getIntent();
-        String myname = intent.getStringExtra( "myName" );
         uuid = PropertyManagement.getUserId(NameEditActivity.this);
         getUserData();
 
-        editName.setText( myname );
+        editName.setText( PropertyManagement.getUserProfile( this ) );
         countOfLength.setText( "(" + editName.length() + "/" + "10)" );
-
         editName.addTextChangedListener( new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -75,7 +74,6 @@ public class NameEditActivity extends AppCompatActivity {
     }
 
     public void getUserData() {
-
         MooDumDumService.of().getUserData( uuid ).enqueue( new Callback<UserDataModel>() {
             @Override
             public void onResponse(Call<UserDataModel> call, Response<UserDataModel> response) {
@@ -97,13 +95,13 @@ public class NameEditActivity extends AppCompatActivity {
     @OnClick(R.id.btn_ok)
     public void onBtnOkClicked() {
         putUserData();
+        PropertyManagement.putUserProfile( this , editName.getText().toString());
+        finish();
     }
 
     public void putUserData() {
-
         final String name = editName.getText().toString();
         String profile_image = "";  // 프로필 이미지는 필요없음
-
         MooDumDumService.of().putUserData( uuid, uuid, name, profile_image).enqueue( new Callback<PutUserDataModel>() {
             @Override
             public void onResponse(Call<PutUserDataModel> call, Response<PutUserDataModel> response) {
@@ -113,20 +111,17 @@ public class NameEditActivity extends AppCompatActivity {
                 finish();
                 Log.d("nicknameChange", call.toString());
             }
-
             @Override
             public void onFailure(Call<PutUserDataModel> call, Throwable t) {
                 Log.d("nicknameChangErr", t.getMessage());
-
             }
         });
     }
+
     @OnClick(R.id.btn_back)
     public void onBtnBackClicked() {
         this.finish();
         overridePendingTransition( R.anim.not_move_activity, R.anim.leftout_activity );
     }
-
-
 }
 
