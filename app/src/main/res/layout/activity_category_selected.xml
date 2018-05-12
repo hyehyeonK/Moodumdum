@@ -1,81 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#fff"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#fff">
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/srl_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginTop="56dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:clipChildren="false">
-    <com.amar.library.ui.StickyScrollView
-        android:id="@+id/scrollView"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:stickyHeader="@+id/contentsBtn">
 
-        <LinearLayout
+        <com.amar.library.ui.StickyScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            app:layout_constraintTop_toTopOf="parent"
+            app:stickyHeader="@+id/contentsBtn">
 
-            <ImageView
-                android:id="@+id/categoryBanner"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="103dp"
-                android:scaleType="centerCrop"/>
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <FrameLayout
-                android:id="@+id/contentsBtn"
-                android:layout_width="match_parent"
-                android:background="#fff"
-                android:layout_height="60dp">
-                <Button
-                    android:id="@+id/latestBtn"
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_gravity="right"
-                    android:layout_marginEnd="80dp"
-                    android:textColor="@color/black"
-                    android:text="최신순"
-                    android:background="#00000000"/>
-                <Button
-                    android:id="@+id/favoriteBtn"
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_gravity="right"
-                    android:textColor="#808080"
-                    android:text="인기순"
-                    android:background="#00000000"/>
-            </FrameLayout>
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:descendantFocusability="blocksDescendants">
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_contents"
+                <ImageView
+                    android:id="@+id/categoryBanner"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="103dp"
+                    android:scaleType="centerCrop" />
 
-            </RelativeLayout>
-        </LinearLayout>
+                <FrameLayout
+                    android:id="@+id/contentsBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:background="#fff">
 
-    </com.amar.library.ui.StickyScrollView>
+                    <Button
+                        android:id="@+id/latestBtn"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginEnd="80dp"
+                        android:layout_marginTop="10dp"
+                        android:background="#00000000"
+                        android:text="최신순"
+                        android:textColor="@color/black" />
+
+                    <Button
+                        android:id="@+id/favoriteBtn"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginTop="10dp"
+                        android:background="#00000000"
+                        android:text="인기순"
+                        android:textColor="#808080" />
+                </FrameLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:descendantFocusability="blocksDescendants">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_contents"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </RelativeLayout>
+            </LinearLayout>
+
+        </com.amar.library.ui.StickyScrollView>
     </android.support.v4.widget.SwipeRefreshLayout>
-    <include
-        layout="@layout/fragment_top2"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        app:layout_constraintBottom_toBottomOf="@+id/include4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/srl_refresh" />
+    <include layout="@layout/fragment_top2" />
 
     <include
+        android:id="@+id/include4"
         layout="@layout/fragment_bottom" />
+
 </android.support.constraint.ConstraintLayout>

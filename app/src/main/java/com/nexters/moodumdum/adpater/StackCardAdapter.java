@@ -205,7 +205,7 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
             @Override
             public boolean onDoubleTap(MotionEvent e) {
                 // 좋아요 눌렀을 때 할 Action
-                postLike.PostComment(detailCardInfo.getBoard_id(), detailCardInfo.getLikeCount(),contents_like,likeCount ,glideRequestManager);
+                postLike.PostComment(detailCardInfo.getBoard_id(), detailCardInfo.getLikeCount(),contents_like,likeCount ,glideRequestManager,context);
 
                 motionView.setVisibility(View.VISIBLE);
                 GlideDrawableImageViewTarget imageViewTarget = new GlideDrawableImageViewTarget(motionView,1);

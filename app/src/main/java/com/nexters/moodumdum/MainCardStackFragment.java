@@ -30,6 +30,7 @@ import com.fashare.stack_layout.StackLayout;
 import com.fashare.stack_layout.transformer.AngleTransformer;
 import com.nexters.moodumdum.adpater.StackCardAdapter;
 import com.nexters.moodumdum.api.MooDumDumService;
+import com.nexters.moodumdum.common.PropertyManagement;
 import com.nexters.moodumdum.model.ContentsModel;
 import com.nexters.moodumdum.model.DetailCardInfoDAO;
 
@@ -52,6 +53,7 @@ public class MainCardStackFragment extends Fragment {
     public static Fragment MainCardFragment ;
     public static Context MainCardFragment_context;
     public int StatusBarHeight;
+    private String uuid;
     @BindView(R.id.topFrame)
     ConstraintLayout topFrame;
     @BindView(R.id.firstView)
@@ -97,6 +99,7 @@ public class MainCardStackFragment extends Fragment {
         ButterKnife.bind( this, view );
         MainCardFragment = MainCardStackFragment.this;
         MainCardFragment_context = getContext();
+        uuid = PropertyManagement.getUserId(getContext());
         //Menu top margin 주기
         getStatusBarHeight();
         setActionbarMarginTop(topFrame);
@@ -215,7 +218,6 @@ public class MainCardStackFragment extends Fragment {
 
     }
     public void loadData() {
-        String uuid = ((MainActivity)getActivity()).getUUID();
         MooDumDumService.of().getContents(uuid).enqueue( new Callback<ContentsModel>() {
             @Override
             public void onResponse(Call<ContentsModel> call, final Response<ContentsModel> response) {
@@ -280,7 +282,6 @@ public class MainCardStackFragment extends Fragment {
     }
 
     public void getPost() {
-        String uuid = ((MainActivity)getActivity()).getUUID();
         MooDumDumService.of().getContents(uuid).enqueue( new Callback<ContentsModel>() {
             @Override
             public void onResponse(Call<ContentsModel> call, Response<ContentsModel> response) {

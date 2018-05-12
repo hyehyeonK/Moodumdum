@@ -97,7 +97,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginEnd="6dp"
-                    android:src="@drawable/btn_like"
+                    android:src="@drawable/selector_like_btn"
                     app:layout_constraintBottom_toTopOf="@+id/line"
                     app:layout_constraintEnd_toStartOf="@+id/likeCount"
                     app:layout_constraintTop_toTopOf="parent" />

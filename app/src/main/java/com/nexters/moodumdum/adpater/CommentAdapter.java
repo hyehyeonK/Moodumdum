@@ -12,10 +12,10 @@ import android.widget.Toast;
 
 import com.bumptech.glide.RequestManager;
 import com.mcxtzhang.swipemenulib.SwipeMenuLayout;
-import com.nexters.moodumdum.MainActivity;
 import com.nexters.moodumdum.PostCommentLike;
 import com.nexters.moodumdum.R;
 import com.nexters.moodumdum.api.MooDumDumService;
+import com.nexters.moodumdum.common.PropertyManagement;
 import com.nexters.moodumdum.model.CommentModel;
 import com.nexters.moodumdum.model.ServerResponse;
 
@@ -62,7 +62,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         viewHolder.WriterOfComment.setText( item.getUser().getNickName() );
         viewHolder.contentOfComment.setText( item.getDescription() );
 
-        String user = ((MainActivity) MainActivity.MainAct).getUUID();
+        String user = PropertyManagement.getUserId(context);
         String fontColor = "#e27171";
 
         if(!item.getUser().getUuid().equals( user ))
@@ -132,7 +132,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             int position = getAdapterPosition();
             final CommentModel.Result item = results.get( position );
             BigInteger comment_id = item.getId();
-            final String user = ((MainActivity) MainActivity.MainAct).getUUID();
+            final String user = PropertyManagement.getUserId(context);
 
             switch (v.getId()) {
                 case R.id.btnDel:
@@ -161,7 +161,7 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                         } );
 
                 case R.id.btnLike:
-                    postCommentLike.PostCommentLike( comment_id, item.getLike_count(), imageLike, likeCount, glideRequestManager );
+                    postCommentLike.PostCommentLike( comment_id, item.getLike_count(), imageLike, likeCount, glideRequestManager , context);
 
                     MooDumDumService.of().getComment( item.getBoard_id(),user ).enqueue( new Callback<CommentModel>() {
                         @Override

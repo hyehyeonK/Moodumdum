@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.nexters.moodumdum.adpater.MyPageTabAdapter;
 import com.nexters.moodumdum.api.MooDumDumService;
+import com.nexters.moodumdum.common.PropertyManagement;
 import com.nexters.moodumdum.model.UserDataModel;
 
 import butterknife.BindView;
@@ -81,7 +82,7 @@ public class Mypage extends AppCompatActivity implements FragmentMyJomun.OnFragm
     }
 
     public void getMyData() {
-        String uuid = ((MainActivity) MainActivity.MainAct).getUUID();
+        String uuid = PropertyManagement.getUserId(Mypage.this);
 
         MooDumDumService.of().getUserData( uuid ).enqueue( new Callback<UserDataModel>() {
             @Override

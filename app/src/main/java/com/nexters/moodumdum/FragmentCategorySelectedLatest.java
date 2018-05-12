@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.nexters.moodumdum.adpater.SelectedCategoryAdapter;
 import com.nexters.moodumdum.anim.RecyclerViewDecoration;
 import com.nexters.moodumdum.api.MooDumDumService;
+import com.nexters.moodumdum.common.PropertyManagement;
 import com.nexters.moodumdum.model.ContentsModel;
 
 import butterknife.BindView;
@@ -76,7 +77,7 @@ public class FragmentCategorySelectedLatest extends Fragment {
 
 
     private void getPost() {
-        String uuid = ((MainActivity) MainActivity.MainAct).getUUID();
+        String uuid = PropertyManagement.getUserId(getContext());
         MooDumDumService.of().getCategoryContentsInOrderOfPriority(uuid, categoryID, dataOffset).enqueue(new Callback<ContentsModel>() {
             @Override
             public void onResponse(Call<ContentsModel> call, Response<ContentsModel> response) {

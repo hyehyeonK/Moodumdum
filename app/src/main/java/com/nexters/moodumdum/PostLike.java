@@ -1,5 +1,6 @@
 package com.nexters.moodumdum;
 
+import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.ImageView;
@@ -7,6 +8,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
 import com.nexters.moodumdum.api.MooDumDumService;
+import com.nexters.moodumdum.common.PropertyManagement;
 import com.nexters.moodumdum.model.DetailCardInfoDAO;
 import com.nexters.moodumdum.model.ServerResponse;
 
@@ -28,15 +30,16 @@ public class PostLike {
     ImageView imageView;
     TextView textView;
     static DetailCardInfoDAO detailCardInfo;
+
     public static PostLike getInstance(){
         if(singletonInstance==null){
             singletonInstance = new PostLike();
         }
         return singletonInstance;
     }
-    public void PostComment(BigInteger board_id, DetailCardInfoDAO detailCardInfo) {
+    public void PostComment(BigInteger board_id, DetailCardInfoDAO detailCardInfo, Context context) {
         this.detailCardInfo = detailCardInfo;
-        String uuid = ((MainActivity) MainActivity.MainAct).getUUID();
+        String uuid = PropertyManagement.getUserId(context);
         MooDumDumService.of().postDoLike( board_id, uuid ).enqueue(new Callback<ServerResponse>() {
             @Override
             public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
@@ -58,12 +61,12 @@ public class PostLike {
     public void setIsLikeDAO(){
         detailCardInfo.setIsLike(true);
     }
-    public void PostComment(BigInteger board_id, int count, ImageView imageView, TextView textView, RequestManager glideRequestManager) {
+    public void PostComment(BigInteger board_id, int count, ImageView imageView, TextView textView, RequestManager glideRequestManager, Context context) {
         this.count = count;
         this.imageView = imageView;
         this.textView = textView;
         this.glideRequestManager = glideRequestManager;
-        String uuid = ((MainActivity) MainActivity.MainAct).getUUID();
+        String uuid = PropertyManagement.getUserId(context);
         boolean result = false;
         MooDumDumService.of().postDoLike( board_id, uuid ).enqueue(new Callback<ServerResponse>() {
             @Override

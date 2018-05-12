@@ -84,4 +84,10 @@ public class MooDumDumService {
     }
     public Call<UserDataModel> getUserData(String user_id) {return api.getUserData( user_id );}
     public Call<PutUserDataModel> putUserData(String user_id, String user, String name, String profile_image) {return api.putUserData( user_id, user,name , profile_image);}
+
+    //글 좋아요 취소
+    public Call<ServerResponse> deleteContentsLike(String user_id, BigInteger board_id) {
+        return api.deleteContentsLike(user_id, board_id);
+    }
+
 }

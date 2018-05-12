@@ -1,5 +1,6 @@
 package com.nexters.moodumdum;
 
+import android.content.Context;
 import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
@@ -7,6 +8,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
 import com.nexters.moodumdum.api.MooDumDumService;
+import com.nexters.moodumdum.common.PropertyManagement;
 import com.nexters.moodumdum.model.CommentModel;
 import com.nexters.moodumdum.model.ServerResponse;
 
@@ -50,12 +52,12 @@ public class PostCommentLike {
         },200);
     }
 
-    public void PostCommentLike(BigInteger comment_id, int count, ImageView imageView, TextView textView, RequestManager glideRequestManager) {
+    public void PostCommentLike(BigInteger comment_id, int count, ImageView imageView, TextView textView, RequestManager glideRequestManager, Context context) {
         this.imageView = imageView;
         this.count = count;
         this.glideRequestManager = glideRequestManager;
         this.textView = textView;
-        String uuid = ((MainActivity) MainActivity.MainAct).getUUID();
+        String uuid = PropertyManagement.getUserId(context);
         boolean result = false;
         MooDumDumService.of().postCommentLike( comment_id, uuid ).enqueue( new Callback<ServerResponse>() {
             @Override

@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nexters.moodumdum.api.MooDumDumService;
+import com.nexters.moodumdum.common.PropertyManagement;
 import com.nexters.moodumdum.model.PutUserDataModel;
 import com.nexters.moodumdum.model.UserDataModel;
 
@@ -34,7 +35,7 @@ public class NameEditActivity extends AppCompatActivity {
     TextView titleProfileImg;
     @BindView(R.id.btn_ok)
     TextView btnOk;
-
+    String uuid;
     UserDataModel userDataModel = new UserDataModel();
     PutUserDataModel putUserDataModel = new PutUserDataModel( "",null );
 
@@ -46,7 +47,7 @@ public class NameEditActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String myname = intent.getStringExtra( "myName" );
-
+        uuid = PropertyManagement.getUserId(NameEditActivity.this);
         getUserData();
 
         editName.setText( myname );
@@ -74,7 +75,6 @@ public class NameEditActivity extends AppCompatActivity {
     }
 
     public void getUserData() {
-        String uuid = ((MainActivity) MainActivity.MainAct).getUUID();
 
         MooDumDumService.of().getUserData( uuid ).enqueue( new Callback<UserDataModel>() {
             @Override
@@ -100,7 +100,7 @@ public class NameEditActivity extends AppCompatActivity {
     }
 
     public void putUserData() {
-        String uuid = ((MainActivity) MainActivity.MainAct).getUUID();
+
         final String name = editName.getText().toString();
         String profile_image = "";  // 프로필 이미지는 필요없음
 

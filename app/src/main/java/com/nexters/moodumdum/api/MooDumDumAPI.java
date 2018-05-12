@@ -134,5 +134,11 @@ public interface MooDumDumAPI {
     Call<PutUserDataModel> putUserData (@Path( "user_id" )String user_id,
                                         @Field( "user" ) String user,
                                         @Field ("name") String name,
-                                        @Field( "proflie_image" ) String profile_image);
+                                        @Field( "profile_image" ) String profile_image);
+
+
+    
+    @DELETE("api/board/like/{user}/{board}/")
+    Call<ServerResponse> deleteContentsLike( @Path( "user" ) String user_id,
+                                             @Path( "board" ) BigInteger boardId);
 }

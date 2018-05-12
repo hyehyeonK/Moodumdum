@@ -11,9 +11,11 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.nexters.moodumdum.adpater.SelectedCategoryAdapter;
 import com.nexters.moodumdum.anim.RecyclerViewDecoration;
 import com.nexters.moodumdum.api.MooDumDumService;
+import com.nexters.moodumdum.common.PropertyManagement;
 import com.nexters.moodumdum.model.CategoryInfoModel;
 import com.nexters.moodumdum.model.ContentsModel;
 import com.nexters.moodumdum.model.DetailCardInfoDAO;
@@ -68,6 +71,8 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
     Button latestBtn;
     @BindView(R.id.srl_refresh)
     SwipeRefreshLayout mRefreshLayout;
+    @BindView(R.id.progressBar)
+    ProgressBar loadingBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +82,7 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
         dataOffset = 0;
         currentState = LATEST;
         noMoreData = false;
-        uuid = ((MainActivity) MainActivity.MainAct).getUUID();
+        uuid = PropertyManagement.getUserId(CategorySelectedActivityRV.this);
         Intent intent = getIntent();
         categoryID = intent.getStringExtra("categoryID");
         currentAdapter = new SelectedCategoryAdapter(CategorySelectedActivityRV.this, activity);
@@ -159,6 +164,7 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
                         currentAdapter.addMoreItem(items.getResult());
                     }
                     dataOffset += 10;
+                    loadingBar.setVisibility(View.INVISIBLE);
                 }
             }
 
@@ -182,6 +188,7 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
                         currentAdapter.addMoreItem(items.getResult());
                     }
                     dataOffset += 10;
+                    loadingBar.setVisibility(View.INVISIBLE);
                 }
             }
 
@@ -210,6 +217,7 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
     }
     @OnClick(R.id.latestBtn)
     public void latestList(){
+        loadingBar.setVisibility(View.VISIBLE);
         currentState = LATEST;
         dataOffset = 0;
         noMoreData = false;
@@ -224,6 +232,7 @@ public class CategorySelectedActivityRV extends AppCompatActivity {
 
     @OnClick(R.id.favoriteBtn)
     public void favoritList(){
+        loadingBar.setVisibility(View.VISIBLE);
         currentState = FAVORIT;
         dataOffset = 0;
         noMoreData = false;

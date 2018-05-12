@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.nexters.moodumdum.api.MooDumDumService;
+import com.nexters.moodumdum.common.PropertyManagement;
 import com.nexters.moodumdum.factory.DeviceUuidFactory;
 import com.nexters.moodumdum.model.ServerResponse;
 
@@ -31,7 +31,6 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     private String[] nickNameList = {"지나가는", "상처받은", "떠도는", "배회하는", "마음다친", "녹초가 된", "기진맥진", "가여운", "굶주린", "끄적이는", "목마른"};
-    public SharedPreferences prefs;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
     private String UUID;
@@ -47,24 +46,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         startActivity(new Intent(this, SplashActivity.class)); //splash 화면 띄우기
-        MainAct = MainActivity.this;
-        MainActivityContext = getBaseContext();
-        prefs = getSharedPreferences("MooDumDum_file_key", Context.MODE_PRIVATE); //디바이스 DB 가져오기
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
 
+        initView();
         checkFirstRun();
 
     }
-
+    public void initView() {
+        MainAct = MainActivity.this;
+        MainActivityContext = getBaseContext();
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+    }
     //첫 실행 확인
     public void checkFirstRun() {
-        boolean isFirstRun = prefs.getBoolean("isFirstRun", true); // isFirstRun 값이 null이면 true 반환
 
         //첫 실행 이면
-        if (isFirstRun) {
+        if (PropertyManagement.getUserId(MainActivity.this) == null) {
+
             //UUID 생성
             uuidFactory = new DeviceUuidFactory();
             UUID uuid = uuidFactory.getDeviceUuid();
@@ -73,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
             Random random = new Random();
             int randomNum = random.nextInt(nickNameList.length);
             nickName = nickNameList[randomNum];
+            PropertyManagement.putUserProfile(MainActivityContext, nickName);
 
             //서버에 보내기
             postUserData(uuid + "", nickName + " 영혼");
@@ -88,11 +88,11 @@ public class MainActivity extends AppCompatActivity {
             fragmentTransaction.add(R.id.fragment_container, new MainCardStackFragment());
             fragmentTransaction.commit();
         }
-        UUID = prefs.getString("UUID", "");
+//        UUID = PropertyManagement.getUserId(MainActivity.this);
     }
-    public String getUUID(){
-        return UUID;
-    }
+//    public String getUUID(){
+//        return UUID;
+//    }
     public void reloadUUID(){
         UUID uuid = uuidFactory.getDeviceUuid();
         //서버에 보내기
@@ -107,19 +107,16 @@ public class MainActivity extends AppCompatActivity {
 
     // 유저 서버에 등록
     private void postUserData(final String uuid, String nickName) {
-        boolean successe = false;
         MooDumDumService.of().postUserData(uuid, nickName)
                 .enqueue(new Callback<ServerResponse>() {
                     @Override
                     public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
-                        Log.d("@@@@@@@", response.message());
                         if (response.isSuccessful()) {
                             //디바이스 DB에 저장
-                            prefs.edit().putBoolean("isFirstRun", false).apply(); // isFirstRun = false 값을 디바이스에 저장
-                            prefs.edit().putString("UUID", uuid).apply();
+                            PropertyManagement.putUserId(MainActivityContext,uuid);
                         }
                         else {
-                            Log.d("@@@postUserDataErr", "유저 정보 저장 실패");
+                            Log.d("postUserDataErr", "유저 정보 저장 실패");
                             if(response.body() == null){
                                 reloadUUID();
                             }
@@ -129,17 +126,13 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<ServerResponse> call, Throwable t) {
-                        Log.d("##postUserDataOnFailure", "유저 정보 저장 실패");
+                        Log.d("postUserDataOnFailure", "유저 정보 저장 실패");
                         ErrAlert();
                     }
                 });
     }
 
     private void ErrAlert() {
-        //정보 삭제
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.clear();
-        editor.commit();
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                 MainActivity.this);

@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.nexters.moodumdum.adpater.MyPageRecyclerViewAdapter;
 import com.nexters.moodumdum.api.MooDumDumService;
+import com.nexters.moodumdum.common.PropertyManagement;
 import com.nexters.moodumdum.model.ContentsModel;
 
 import java.util.UUID;
@@ -94,7 +95,7 @@ public class FragmentMyJomun extends Fragment {
 
 
     private void initDataset() {
-        String uuid = ((MainActivity) MainActivity.MainAct).getUUID();
+        String uuid = PropertyManagement.getUserId(getContext());
         MooDumDumService.of().getMyJomunContents(uuid, dataOffset).enqueue(new Callback<ContentsModel>() {
             @Override
             public void onResponse(Call<ContentsModel> call, Response<ContentsModel> response) {

@@ -31,6 +31,7 @@ import com.nexters.moodumdum.adpater.CommentAdapter;
 import com.nexters.moodumdum.adpater.StackCardAdapter;
 import com.nexters.moodumdum.anim.RecyclerViewDecoration;
 import com.nexters.moodumdum.api.MooDumDumService;
+import com.nexters.moodumdum.common.PropertyManagement;
 import com.nexters.moodumdum.model.CommentModel;
 import com.nexters.moodumdum.model.ContentsModel;
 import com.nexters.moodumdum.model.DetailCardInfoDAO;
@@ -118,7 +119,7 @@ public class DetailContentsActivity extends AppCompatActivity {
         mGlideRequestManager = Glide.with( this );
         gestureDetector = new GestureDetector(this, new GestureListener());
         postLike = new PostLike();
-        uuid = ((MainActivity) MainActivity.MainAct).getUUID();
+        uuid = PropertyManagement.getUserId(DetailContentsActivity.this);
         initView();
     }
     public void getStatusBarHeight(){
@@ -219,9 +220,10 @@ public class DetailContentsActivity extends AppCompatActivity {
                 ContentsModel.Result items = response.body();
                 likeCount.setText( items.getLike_count() + "");
                 commentsCount.setText( String.valueOf( items.getComment_count() ) );
+                contents_like.setSelected(items.isIs_liked());
                 if( items.isIs_liked()){
-                    mGlideRequestManager.load(R.drawable.like_after)
-                            .into(contents_like);
+//                    mGlideRequestManager.load(R.drawable.like_after)
+//                            .into(contents_like);
                     contents_like.setColorFilter(null);
                 }
             }
@@ -303,8 +305,10 @@ public class DetailContentsActivity extends AppCompatActivity {
             return true;
         }
     }
+
+    //글 좋아요
     public void motionLikeAnimation(){
-        postLike.PostComment(detailCardInfo.getBoard_id(), detailCardInfo);
+        postLike.PostComment(detailCardInfo.getBoard_id(), detailCardInfo, DetailContentsActivity.this);
         motionView.setVisibility(View.VISIBLE);
         GlideDrawableImageViewTarget imageViewTarget = new GlideDrawableImageViewTarget(motionView,1);
         mGlideRequestManager.load(R.raw.motion_like)
@@ -319,6 +323,23 @@ public class DetailContentsActivity extends AppCompatActivity {
                 getCommentHeader();
             }
         },2800);
+    }
+    //글 좋아요 취소
+    public void cancelContentsLike(){
+        board_id = detailCardInfo.getBoard_id();
+        MooDumDumService.of().deleteContentsLike( uuid, board_id ).enqueue( new Callback<ServerResponse>() {
+            @Override
+            public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
+                Toast.makeText( getBaseContext(), "좋아요 취소", Toast.LENGTH_SHORT ).show();
+                getCommentContent();
+                getCommentHeader();
+            }
+
+            @Override
+            public void onFailure(Call<ServerResponse> call, Throwable t) {
+                Log.d( "@cancelLikeOnFailure", "좋아요 취소 실패" );
+            }
+        } );
     }
 
     public void finishDeatailCard(){
@@ -348,7 +369,11 @@ public class DetailContentsActivity extends AppCompatActivity {
 
     @OnClick({R.id.contents_like,R.id.likeCount})
     public void setLike() {
-        motionLikeAnimation();
+        if (contents_like.isSelected()) {
+            cancelContentsLike();
+        } else {
+            motionLikeAnimation();
+        }
     }
 }
 

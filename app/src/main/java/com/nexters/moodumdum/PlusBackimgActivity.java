@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.nexters.moodumdum.adpater.SelectViewOfBackgroundAdapter;
 import com.nexters.moodumdum.api.MooDumDumService;
+import com.nexters.moodumdum.common.PropertyManagement;
 import com.nexters.moodumdum.model.ImageModel;
 import com.nexters.moodumdum.model.PostContentsModel;
 import com.nexters.moodumdum.model.ServerResponse;
@@ -116,7 +117,7 @@ public class PlusBackimgActivity extends AppCompatActivity {
     }
 
     private void postMyMemory() {
-        String uuid = ((MainActivity) MainActivity.MainAct).getUUID();
+        String uuid = PropertyManagement.getUserId(PlusBackimgActivity.this);
         BigInteger category_id = contentsModel.getCategory_id();
 //        String user = contentsModel.getUser();
 //        String name = contentsModel.getName();
