@@ -116,8 +116,8 @@ public class MainCardStackFragment extends Fragment {
     }
 
     public void setButtonColor() {
-        myPageBtn.setColorFilter( Color.WHITE );
-        menuBtn.setColorFilter( Color.WHITE );
+        myPageBtn.setImageResource( R.drawable.mypage );
+        menuBtn.setImageResource( R.drawable.cross);
     }
 //    public void animateTransaction(View view) {
 //        Toast.makeText(getContext(), "클리이이익.", Toast.LENGTH_SHORT).show();
