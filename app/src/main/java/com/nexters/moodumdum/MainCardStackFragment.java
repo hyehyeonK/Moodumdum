@@ -33,6 +33,8 @@ import com.nexters.moodumdum.api.MooDumDumService;
 import com.nexters.moodumdum.common.PropertyManagement;
 import com.nexters.moodumdum.model.ContentsModel;
 import com.nexters.moodumdum.model.DetailCardInfoDAO;
+import com.nexters.moodumdum.util.MyAlphaTransformer;
+import com.nexters.moodumdum.util.MyStackPageTransformer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,9 +55,8 @@ public class MainCardStackFragment extends Fragment {
     public static Fragment MainCardFragment;
     public static Context MainCardFragment_context;
     public int StatusBarHeight;
-    @BindView(R.id.gradient)
-    View gradient;
     private String uuid;
+
     @BindView(R.id.topFrame)
     ConstraintLayout topFrame;
     @BindView(R.id.firstView)
@@ -83,6 +84,7 @@ public class MainCardStackFragment extends Fragment {
 
     @BindView(R.id.srl_refresh)
     SwipeRefreshLayout mRefreshLayout;
+
     public StackCardAdapter stackCardAdapter;
     private StackCardAdapter currentCardAdaper;
     List<ContentsModel.Result> results = new ArrayList<>();
@@ -210,7 +212,6 @@ public class MainCardStackFragment extends Fragment {
             }
         } );
         stackCardAdapter.setFragmentManagerCard( getFragmentManager() );
-        gradient.setVisibility( View.INVISIBLE );
     }
 
     public void refreshData() {
@@ -275,7 +276,6 @@ public class MainCardStackFragment extends Fragment {
                 firstView.setVisibility( View.GONE );
             }
         }, 500 );
-        gradient.setVisibility( View.VISIBLE );
 
 
     }

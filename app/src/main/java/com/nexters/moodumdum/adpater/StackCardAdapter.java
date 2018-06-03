@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -21,7 +22,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.fashare.stack_layout.StackLayout;
 import com.nexters.moodumdum.DetailContentsActivity;
-import com.nexters.moodumdum.PostLike;
+import com.nexters.moodumdum.util.PostLike;
 import com.nexters.moodumdum.R;
 import com.nexters.moodumdum.api.MooDumDumService;
 import com.nexters.moodumdum.common.PropertyManagement;
@@ -188,7 +189,7 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
         @BindView(R.id.contents_comment)
         ImageView contents_comment;
         @BindView(R.id.motion)
-        ImageView motionView;
+        ConstraintLayout motionView;
 
         DetailCardInfoDAO detailCardInfo;
 
@@ -254,7 +255,8 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
             postLike.PostComment(detailCardInfo.getBoard_id(), detailCardInfo.getLikeCount(),contents_like,likeCount ,glideRequestManager,context);
 
             motionView.setVisibility(View.VISIBLE);
-            GlideDrawableImageViewTarget imageViewTarget = new GlideDrawableImageViewTarget(motionView,1);
+            ImageView motionImageView = motionView.findViewById(R.id.motionImage);
+            GlideDrawableImageViewTarget imageViewTarget = new GlideDrawableImageViewTarget(motionImageView,1);
             glideRequestManager.load(R.raw.motion_like)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)// 디스크 캐시 저장 off
                     .skipMemoryCache(true)// 메모리 캐시 저장 off

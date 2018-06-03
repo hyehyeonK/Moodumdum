@@ -14,12 +14,6 @@
         android:layout_height="56dp"
         app:layout_constraintTop_toTopOf="parent">
 
-        <View
-            android:id="@+id/gradient"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:background="@drawable/gradient_top"/>
-
         <ImageButton
             android:id="@+id/onClickToMenu"
             android:layout_width="56dp"

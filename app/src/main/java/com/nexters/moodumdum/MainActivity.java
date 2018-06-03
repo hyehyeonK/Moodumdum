@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
     private DeviceUuidFactory uuidFactory;
     private String nickName;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
         //서버에 보내기
         postUserData(uuid + "", nickName + " 영혼");
     }
+
     public void setCardFragment(){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

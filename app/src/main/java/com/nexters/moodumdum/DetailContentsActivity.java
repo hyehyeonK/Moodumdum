@@ -35,6 +35,7 @@ import com.nexters.moodumdum.model.CommentModel;
 import com.nexters.moodumdum.model.ContentsModel;
 import com.nexters.moodumdum.model.DetailCardInfoDAO;
 import com.nexters.moodumdum.model.ServerResponse;
+import com.nexters.moodumdum.util.PostLike;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.math.BigInteger;
@@ -83,7 +84,7 @@ public class DetailContentsActivity extends AppCompatActivity {
     @BindView(R.id.contents)
     TextView contents;
     @BindView(R.id.motion)
-    ImageView motionView;
+    ConstraintLayout motionView;
     @BindView(R.id.backlayout)
     LinearLayout backlayout;
     String beforeAct;
@@ -178,14 +179,6 @@ public class DetailContentsActivity extends AppCompatActivity {
         contents.setTextColor(Color.parseColor(currentColor));
         scroll  = new ScrollingMovementMethod();
         contents.setMovementMethod(scroll);
-        View.OnTouchListener gestureListener = new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent evnet) {
-                return gestureDetector.onTouchEvent(evnet);
-
-            }
-        };
-        backlayout.setOnTouchListener(gestureListener);
 
         btn_back.setColorFilter(Color.parseColor(currentColor));
         getCommentHeader();
@@ -370,7 +363,8 @@ public void getCommentHeader() {
     public void motionLikeAnimation(){
         postLike.PostComment(detailCardInfo.getBoard_id(), detailCardInfo, DetailContentsActivity.this);
         motionView.setVisibility(View.VISIBLE);
-        GlideDrawableImageViewTarget imageViewTarget = new GlideDrawableImageViewTarget(motionView,1);
+        ImageView motionImageView = motionView.findViewById(R.id.motionImage);
+        GlideDrawableImageViewTarget imageViewTarget = new GlideDrawableImageViewTarget(motionImageView,1);
         mGlideRequestManager.load(R.raw.motion_like)
 //                .diskCacheStrategy(DiskCacheStrategy.NONE)// 디스크 캐시 저장 off
 //                .skipMemoryCache(true)// 메모리 캐시 저장 off

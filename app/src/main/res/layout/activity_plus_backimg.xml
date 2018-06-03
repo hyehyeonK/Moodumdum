@@ -14,27 +14,30 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="3">
+
             <ImageView
                 android:id="@+id/selectedBackImg"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop" />
+
             <TextView
                 android:id="@+id/contentOfPlus"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:paddingRight="20dp"
-                android:paddingLeft="20dp"
-                android:paddingTop="60dp"
                 android:paddingBottom="20dp"
-                android:textColor="#747474"
-                android:text="dasdasdsadasdsadasdasdas" />
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="60dp"
+                android:text="dasdasdsadasdsadasdasdas"
+                android:textColor="#747474" />
 
         </FrameLayout>
 
@@ -59,11 +62,11 @@
             android:id="@+id/onClickToCancle"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:padding="16dp"
-            android:background="@android:color/transparent"
-            android:src="@drawable/btn_cancle"
             android:adjustViewBounds="true"
-            android:scaleType="fitStart"/>
+            android:background="@android:color/transparent"
+            android:padding="16dp"
+            android:scaleType="fitStart"
+            android:src="@drawable/btn_cancle" />
 
         <TextView
             android:id="@+id/onClickToFinish"
@@ -77,4 +80,20 @@
             app:layout_constraintEnd_toEndOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
+    <FrameLayout
+        android:id="@+id/loading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#000000"
+            android:alpha="0.5"/>
+        <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+    </FrameLayout>
+
 </android.support.constraint.ConstraintLayout>

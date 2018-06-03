@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.bumptech.glide.RequestManager;
 import com.mcxtzhang.swipemenulib.SwipeMenuLayout;
 import com.nexters.moodumdum.DetailContentsActivity;
-import com.nexters.moodumdum.PostCommentLike;
+import com.nexters.moodumdum.util.PostCommentLike;
 import com.nexters.moodumdum.R;
 import com.nexters.moodumdum.api.MooDumDumService;
 import com.nexters.moodumdum.common.PropertyManagement;
