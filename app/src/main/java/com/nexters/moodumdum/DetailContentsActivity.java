@@ -165,7 +165,7 @@ public class DetailContentsActivity extends AppCompatActivity {
                 break;
         }
         if(detailCardInfo.getBackImagUrl() !=null){
-            mGlideRequestManager.load(detailCardInfo.getBackImagUrl())
+            mGlideRequestManager.load(detailCardInfo.getBackImagUrl()).crossFade()
                     .into(backImage);
         } else {
             backImage.setVisibility(View.INVISIBLE);

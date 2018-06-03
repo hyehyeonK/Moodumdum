@@ -95,12 +95,12 @@ public class NameEditActivity extends AppCompatActivity {
     @OnClick(R.id.btn_ok)
     public void onBtnOkClicked() {
         putUserData();
-        PropertyManagement.putUserProfile( this , editName.getText().toString());
+        PropertyManagement.putUserProfile( this , editName.getText() + "영혼");
         finish();
     }
 
     public void putUserData() {
-        final String name = editName.getText().toString();
+        final String name = editName.getText() + "영혼";
         String profile_image = "";  // 프로필 이미지는 필요없음
         MooDumDumService.of().putUserData( uuid, uuid, name, profile_image).enqueue( new Callback<PutUserDataModel>() {
             @Override

@@ -69,8 +69,8 @@ public class MainCardStackFragment extends Fragment {
     ImageView firstbackImage;
     @BindView(R.id.firstContents)
     TextView firstContents;
-    @BindView(R.id.firstWriter)
-    TextView firstWriter;
+//    @BindView(R.id.firstWriter)
+//    TextView firstWriter;
     @BindView(R.id.noDataImg)
     ImageView nodataImg;
     @BindView(R.id.noDataText)
@@ -313,8 +313,8 @@ public class MainCardStackFragment extends Fragment {
                         mGlideRequestManager.load( firstItem.getImage_url() ).into( firstbackImage );
                         firstContents.setText( firstItem.getDescription() );
                         firstContents.setTextColor( Color.parseColor( firstItem.getColor() ) );
-                        firstWriter.setText( user.getNickName() );
-                        firstWriter.setTextColor( Color.parseColor( firstItem.getColor() ) );
+//                        firstWriter.setText( user.getNickName() );
+//                        firstWriter.setTextColor( Color.parseColor( firstItem.getColor() ) );
 
                         stackCardAdapter.setPostList( results );
                     } else {
