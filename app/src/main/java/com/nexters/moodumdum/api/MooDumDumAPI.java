@@ -125,8 +125,10 @@ public interface MooDumDumAPI {
     Call<ServerResponse> postCommentLike(@Field( "comment_id" ) BigInteger comment_id,
                                          @Field( "user" ) String user);
 
-//    // 댓글 좋아요 취소
-//    @DELETE("api/board/comment/like/<user>/<board>/")
+    // 댓글 좋아요 취소
+    @DELETE("api/board/comment/like/{user}/{comment_id}/")
+    Call<ServerResponse> deleteCommentLike (@Path( "user" ) String user,
+                                            @Path( "comment_id" ) BigInteger comment_id);
 
     // User Data 가져오기
     @GET("api/user/info/{user_id}")

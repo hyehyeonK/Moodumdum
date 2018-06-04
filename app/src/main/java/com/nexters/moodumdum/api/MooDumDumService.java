@@ -82,6 +82,8 @@ public class MooDumDumService {
 
     public Call<ServerResponse> postCommentLike(BigInteger comment_id, String user) {return api.postCommentLike( comment_id, user );
     }
+    public Call<ServerResponse> deleteCommentLike(String user, BigInteger comment_id) {return api.deleteCommentLike( user, comment_id );}
+
     public Call<UserDataModel> getUserData(String user_id) {return api.getUserData( user_id );}
     public Call<PutUserDataModel> putUserData(String user_id, String user, String name, String profile_image) {return api.putUserData( user_id, user,name , profile_image);}
 

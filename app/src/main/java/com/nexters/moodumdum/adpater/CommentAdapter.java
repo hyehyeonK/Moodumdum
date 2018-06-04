@@ -111,11 +111,10 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public void onBtnLikeClicked() {
             int position = getAdapterPosition();
             final CommentModel.Result item = results.get( position );
+            BigInteger comment_id = item.getId();
+            final String user = PropertyManagement.getUserId( context );
 
-//            if(!item.isIs_liked()) {
-                BigInteger comment_id = item.getId();
-                final String user = PropertyManagement.getUserId( context );
-
+            if(!item.isIs_liked()) {
                 postCommentLike.PostCommentLike( comment_id, item.getLike_count(), btnLike, likeCount, glideRequestManager, context );
                 MooDumDumService.of().getComment( item.getBoard_id(), user ).enqueue( new Callback<CommentModel>() {
                     @Override
@@ -128,8 +127,23 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     public void onFailure(Call<CommentModel> call, Throwable t) {
                     }
                 } );
-//            }
-//            else
+            }
+            else {
+                MooDumDumService.of().deleteCommentLike( user, comment_id ).enqueue( new Callback<ServerResponse>() {
+                    @Override
+                    public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
+                        int like = item.getLike_count() - 1;
+                        likeCount.setText("공감 " + like + "개");
+                        btnLike.setImageResource( R.drawable.btn_like );
+                        btnLike.setSelected( false );
+                    }
+
+                    @Override
+                    public void onFailure(Call<ServerResponse> call, Throwable t) {
+
+                    }
+                } );
+            }
         }
 
         @OnClick(R.id.btnDel)
