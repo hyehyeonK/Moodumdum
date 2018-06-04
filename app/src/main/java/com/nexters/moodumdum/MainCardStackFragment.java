@@ -56,6 +56,8 @@ public class MainCardStackFragment extends Fragment {
     public static Context MainCardFragment_context;
     public int StatusBarHeight;
     private String uuid;
+    int dataOffset;
+    boolean noMoreData;
 
     @BindView(R.id.topFrame)
     ConstraintLayout topFrame;
@@ -105,6 +107,8 @@ public class MainCardStackFragment extends Fragment {
         MainCardFragment = MainCardStackFragment.this;
         MainCardFragment_context = getContext();
         uuid = PropertyManagement.getUserId( getContext() );
+        dataOffset = 0;
+        noMoreData = false;
         //Menu top margin 주기
         getStatusBarHeight();
         setActionbarMarginTop( topFrame );
@@ -119,26 +123,6 @@ public class MainCardStackFragment extends Fragment {
         myPageBtn.setImageResource( R.drawable.mypage );
         menuBtn.setImageResource( R.drawable.cross);
     }
-//    public void animateTransaction(View view) {
-//        Toast.makeText(getContext(), "클리이이익.", Toast.LENGTH_SHORT).show();
-//        getFragmentManager()
-//                .beginTransaction()
-//                .addSharedElement(mainStackLayout.findViewById(R.id.backImage), getString(R.string.ts_backImg))
-//                .addSharedElement(mainStackLayout.findViewById(R.id.commentCount), getString(R.string.ts_countTxt))
-//                .addSharedElement(mainStackLayout.findViewById(R.id.likeCount), getString(R.string.ts_likeTxt))
-//                .addSharedElement(mainStackLayout.findViewById(R.id.contents_like), getString(R.string.ts_likeImg))
-//                .addSharedElement(mainStackLayout.findViewById(R.id.contents_comment), getString(R.string.ts_countImg))
-//                .replace(R.id.fragment_container, new DetailContentsActivity())
-//                .commit();
-//    }
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-////        stackCardAdapter.notifyDataSetChanged();
-//        getPost();
-//        initView();
-//        loadData( 0 );
-//    }
 
     int curPage = 0;
 
@@ -207,7 +191,14 @@ public class MainCardStackFragment extends Fragment {
                 if (itemLeft == 3) {
                     Log.d( "재로드!!!!!!@@@@", itemLeft + " , " + results.size() );
 //                    getPost();
-                    loadData();
+                    if(!noMoreData){
+                        loadData();
+                    } else {
+                        nodataImg.setVisibility(View.VISIBLE);
+                        nodataText.setText(R.string.noMoreContents);
+                        nodataText.setVisibility(View.VISIBLE);
+                    }
+
                 }
             }
         } );
@@ -231,18 +222,20 @@ public class MainCardStackFragment extends Fragment {
     }
 
     public void loadData() {
-        MooDumDumService.of().getContents( uuid ).enqueue( new Callback<ContentsModel>() {
+        MooDumDumService.of().getContents( uuid , dataOffset ).enqueue( new Callback<ContentsModel>() {
             @Override
             public void onResponse(Call<ContentsModel> call, final Response<ContentsModel> response) {
                 if (response.isSuccessful()) {
                     final ContentsModel items = response.body();
                     results = items.getResult();
+                    dataOffset += 10;
+                    if( items.getNext() == null) {
+                        noMoreData = true;
+                    }
                     new Handler().postDelayed( new Runnable() {
 
                         @Override
                         public void run() {
-//                            currentCardAdaper.getData().addAll(results);
-//                            currentCardAdaper.notifyDataSetChanged();
                             currentCardAdaper.addMoreData( results );
                         }
                     }, 1000 );
@@ -298,11 +291,16 @@ public class MainCardStackFragment extends Fragment {
     }
 
     public void getPost() {
-        MooDumDumService.of().getContents( uuid ).enqueue( new Callback<ContentsModel>() {
+        dataOffset = 0;
+        noMoreData = false;
+        MooDumDumService.of().getContents( uuid , dataOffset ).enqueue( new Callback<ContentsModel>() {
             @Override
             public void onResponse(Call<ContentsModel> call, Response<ContentsModel> response) {
                 if (response.isSuccessful()) {
                     final ContentsModel items = response.body();
+                    if(items.getNext() == null){
+                        noMoreData = true;
+                    }
                     results = items.getResult();
                     if (results.size() > 0) {
                         firstView.setVisibility( View.VISIBLE );

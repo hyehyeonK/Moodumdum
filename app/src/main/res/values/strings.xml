@@ -7,4 +7,8 @@
     <string name="ts_text">TScontents</string>
     <string name="ts_backImg">TSbackImg</string>
 
+
+    <string name="noAnyContents">아직 등록 된 글이 없어요! \n첫 글의 주인공이 되어보세요 :)</string>
+    <string name="noMoreContents">더 이상 묻은 이야기가 없어요. \n당신의 이야기를 묻어보세요.</string>
+
 </resources>

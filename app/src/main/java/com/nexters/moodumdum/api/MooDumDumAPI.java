@@ -42,7 +42,8 @@ public interface MooDumDumAPI {
                                        @Field("color") String font_color);
     //글가져오기
     @GET("api/board/")
-    Call<ContentsModel> getContents (@Query( "user" ) String uuid);
+    Call<ContentsModel> getContents (@Query( "user" ) String uuid,
+                                     @Query( "offset" ) int offset );
 
     //배경사진 가져오기
     @GET("api/boardimage/random/?limit=20")

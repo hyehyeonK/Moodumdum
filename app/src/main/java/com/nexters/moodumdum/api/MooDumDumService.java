@@ -41,7 +41,7 @@ public class MooDumDumService {
     public Call<ServerResponse> postDoLike(BigInteger board_id, String uuid) {
         return  api.postDoLike(uuid, board_id, uuid);
     }
-    public Call<ContentsModel> getContents(String uuid) { return api.getContents(uuid);}
+    public Call<ContentsModel> getContents(String uuid, int offset) { return api.getContents(uuid, offset);}
     public Call<ContentsModel> getMyContents(String userId, int offset) {
         return  api.getMyContents(userId,limit,offset);
     }
