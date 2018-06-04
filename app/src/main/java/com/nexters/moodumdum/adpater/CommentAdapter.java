@@ -13,12 +13,12 @@ import android.widget.Toast;
 import com.bumptech.glide.RequestManager;
 import com.mcxtzhang.swipemenulib.SwipeMenuLayout;
 import com.nexters.moodumdum.DetailContentsActivity;
-import com.nexters.moodumdum.util.PostCommentLike;
 import com.nexters.moodumdum.R;
 import com.nexters.moodumdum.api.MooDumDumService;
 import com.nexters.moodumdum.common.PropertyManagement;
 import com.nexters.moodumdum.model.CommentModel;
 import com.nexters.moodumdum.model.ServerResponse;
+import com.nexters.moodumdum.util.PostCommentLike;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -111,22 +111,25 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public void onBtnLikeClicked() {
             int position = getAdapterPosition();
             final CommentModel.Result item = results.get( position );
-            BigInteger comment_id = item.getId();
-            final String user = PropertyManagement.getUserId( context );
 
-            postCommentLike.PostCommentLike( comment_id, item.getLike_count(), btnLike, likeCount, glideRequestManager, context );
-            MooDumDumService.of().getComment( item.getBoard_id(), user ).enqueue( new Callback<CommentModel>() {
-                @Override
-                public void onResponse(Call<CommentModel> call, Response<CommentModel> response) {
-                    setPostList( response.body().getResult() );
-                    btnLike.setSelected( true );
-                    Toast.makeText( context, "조문글 like.", Toast.LENGTH_SHORT ).show();
-                }
+//            if(!item.isIs_liked()) {
+                BigInteger comment_id = item.getId();
+                final String user = PropertyManagement.getUserId( context );
 
-                @Override
-                public void onFailure(Call<CommentModel> call, Throwable t) {
-                }
-            } );
+                postCommentLike.PostCommentLike( comment_id, item.getLike_count(), btnLike, likeCount, glideRequestManager, context );
+                MooDumDumService.of().getComment( item.getBoard_id(), user ).enqueue( new Callback<CommentModel>() {
+                    @Override
+                    public void onResponse(Call<CommentModel> call, Response<CommentModel> response) {
+                        setPostList( response.body().getResult() );
+                        btnLike.setSelected( true );
+                    }
+
+                    @Override
+                    public void onFailure(Call<CommentModel> call, Throwable t) {
+                    }
+                } );
+//            }
+//            else
         }
 
         @OnClick(R.id.btnDel)
@@ -136,32 +139,31 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             BigInteger comment_id = item.getId();
             final String user = PropertyManagement.getUserId( context );
 
-            MooDumDumService.of().delComment( comment_id ).enqueue( new Callback<ServerResponse>() {
-                @Override
-                public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
-                    MooDumDumService.of().getComment( item.getBoard_id(), user ).enqueue( new Callback<CommentModel>() {
-                        @Override
-                        public void onResponse(Call<CommentModel> call, Response<CommentModel> response) {
-                            setPostList( response.body().getResult() );
-                            String count = String.valueOf( results.size() );
-                            Toast.makeText( context, count+"", Toast.LENGTH_SHORT ).show();
+                MooDumDumService.of().delComment( comment_id ).enqueue( new Callback<ServerResponse>() {
+                    @Override
+                    public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
+                        MooDumDumService.of().getComment( item.getBoard_id(), user ).enqueue( new Callback<CommentModel>() {
+                            @Override
+                            public void onResponse(Call<CommentModel> call, Response<CommentModel> response) {
+                                setPostList( response.body().getResult() );
+                                String count = String.valueOf( results.size() );
 //                            PropertyManagement.putCommentLikeCount( context, String.valueOf( item.getLike_count() ) );
-                            DetailContentsActivity detailContentsActivity = new DetailContentsActivity();
-                            detailContentsActivity.reLoadCommentCount( contentOfComment.getTag().toString(), like, comment);
+                                DetailContentsActivity detailContentsActivity = new DetailContentsActivity();
+                                detailContentsActivity.reLoadCommentCount( contentOfComment.getTag().toString(), like, comment );
+                                Toast.makeText( context, "조문글을 삭제했어요.", Toast.LENGTH_SHORT ).show();
+                            }
 
-                            Toast.makeText( context, "조문글을 삭제했어요.", Toast.LENGTH_SHORT ).show();
-                        }
+                            @Override
+                            public void onFailure(Call<CommentModel> call, Throwable t) {
+                            }
+                        } );
+                    }
 
-                        @Override
-                        public void onFailure(Call<CommentModel> call, Throwable t) {
-                        }
-                    } );
-                }
+                    @Override
+                    public void onFailure(Call<ServerResponse> call, Throwable t) {
+                    }
+                } );
 
-                @Override
-                public void onFailure(Call<ServerResponse> call, Throwable t) {
-                }
-            } );
         }
     }
 }
