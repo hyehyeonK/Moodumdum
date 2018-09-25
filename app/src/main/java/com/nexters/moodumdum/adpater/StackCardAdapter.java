@@ -162,10 +162,7 @@ public class StackCardAdapter extends StackLayout.Adapter<StackLayout.ViewHolder
         this.results.addAll(results);
         notifyDataSetChanged();
     }
-    public void addMoreData(List<ContentsModel.Result> results){
-        this.results.addAll(results);
-        notifyDataSetChanged();
-    }
+
     public void setFragmentManagerCard(FragmentManager fragmentManager){
         this.fragmentManager = fragmentManager;
     }

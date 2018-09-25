@@ -12,7 +12,7 @@ public class RetrofitFactory {
 
     public static Retrofit createMoodumdumRetrofit() {
         return new Retrofit.Builder()
-                .baseUrl("http://13.125.76.112:8000/".toString())
+                .baseUrl("http://13.125.76.112/".toString())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();

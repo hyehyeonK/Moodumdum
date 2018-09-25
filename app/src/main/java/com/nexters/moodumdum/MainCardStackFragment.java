@@ -162,7 +162,6 @@ public class MainCardStackFragment extends Fragment {
     }
 
     public void setRefreshInfo(DetailCardInfoDAO newInfo) {
-        Log.d( "ADSADASD@@#33", "SSSS" );
         currentCardAdaper.reloadInfo( mGlideRequestManager, newInfo );
     }
 
@@ -236,7 +235,8 @@ public class MainCardStackFragment extends Fragment {
 
                         @Override
                         public void run() {
-                            currentCardAdaper.addMoreData( results );
+                            currentCardAdaper.getData().addAll( results );
+                            currentCardAdaper.notifyDataSetChanged();
                         }
                     }, 1000 );
 
