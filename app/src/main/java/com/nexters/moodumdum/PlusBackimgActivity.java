@@ -29,6 +29,7 @@ import com.nexters.moodumdum.common.PropertyManagement;
 import com.nexters.moodumdum.model.ImageModel;
 import com.nexters.moodumdum.model.PostContentsModel;
 import com.nexters.moodumdum.model.ServerResponse;
+import com.nexters.moodumdum.views.Mypage;
 
 import java.math.BigInteger;
 import java.util.ArrayList;

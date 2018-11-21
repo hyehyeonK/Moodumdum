@@ -1,10 +1,10 @@
 package com.nexters.moodumdum.api;
 
+import com.nexters.moodumdum.model.CardDataModel;
 import com.nexters.moodumdum.model.CardListModel;
 import com.nexters.moodumdum.model.CategoryInfoModel;
 import com.nexters.moodumdum.model.CommentModel;
 import com.nexters.moodumdum.model.CommentUserModel;
-import com.nexters.moodumdum.model.ContentsModel;
 import com.nexters.moodumdum.model.ImageModel;
 import com.nexters.moodumdum.model.PutUserDataModel;
 import com.nexters.moodumdum.model.ServerResponse;
@@ -52,12 +52,12 @@ public interface MooDumDumAPI {
 
     //board_id로 글 가져오기
     @GET("api/board/{board_id}")
-    Call<ContentsModel.Result> getContentsSelected(@Path( "board_id" )String board_id,
-                                                   @Query( "user" ) String uuid);
+    Call<CardDataModel> getContentsSelected(@Path( "board_id" )String board_id,
+                                            @Query( "user" ) String uuid);
 
     //내가 쓴 글 가져오기
     @GET("api/board/search/user/{userId}")
-    Call<ContentsModel> getMyContents (@Path("userId") String userId,
+    Call<CardListModel> getMyContents (@Path("userId") String userId,
                                        @Query("limit") int limit,
                                        @Query("offset") int offset);
 
@@ -70,7 +70,7 @@ public interface MooDumDumAPI {
 
     //내가 좋아요 한 글 가져오기
     @GET("api/board/user/like/{userId}")
-    Call<ContentsModel> getMyJomunContents (@Path("userId") String userId,
+    Call<CardListModel> getMyJomunContents (@Path("userId") String userId,
                                             @Query("limit") int limit,
                                             @Query("offset") int offset);
 

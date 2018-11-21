@@ -31,7 +31,6 @@ import com.nexters.moodumdum.api.MooDumDumService;
 import com.nexters.moodumdum.common.PropertyManagement;
 import com.nexters.moodumdum.model.CardDataModel;
 import com.nexters.moodumdum.model.CommentModel;
-import com.nexters.moodumdum.model.ContentsModel;
 import com.nexters.moodumdum.model.ServerResponse;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
@@ -182,20 +181,20 @@ public class DetailCardActivity extends AppCompatActivity {
     public void getCommentHeader() {
         String board_id = cardData.id.toString();
 
-        MooDumDumService.of().getContentsSelected( board_id, uuid ).enqueue( new Callback<ContentsModel.Result>() {
+        MooDumDumService.of().getContentsSelected( board_id, uuid ).enqueue( new Callback<CardDataModel>() {
             @Override
-            public void onResponse(Call<ContentsModel.Result> call, Response<ContentsModel.Result> response) {
-                ContentsModel.Result items = response.body();
-                likeCount.setText( items.getLike_count() + "");
-                commentsCount.setText( String.valueOf( items.getComment_count() ) );
-                contents_like.setSelected(items.isIs_liked());
-                if( items.isIs_liked()){
+            public void onResponse(Call<CardDataModel> call, Response<CardDataModel> response) {
+                CardDataModel items = response.body();
+                likeCount.setText( items.like_count + "");
+                commentsCount.setText( String.valueOf( items.comment_count ) );
+                contents_like.setSelected(items.is_liked);
+                if( items.is_liked ){
                     contents_like.setColorFilter(null);
                 }
             }
 
             @Override
-            public void onFailure(Call<ContentsModel.Result> call, Throwable t) {
+            public void onFailure(Call<CardDataModel> call, Throwable t) {
 
             }
         } );

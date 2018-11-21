@@ -1,4 +1,4 @@
-package com.nexters.moodumdum;
+package com.nexters.moodumdum.views;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,6 +12,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
+import com.nexters.moodumdum.fragments.FragmentMyJomun;
+import com.nexters.moodumdum.fragments.FragmentMyWrite;
+import com.nexters.moodumdum.PlusActivity;
+import com.nexters.moodumdum.PlusBackimgActivity;
+import com.nexters.moodumdum.R;
 import com.nexters.moodumdum.adpater.MyPageTabAdapter;
 import com.nexters.moodumdum.api.MooDumDumService;
 import com.nexters.moodumdum.common.PropertyManagement;

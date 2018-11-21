@@ -1,4 +1,4 @@
-package com.nexters.moodumdum;
+package com.nexters.moodumdum.views;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nexters.moodumdum.R;
 import com.nexters.moodumdum.api.MooDumDumService;
 import com.nexters.moodumdum.common.PropertyManagement;
 import com.nexters.moodumdum.model.PutUserDataModel;

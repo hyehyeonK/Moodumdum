@@ -17,5 +17,6 @@ public class Constants {
      * ActivityForResult
      */
     public static final int ACTIVITY_RESULT_STACKCARD = 1000;
-    public static final int ACTIVITY_RESULT_CATEGORY = 1001;
+    public static final int ACTIVITY_RESULT_MYPAGE = 1001;
+    public static final int ACTIVITY_RESULT_CATEGORY = 1002;
 }

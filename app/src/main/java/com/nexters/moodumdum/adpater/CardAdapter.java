@@ -99,13 +99,10 @@ public class CardAdapter extends StackLayout.Adapter<CardAdapter.ViewHolder>{
 
         void bind (final Context context, final CardDataModel cardInfo, final CardAdapter.SimpleOnGestureListener gestureListener, final int position){
             Glide.with(context).load(cardInfo.image_url).into(backImage);
-            boardId.setText( cardInfo.id.toString() );
+//            boardId.setText( cardInfo.id.toString() );
             contents.setText( cardInfo.description );
 
-            String fontColor = "#e27171";
-            if (cardInfo.color != ""){
-                fontColor = cardInfo.color;
-            }
+            String fontColor = cardInfo.color;
             UserModel user = cardInfo.user;
             contents.setTextColor(Color.parseColor(fontColor));
             commentCount.setText( String.valueOf( cardInfo.comment_count ) );

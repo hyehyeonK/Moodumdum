@@ -27,15 +27,19 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     private static Context context;
     List<CardDataModel> cardList;
 
-    private OnItemClickListener itemClickListener;
+    private CategoryAdapter.OnItemClickListener itemClickListener;
 
     public interface OnItemClickListener {
-        void onItemClick(CardDataModel channel, int position);
+        void onItemClick(CardDataModel cardInfo, int position);
     }
 
     public CategoryAdapter(Context context, List<CardDataModel> cardList) {
         this.context = context;
         this.cardList = cardList;
+    }
+
+    public void setOnItemClickListener(CategoryAdapter.OnItemClickListener listener) {
+        itemClickListener = listener;
     }
 
     @Override
@@ -53,9 +57,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     public int getItemCount() {
         return cardList.size();
     }
-    public void setPostList(List<CardDataModel> cardList) {
-        this.cardList = cardList;
-        notifyDataSetChanged();
+//    public void setPostList(List<CardDataModel> cardList) {
+//        this.cardList = cardList;
+//        notifyDataSetChanged();
+//    }
+    public List<CardDataModel> getData() {
+        return cardList;
     }
     public void addMoreItem(List<CardDataModel> cardList){
         this.cardList.addAll(cardList);
@@ -108,12 +115,16 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
                 favoriteImg.setColorFilter(Color.parseColor(fontColor));
             }
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    clickListener.onItemClick(cardInfo, position);
-                }
-            });
+            if(null != clickListener)
+            {
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        clickListener.onItemClick(cardInfo, position);
+                    }
+                });
+            }
+
         }
     }
 

@@ -1,11 +1,11 @@
 package com.nexters.moodumdum.api;
 
 import com.nexters.moodumdum.factory.RetrofitFactory;
+import com.nexters.moodumdum.model.CardDataModel;
 import com.nexters.moodumdum.model.CardListModel;
 import com.nexters.moodumdum.model.CategoryInfoModel;
 import com.nexters.moodumdum.model.CommentModel;
 import com.nexters.moodumdum.model.CommentUserModel;
-import com.nexters.moodumdum.model.ContentsModel;
 import com.nexters.moodumdum.model.ImageModel;
 import com.nexters.moodumdum.model.PutUserDataModel;
 import com.nexters.moodumdum.model.ServerResponse;
@@ -43,14 +43,14 @@ public class MooDumDumService {
         return  api.postDoLike(uuid, board_id, uuid);
     }
     public Call<CardListModel> getContents(String uuid, int offset) { return api.getContents(uuid, offset);}
-    public Call<ContentsModel> getMyContents(String userId, int offset) {
+    public Call<CardListModel> getMyContents(String userId, int offset) {
         return  api.getMyContents(userId,limit,offset);
     }
-    public Call<ContentsModel> getMyJomunContents(String userId, int offset) {
+    public Call<CardListModel> getMyJomunContents(String userId, int offset) {
         return  api.getMyJomunContents(userId, limit, offset);
     }
     public Call<ImageModel> getBackgroundImage() {return  api.getBackgroundImage();}
-    public Call<ContentsModel.Result> getContentsSelected(String board_id, String uuid) { return api.getContentsSelected( board_id, uuid );}
+    public Call<CardDataModel> getContentsSelected(String board_id, String uuid) { return api.getContentsSelected( board_id, uuid );}
 
     //카테고리 관련
     public Call<CategoryInfoModel> getCategoryInfo (String category_id) {

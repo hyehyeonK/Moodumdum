@@ -12,13 +12,13 @@ import android.widget.Toast;
 
 import com.bumptech.glide.RequestManager;
 import com.mcxtzhang.swipemenulib.SwipeMenuLayout;
-import com.nexters.moodumdum.DetailContentsActivity;
 import com.nexters.moodumdum.R;
 import com.nexters.moodumdum.api.MooDumDumService;
 import com.nexters.moodumdum.common.PropertyManagement;
 import com.nexters.moodumdum.model.CommentModel;
 import com.nexters.moodumdum.model.ServerResponse;
 import com.nexters.moodumdum.utils.PostCommentLike;
+import com.nexters.moodumdum.views.DetailCardActivity;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -162,8 +162,9 @@ public class CommentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                                 setPostList( response.body().getResult() );
                                 String count = String.valueOf( results.size() );
 //                            PropertyManagement.putCommentLikeCount( context, String.valueOf( item.getLike_count() ) );
-                                DetailContentsActivity detailContentsActivity = new DetailContentsActivity();
-                                detailContentsActivity.reLoadCommentCount( contentOfComment.getTag().toString(), like, comment );
+                                DetailCardActivity detailCardActivity= new DetailCardActivity();
+//                                detailCardActivity.reLoadCommentCount( contentOfComment.getTag().toString(), like, comment );
+                                detailCardActivity.getCommentHeader();
                                 Toast.makeText( context, "조문글을 삭제했어요.", Toast.LENGTH_SHORT ).show();
                             }
 

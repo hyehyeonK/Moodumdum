@@ -1,11 +1,7 @@
 package com.nexters.moodumdum.adpater;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,13 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.RequestManager;
-import com.nexters.moodumdum.DetailContentsActivity;
+import com.bumptech.glide.Glide;
 import com.nexters.moodumdum.R;
-import com.nexters.moodumdum.model.ContentsModel;
-import com.nexters.moodumdum.model.DetailCardInfoDAO;
+import com.nexters.moodumdum.model.CardDataModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -30,16 +23,21 @@ import butterknife.ButterKnife;
  */
 
 public class MyPageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    public static RequestManager glideRequestManager;
     static private Context context;
-    static private Activity activity;
-    private List<ContentsModel.Result> results = new ArrayList<>();
-    static private View currentView;
-    public MyPageRecyclerViewAdapter(Context context, RequestManager glideRequestManager, Activity activity) {
-        this.context = context;
-        this.glideRequestManager = glideRequestManager;
-        this.activity = activity;
+    private List<CardDataModel> cardList;
+    private MyPageRecyclerViewAdapter.OnItemClickListener itemClickListener;
+
+    public interface OnItemClickListener {
+        void onItemClick(CardDataModel cardInfo, int position);
     }
+    public MyPageRecyclerViewAdapter(Context context, List<CardDataModel> cardList) {
+        this.context = context;
+        this.cardList = cardList;
+    }
+    public void setOnItemClickListener(MyPageRecyclerViewAdapter.OnItemClickListener listener) {
+        itemClickListener = listener;
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View layoutView = LayoutInflater.from(parent.getContext()).inflate( R.layout.item_mypage, parent, false);
@@ -50,40 +48,24 @@ public class MyPageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final ItemViewHolder viewHolder = (ItemViewHolder) holder;
-        ContentsModel.Result item = results.get(position);
-        String fontColor = "#e27171";
-        if (item.getColor() != ""){
-            fontColor = item.getColor();
-        }
-
-        glideRequestManager.load(item.getImage_url()).into(viewHolder.backImage);
-        viewHolder.contentsText.setText(item.getDescription());
-        viewHolder.contentsText.setTextColor(Color.parseColor(fontColor));
-
-
-        viewHolder.detailCardInfo.setBoard_id( item.getId() );
-        viewHolder.detailCardInfo.setDescription(item.getDescription());
-        viewHolder.detailCardInfo.setColor(fontColor);
-        viewHolder.detailCardInfo.setBackImagUrl(item.getImage_url());
-        viewHolder.detailCardInfo.setCommentCount( item.getComment_count() );
-        viewHolder.detailCardInfo.setLikeCount( item.getLike_count() );
-        viewHolder.detailCardInfo.setIsLike( item.isIs_liked() );
+        viewHolder.bind(context, cardList.get(position), itemClickListener, position);
     }
 
     @Override
     public int getItemCount() {
-        return results.size();
+        return cardList.size();
     }
-    public void setMyContentsList(List<ContentsModel.Result> results) {
-        this.results = results;
+
+    public void setMyContentsList(List<CardDataModel> cardList) {
+        this.cardList = cardList;
         notifyDataSetChanged();
     }
-    public void addMoreItem(List<ContentsModel.Result> results){
-        this.results.addAll(results);
+    public void addMoreItem(List<CardDataModel> newCardList){
+        this.cardList.addAll(newCardList);
         notifyDataSetChanged();
     }
 
-    public static class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public static class ItemViewHolder extends RecyclerView.ViewHolder {
         View view;
 
         @BindView(R.id.backImage)
@@ -91,32 +73,27 @@ public class MyPageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         @BindView(R.id.myWriting)
         TextView contentsText;
 
-        DetailCardInfoDAO detailCardInfo;
-        private ContentsModel.Result selectedItem;
-
         public ItemViewHolder(View itemView) {
             super(itemView);
             this.view = itemView;
             ButterKnife.bind(this, view);
-            detailCardInfo = new DetailCardInfoDAO();
-            itemView.setOnClickListener(this);
         }
+        void bind (final Context context, final CardDataModel cardInfo, final MyPageRecyclerViewAdapter.OnItemClickListener clickListener , final int position) {
+            Glide.with(context).load(cardInfo.image_url).into(backImage);
+            contentsText.setText(cardInfo.description);
 
-        @Override
-        public void onClick(View v) {
-            currentView = view;
-            Intent intent = new Intent( context, DetailContentsActivity.class );
-            intent.putExtra( "cardInfo", detailCardInfo);
-            intent.putExtra( "beforeAct", "MyPage");
-            Pair<View, String> p1 = Pair.create((View)contentsText, contentsText.getTransitionName());
-//            Pair<View, String> p2 = Pair.create((View)commentsCount, commentsCount.getTransitionName());
-//            Pair<View, String> p3 = Pair.create((View)likeCount, likeCount.getTransitionName());
-            Pair<View, String> p4 = Pair.create((View)backImage, backImage.getTransitionName());
-//            Pair<View, String> p5 = Pair.create((View)commentImg, commentImg.getTransitionName());
-//            Pair<View, String> p6 = Pair.create((View)favoriteImg, favoriteImg.getTransitionName());
-            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity,p1, p4 );
-            context.startActivity(intent, options.toBundle());
-//            context.startActivity(intent);
+            String fontColor = cardInfo.color;
+            contentsText.setTextColor(Color.parseColor(fontColor));
+
+            if(clickListener != null)
+            {
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        clickListener.onItemClick(cardInfo, position);
+                    }
+                });
+            }
         }
     }
 }

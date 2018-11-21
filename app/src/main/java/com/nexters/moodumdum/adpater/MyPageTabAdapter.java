@@ -5,8 +5,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.nexters.moodumdum.FragmentMyJomun;
-import com.nexters.moodumdum.FragmentMyWrite;
+import com.nexters.moodumdum.fragments.FragmentMyJomun;
+import com.nexters.moodumdum.fragments.FragmentMyWrite;
 
 /**
  * Created by User on 2018-01-23.

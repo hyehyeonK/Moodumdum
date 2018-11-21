@@ -29,6 +29,7 @@ import com.nexters.moodumdum.common.PropertyManagement;
 import com.nexters.moodumdum.model.CardDataModel;
 import com.nexters.moodumdum.model.CardListModel;
 import com.nexters.moodumdum.model.CategoryInfoModel;
+import com.nexters.moodumdum.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,8 +49,9 @@ public class CategorySelectedActivity extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
     private CategoryAdapter currentAdapter;
     public CategorySelectedActivity categorySelectedActivityRV;
-    List<CardDataModel> results = new ArrayList<>();
+    List<CardDataModel> results;
     String uuid;
+    private int curPosition;
     private int currentState;
     final static int LATEST = 0;
     final static int FAVORIT = 1;
@@ -93,6 +95,16 @@ public class CategorySelectedActivity extends AppCompatActivity {
         Intent intent = getIntent();
         categoryID = intent.getStringExtra("categoryID");
         currentAdapter = new CategoryAdapter(this, results = new ArrayList<>());
+        currentAdapter.setOnItemClickListener(new CategoryAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(CardDataModel cardInfo, int position) {
+                curPosition = position;
+                Intent intent = new Intent( getBaseContext(), DetailCardActivity.class );
+                intent.putExtra( "cardInfo", cardInfo);
+                intent.putExtra( "beforeAct", Constants.ACTIVITY_CATEGORY);
+                startActivityForResult(intent,Constants.ACTIVITY_RESULT_CATEGORY);
+            }
+        });
         categorySelectedActivityRV = this;
         initView();
         getCategoryInfo();
@@ -109,6 +121,16 @@ public class CategorySelectedActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         currentAdapter = new CategoryAdapter(CategorySelectedActivity.this, results = new ArrayList<>());
+                        currentAdapter.setOnItemClickListener(new CategoryAdapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(CardDataModel cardInfo, int position) {
+                                curPosition = position;
+                                Intent intent = new Intent( getBaseContext(), DetailCardActivity.class );
+                                intent.putExtra( "cardInfo", cardInfo);
+                                intent.putExtra( "beforeAct", Constants.ACTIVITY_CATEGORY);
+                                startActivityForResult(intent,Constants.ACTIVITY_RESULT_CATEGORY);
+                            }
+                        });
                         recyclerView.setAdapter(currentAdapter);
                         dataOffset = 0;
                         noMoreData = false;
@@ -165,11 +187,8 @@ public class CategorySelectedActivity extends AppCompatActivity {
                     if(items.next == null){
                         noMoreData = true;
                     }
-                    if(dataOffset == 0 ) {
-                        currentAdapter.setPostList(items.result);
-                    } else {
-                        currentAdapter.addMoreItem(items.result);
-                    }
+                    currentAdapter.getData().addAll( items.result );
+                    currentAdapter.notifyDataSetChanged();
                     dataOffset += 10;
                     loadingBar.setVisibility(View.INVISIBLE);
                 }
@@ -189,11 +208,8 @@ public class CategorySelectedActivity extends AppCompatActivity {
                     if(items.next == null){
                         noMoreData = true;
                     }
-                    if(dataOffset == 0) {
-                        currentAdapter.setPostList(items.result);
-                    } else {
-                        currentAdapter.addMoreItem(items.result);
-                    }
+                    currentAdapter.getData().addAll( items.result );
+                    currentAdapter.notifyDataSetChanged();
                     dataOffset += 10;
                     loadingBar.setVisibility(View.INVISIBLE);
                 }
@@ -203,6 +219,20 @@ public class CategorySelectedActivity extends AppCompatActivity {
             public void onFailure(Call<CardListModel> call, Throwable t) {
             }
         });
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK && requestCode == Constants.ACTIVITY_RESULT_CATEGORY) {
+            boolean isLike = data.getBooleanExtra("IS_LIKE",false);
+            int countLike = data.getIntExtra("COUNT_LIKE",0);
+            int countComment = data.getIntExtra("COUNT_COMMENT",0);
+            results.get(curPosition).is_liked = isLike;
+            results.get(curPosition).like_count = countLike;
+            results.get(curPosition).comment_count = countComment;
+            currentAdapter.notifyDataSetChanged();
+
+        }
     }
     public void relode(){
         if(!noMoreData) {

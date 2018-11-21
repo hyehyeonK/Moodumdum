@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import com.fashare.stack_layout.StackLayout;
 import com.fashare.stack_layout.transformer.AngleTransformer;
-import com.nexters.moodumdum.Mypage;
 import com.nexters.moodumdum.PlusActivity;
 import com.nexters.moodumdum.R;
 import com.nexters.moodumdum.adpater.CardAdapter;
