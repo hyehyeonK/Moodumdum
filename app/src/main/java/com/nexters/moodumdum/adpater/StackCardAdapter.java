@@ -22,7 +22,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.fashare.stack_layout.StackLayout;
 import com.nexters.moodumdum.DetailContentsActivity;
-import com.nexters.moodumdum.util.PostLike;
+import com.nexters.moodumdum.utils.PostLike;
 import com.nexters.moodumdum.R;
 import com.nexters.moodumdum.api.MooDumDumService;
 import com.nexters.moodumdum.common.PropertyManagement;

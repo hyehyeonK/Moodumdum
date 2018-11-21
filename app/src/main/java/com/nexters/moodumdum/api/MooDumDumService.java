@@ -1,6 +1,7 @@
 package com.nexters.moodumdum.api;
 
 import com.nexters.moodumdum.factory.RetrofitFactory;
+import com.nexters.moodumdum.model.CardListModel;
 import com.nexters.moodumdum.model.CategoryInfoModel;
 import com.nexters.moodumdum.model.CommentModel;
 import com.nexters.moodumdum.model.CommentUserModel;
@@ -41,7 +42,7 @@ public class MooDumDumService {
     public Call<ServerResponse> postDoLike(BigInteger board_id, String uuid) {
         return  api.postDoLike(uuid, board_id, uuid);
     }
-    public Call<ContentsModel> getContents(String uuid, int offset) { return api.getContents(uuid, offset);}
+    public Call<CardListModel> getContents(String uuid, int offset) { return api.getContents(uuid, offset);}
     public Call<ContentsModel> getMyContents(String userId, int offset) {
         return  api.getMyContents(userId,limit,offset);
     }
@@ -55,10 +56,10 @@ public class MooDumDumService {
     public Call<CategoryInfoModel> getCategoryInfo (String category_id) {
         return api.getCategoryInfo(category_id);
     }
-    public Call<ContentsModel> getCategoryContentsInOrderOfPriority (String uuid, String category_id, int offset ) {
+    public Call<CardListModel> getCategoryContentsInOrderOfPriority (String uuid, String category_id, int offset ) {
         return  api.getCategoryContentsInOrderOfPriority(category_id,limit, offset, uuid);
     }
-    public Call<ContentsModel> getCategoryContentsInOrderOfPopularity (String uuid, String category_id, int offset) {
+    public Call<CardListModel> getCategoryContentsInOrderOfPopularity (String uuid, String category_id, int offset) {
         return  api.getCategoryContentsInOrderOfPopularity(category_id,limit,offset, uuid);
     }
 

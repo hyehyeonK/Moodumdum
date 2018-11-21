@@ -18,7 +18,7 @@ import com.nexters.moodumdum.api.MooDumDumService;
 import com.nexters.moodumdum.common.PropertyManagement;
 import com.nexters.moodumdum.model.CommentModel;
 import com.nexters.moodumdum.model.ServerResponse;
-import com.nexters.moodumdum.util.PostCommentLike;
+import com.nexters.moodumdum.utils.PostCommentLike;
 
 import java.math.BigInteger;
 import java.util.ArrayList;

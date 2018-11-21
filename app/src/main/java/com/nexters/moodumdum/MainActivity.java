@@ -17,6 +17,7 @@ import com.nexters.moodumdum.api.MooDumDumService;
 import com.nexters.moodumdum.common.PropertyManagement;
 import com.nexters.moodumdum.factory.DeviceUuidFactory;
 import com.nexters.moodumdum.model.ServerResponse;
+import com.nexters.moodumdum.views.StackCardActivity;
 
 import java.util.Random;
 import java.util.UUID;
@@ -76,19 +77,24 @@ public class MainActivity extends AppCompatActivity {
             postUserData(uuid + "", nickName + " 영혼");
 
             //앱 최초 실행 Fragment 추가하기
-            initialFragment = new InitialBaseFragment();
-            cardFragment = new MainCardStackFragment();
-            fragmentTransaction.add(R.id.fragment_container, cardFragment);
-            fragmentTransaction.add(R.id.fragment_container, initialFragment);
-            fragmentTransaction.commit();
+//            initialFragment = new InitialBaseFragment();
+//            cardFragment = new MainCardStackFragment();
+//            fragmentTransaction.add(R.id.fragment_container, cardFragment);
+//            fragmentTransaction.add(R.id.fragment_container, initialFragment);
+//            fragmentTransaction.commit();
 
-        } else {
-            fragmentTransaction.add(R.id.fragment_container, new MainCardStackFragment());
-            fragmentTransaction.commit();
         }
+        Intent intent = new Intent( this, StackCardActivity.class );
+        startActivity( intent );
+//        else {
+//            fragmentTransaction.add(R.id.fragment_container, new MainCardStackFragment());
+//            fragmentTransaction.commit();
+//        }
+//        fragmentTransaction.add(R.id.fragment_container, new MainCardStackFragment());
+//        fragmentTransaction.commit();
 //        UUID = PropertyManagement.getUserId(MainActivity.this);
     }
-//    public String getUUID(){
+    //    public String getUUID(){
 //        return UUID;
 //    }
     public void reloadUUID(){

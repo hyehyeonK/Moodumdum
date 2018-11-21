@@ -1,4 +1,4 @@
-package com.nexters.moodumdum.util;
+package com.nexters.moodumdum.utils;
 
 import android.content.Context;
 import android.os.Handler;

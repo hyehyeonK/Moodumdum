@@ -9,14 +9,7 @@ import java.io.Serializable;
  */
 
 public class UserModel implements Serializable{
-    @SerializedName( "like_count" ) private int like_count;
-    @SerializedName( "board_count" ) private int board_count;
-
-    public int getLike_count() {
-        return like_count;
-    }
-
-    public int getBoard_count() {
-        return board_count;
-    }
+    @SerializedName( "user" ) public String user;
+    @SerializedName( "name" ) public String name;
+    @SerializedName( "profile_image" ) public String profile_image;
 }

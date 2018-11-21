@@ -89,8 +89,8 @@ public class PlusBackimgActivity extends AppCompatActivity {
         contentsModel = (PostContentsModel) intent.getSerializableExtra("newContents");
         contentOfPlus.setText( contentsModel.getDescription() + "" );
         //top
-        int height = ((MainCardStackFragment) MainCardStackFragment.MainCardFragment).StatusBarHeight;
-        setActionbarMarginTop(topMenue, height);
+//        int height = ((MainCardStackFragment) MainCardStackFragment.MainCardFragment).StatusBarHeight;
+//        setActionbarMarginTop(topMenue, height);
         //서버에서 이미지 가져오기 (랜덤으로 가져오는 걸로 변경 요청하기)
         getBackgroundImag();
 

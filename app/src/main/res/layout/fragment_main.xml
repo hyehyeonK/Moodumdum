@@ -49,7 +49,8 @@
     </android.support.v4.widget.SwipeRefreshLayout>
     <include
     android:id="@+id/firstView"
-    layout="@layout/activity_main_start"/>
+    layout="@layout/activity_main_start"
+        android:visibility="gone"/>
     <include
         android:id="@+id/topView"
         layout="@layout/fragment_top" />

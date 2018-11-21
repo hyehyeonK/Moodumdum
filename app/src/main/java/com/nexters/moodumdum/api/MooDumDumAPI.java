@@ -1,5 +1,6 @@
 package com.nexters.moodumdum.api;
 
+import com.nexters.moodumdum.model.CardListModel;
 import com.nexters.moodumdum.model.CategoryInfoModel;
 import com.nexters.moodumdum.model.CommentModel;
 import com.nexters.moodumdum.model.CommentUserModel;
@@ -42,7 +43,7 @@ public interface MooDumDumAPI {
                                        @Field("color") String font_color);
     //글가져오기
     @GET("api/board/")
-    Call<ContentsModel> getContents (@Query( "user" ) String uuid,
+    Call<CardListModel> getContents (@Query( "user" ) String uuid,
                                      @Query( "offset" ) int offset );
 
     //배경사진 가져오기
@@ -79,14 +80,14 @@ public interface MooDumDumAPI {
 
    //카테고리별 컨텐츠 가져오기 ( 최신순 )
     @GET("api/board/search/category/{category_id}")
-    Call<ContentsModel> getCategoryContentsInOrderOfPriority (@Path("category_id") String category_id,
+    Call<CardListModel> getCategoryContentsInOrderOfPriority (@Path("category_id") String category_id,
                                                               @Query("limit") int limit,
                                                               @Query("offset") int offset,
                                                               @Query("user") String uuid);
 
     //카테고리별 컨텐츠 가져오기 ( 인기순 )
     @GET("api/board/search/category/favorite/{category_id}")
-    Call<ContentsModel> getCategoryContentsInOrderOfPopularity (@Path("category_id") String category_id,
+    Call<CardListModel> getCategoryContentsInOrderOfPopularity (@Path("category_id") String category_id,
                                                                 @Query("limit") int limit,
                                                                 @Query("offset") int offset,
                                                                 @Query("user") String uuid);

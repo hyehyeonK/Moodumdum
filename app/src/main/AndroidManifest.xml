@@ -14,17 +14,28 @@
         android:configChanges="orientation|screenSize">
 
         <activity android:name=".SplashActivity"></activity>
-        <activity android:name=".MainActivity"
-             android:theme="@style/AppThemeTransparent">
+        <!--<activity android:name=".MainActivity"-->
+             <!--android:theme="@style/AppThemeTransparent">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
+        <activity android:name=".views.StackCardActivity"
+            android:theme="@style/AppThemeTransparent">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <activity android:name=".views.DetailCardActivity"
+            android:theme="@style/Theme.AppCompat.Translucent"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
         <activity android:name=".Mypage" />
-        <activity android:name=".CategoryActivity"/>
+        <activity android:name=".views.CategoryActivity"/>
         <activity
             android:name=".PlusActivity"
             android:windowSoftInputMode="stateAlwaysVisible|adjustResize">
@@ -37,7 +48,7 @@
         <activity android:name=".NameEditActivity"/>
         <activity android:name=".PlusBackimgActivity"
             android:theme="@style/AppThemeTransparent"/>
-        <activity android:name=".CategorySelectedActivityRV"/>
+        <activity android:name=".views.CategorySelectedActivity"/>
         <activity android:name=".DetailContentsActivity"
             android:theme="@style/Theme.AppCompat.Translucent"
             android:windowSoftInputMode="adjustPan">
