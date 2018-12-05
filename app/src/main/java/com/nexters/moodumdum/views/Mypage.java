@@ -12,14 +12,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
-import com.nexters.moodumdum.fragments.FragmentMyJomun;
-import com.nexters.moodumdum.fragments.FragmentMyWrite;
-import com.nexters.moodumdum.PlusActivity;
-import com.nexters.moodumdum.PlusBackimgActivity;
 import com.nexters.moodumdum.R;
 import com.nexters.moodumdum.adpater.MyPageTabAdapter;
 import com.nexters.moodumdum.api.MooDumDumService;
 import com.nexters.moodumdum.common.PropertyManagement;
+import com.nexters.moodumdum.fragments.FragmentMyJomun;
+import com.nexters.moodumdum.fragments.FragmentMyWrite;
 import com.nexters.moodumdum.model.UserDataModel;
 
 import butterknife.BindView;
@@ -107,16 +105,22 @@ public class Mypage extends AppCompatActivity implements FragmentMyJomun.OnFragm
 
     }
 
+    @Override
+    public void onBackPressed() {
+        onBtnBackClicked();
+    }
+
     @OnClick(R.id.btn_back)
     public void onBtnBackClicked() {
         this.finish();
-        overridePendingTransition( R.anim.not_move_activity, R.anim.leftout_activity );
+        overridePendingTransition(R.anim.load_fadein,R.anim.load_fadeout);
     }
 
     @OnClick(R.id.onClickToPlus)
     public void onViewClicked() {
         Intent intent = new Intent( getApplicationContext(), PlusActivity.class );
         startActivity( intent );
+        overridePendingTransition(R.anim.load_fadein,R.anim.load_fadeout);
         finish();
     }
 
@@ -125,6 +129,7 @@ public class Mypage extends AppCompatActivity implements FragmentMyJomun.OnFragm
     public void onBtnEditNameClicked() {
         Intent intent = new Intent( this, NameEditActivity.class );
         startActivityForResult( intent, 1  );
+        overridePendingTransition(R.anim.load_fadein,R.anim.load_fadeout);
     }
 
 }

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
-    tools:context="com.nexters.moodumdum.PlusBackimgActivity"
+    tools:context="com.nexters.moodumdum.views.PlusBackimgActivity"
     tools:layout_editor_absoluteY="25dp">
 
 
@@ -40,7 +40,10 @@
                 android:textColor="#747474" />
 
         </FrameLayout>
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/white"/>
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerBack"
             android:layout_width="match_parent"

@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import com.amar.library.ui.StickyScrollView;
 import com.bumptech.glide.Glide;
-import com.nexters.moodumdum.PlusActivity;
 import com.nexters.moodumdum.R;
 import com.nexters.moodumdum.adpater.CategoryAdapter;
 import com.nexters.moodumdum.anim.RecyclerViewDecoration;
@@ -47,21 +46,23 @@ import retrofit2.Response;
 
 public class CategorySelectedActivity extends AppCompatActivity {
     private LinearLayoutManager linearLayoutManager;
-    private CategoryAdapter currentAdapter;
-    public CategorySelectedActivity categorySelectedActivityRV;
+    private CategoryAdapter categoryAdapter;
     List<CardDataModel> results;
     String uuid;
+
     private int curPosition;
     private int currentState;
     final static int LATEST = 0;
     final static int FAVORIT = 1;
+
     int dataOffset;
     boolean noMoreData;
+
     int int_scrollViewPos; // 현재 스크롤 포지션
     int int_TextView_lines; // 스크롤뷰 크기
 
-    public static Activity activity;
     String categoryID ="";
+
     @BindView(R.id.scrollView)
     StickyScrollView scrollView;
 
@@ -87,15 +88,27 @@ public class CategorySelectedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_selected);
         ButterKnife.bind(this);
-        activity = this;
+
         dataOffset = 0;
         currentState = LATEST;
         noMoreData = false;
         uuid = PropertyManagement.getUserId(CategorySelectedActivity.this);
+
         Intent intent = getIntent();
         categoryID = intent.getStringExtra("categoryID");
-        currentAdapter = new CategoryAdapter(this, results = new ArrayList<>());
-        currentAdapter.setOnItemClickListener(new CategoryAdapter.OnItemClickListener() {
+
+        categoryAdapter = new CategoryAdapter(this, results = new ArrayList<>());
+
+        initView();
+        getCategoryInfo();
+        getLatestPost();
+    }
+//    public void setRefreshInfo(DetailCardInfoDAO newInfo) {
+//        categoryAdapter.reloadInfo(newInfo);
+//    }
+    private void initView() {
+
+        categoryAdapter.setOnItemClickListener(new CategoryAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(CardDataModel cardInfo, int position) {
                 curPosition = position;
@@ -105,44 +118,23 @@ public class CategorySelectedActivity extends AppCompatActivity {
                 startActivityForResult(intent,Constants.ACTIVITY_RESULT_CATEGORY);
             }
         });
-        categorySelectedActivityRV = this;
-        initView();
-        getCategoryInfo();
-        getLatestPost();
-    }
-//    public void setRefreshInfo(DetailCardInfoDAO newInfo) {
-//        currentAdapter.reloadInfo(newInfo);
-//    }
-    private void initView() {
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        currentAdapter = new CategoryAdapter(CategorySelectedActivity.this, results = new ArrayList<>());
-                        currentAdapter.setOnItemClickListener(new CategoryAdapter.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(CardDataModel cardInfo, int position) {
-                                curPosition = position;
-                                Intent intent = new Intent( getBaseContext(), DetailCardActivity.class );
-                                intent.putExtra( "cardInfo", cardInfo);
-                                intent.putExtra( "beforeAct", Constants.ACTIVITY_CATEGORY);
-                                startActivityForResult(intent,Constants.ACTIVITY_RESULT_CATEGORY);
-                            }
-                        });
-                        recyclerView.setAdapter(currentAdapter);
                         dataOffset = 0;
                         noMoreData = false;
                         relode();
-                        getLatestPost();
+
                         mRefreshLayout.setRefreshing(false);
                     }
                 }, 1000);
             }
         });
         linearLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setAdapter(currentAdapter);
+        recyclerView.setAdapter(categoryAdapter);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -171,7 +163,6 @@ public class CategorySelectedActivity extends AppCompatActivity {
 
                 }
             }
-
             @Override
             public void onFailure(Call<CategoryInfoModel> call, Throwable t) {
 
@@ -187,8 +178,13 @@ public class CategorySelectedActivity extends AppCompatActivity {
                     if(items.next == null){
                         noMoreData = true;
                     }
-                    currentAdapter.getData().addAll( items.result );
-                    currentAdapter.notifyDataSetChanged();
+                    if(0 == dataOffset )
+                    {
+                        categoryAdapter.clearData();
+
+                    }
+                    categoryAdapter.getData().addAll( items.result );
+                    categoryAdapter.notifyDataSetChanged();
                     dataOffset += 10;
                     loadingBar.setVisibility(View.INVISIBLE);
                 }
@@ -208,8 +204,13 @@ public class CategorySelectedActivity extends AppCompatActivity {
                     if(items.next == null){
                         noMoreData = true;
                     }
-                    currentAdapter.getData().addAll( items.result );
-                    currentAdapter.notifyDataSetChanged();
+                    if(0 == dataOffset )
+                    {
+                        categoryAdapter.clearData();
+
+                    }
+                    categoryAdapter.getData().addAll( items.result );
+                    categoryAdapter.notifyDataSetChanged();
                     dataOffset += 10;
                     loadingBar.setVisibility(View.INVISIBLE);
                 }
@@ -230,7 +231,7 @@ public class CategorySelectedActivity extends AppCompatActivity {
             results.get(curPosition).is_liked = isLike;
             results.get(curPosition).like_count = countLike;
             results.get(curPosition).comment_count = countComment;
-            currentAdapter.notifyDataSetChanged();
+            categoryAdapter.notifyDataSetChanged();
 
         }
     }
@@ -285,13 +286,14 @@ public class CategorySelectedActivity extends AppCompatActivity {
     @OnClick(R.id.btn_back)
     public void onBtnBackClicked() {
         this.finish();
-        overridePendingTransition(R.anim.not_move_activity,R.anim.leftout_activity);
+        overridePendingTransition(R.anim.load_fadein,R.anim.load_fadeout);
     }
 
     @OnClick(R.id.onClickToPlus)
     public void onViewClicked() {
         Intent intent = new Intent( getApplicationContext(), PlusActivity.class );
         startActivity( intent );
+        overridePendingTransition(R.anim.load_fadein,R.anim.load_fadeout);
     }
 }
 

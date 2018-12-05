@@ -86,10 +86,8 @@ public class CardAdapter extends StackLayout.Adapter<CardAdapter.ViewHolder>{
         TextView commentCount;
         @BindView(R.id.likeCount)
         TextView likeCount;
-        @BindView(R.id.view)
+        @BindView(R.id.line)
         View line;
-        @BindView(R.id.board_id)
-        TextView boardId;
         @BindView(R.id.backImage)
         ImageView backImage;
         @BindView(R.id.contents_like)
@@ -98,6 +96,8 @@ public class CardAdapter extends StackLayout.Adapter<CardAdapter.ViewHolder>{
         ImageView contents_comment;
         @BindView(R.id.motion)
         ConstraintLayout motionView;
+        @BindView(R.id.tv_writer)
+        TextView tv_writer;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -108,24 +108,27 @@ public class CardAdapter extends StackLayout.Adapter<CardAdapter.ViewHolder>{
         void bind (final Context context, final CardDataModel cardInfo, final CardAdapter.SimpleOnGestureListener gestureListener,
                    final CardAdapter.OnItemClickListener clickListener, final int position){
             Glide.with(context).load(cardInfo.image_url).into(backImage);
-//            boardId.setText( cardInfo.id.toString() );
             contents.setText( cardInfo.description );
 
-            String fontColor = cardInfo.color;
+            int fontColor = Color.parseColor(cardInfo.color);
+
             UserModel user = cardInfo.user;
-            contents.setTextColor(Color.parseColor(fontColor));
+            tv_writer.setText(user.name);
+            tv_writer.setTextColor(fontColor);
+
+            contents.setTextColor(fontColor);
             commentCount.setText( String.valueOf( cardInfo.comment_count ) );
-            commentCount.setTextColor(Color.parseColor(fontColor));
+            commentCount.setTextColor(fontColor);
             likeCount.setText( String.valueOf( cardInfo.like_count ) );
-            likeCount.setTextColor(Color.parseColor(fontColor));
+            likeCount.setTextColor(fontColor);
             if(cardInfo.is_liked) {
-//            glideRequestManager.load(R.drawable.like_after).into(viewHolder.contents_like);
                 contents_like.setSelected(true);
+                contents_like.setColorFilter(null);
             } else {
-                contents_like.setColorFilter(Color.parseColor(fontColor));
+                contents_like.setColorFilter(fontColor);
             }
-            contents_comment.setColorFilter(Color.parseColor(fontColor));
-            line.setBackgroundColor(Color.parseColor(fontColor));
+            contents_comment.setColorFilter(fontColor);
+            line.setBackgroundColor(fontColor);
 
             if (gestureListener != null) {
                 itemView.setOnClickListener(new DoubleClickListener() {

@@ -28,6 +28,7 @@ import com.nexters.moodumdum.R;
 import com.nexters.moodumdum.adpater.CommentAdapter;
 import com.nexters.moodumdum.anim.RecyclerViewDecoration;
 import com.nexters.moodumdum.api.MooDumDumService;
+import com.nexters.moodumdum.common.DoubleClickListener;
 import com.nexters.moodumdum.common.PropertyManagement;
 import com.nexters.moodumdum.model.CardDataModel;
 import com.nexters.moodumdum.model.CommentModel;
@@ -77,11 +78,12 @@ public class DetailCardActivity extends AppCompatActivity {
     ImageButton btn_back;
     @BindView(R.id.contents)
     TextView contents;
-    @BindView(R.id.motion)
-    ConstraintLayout motionView;
+    @BindView(R.id.motionLikeView)
+    FrameLayout motionView;
+    @BindView(R.id.motionImage)
+    ImageView motionImg;
     @BindView(R.id.backlayout)
     LinearLayout backlayout;
-    String beforeAct;
     @BindView(R.id.sliding)
     SlidingUpPanelLayout sliding;
 
@@ -90,28 +92,39 @@ public class DetailCardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView( R.layout.activity_detailcard );
         ButterKnife.bind( this );
+
         getStatusBarHeight();
         setActionbarMarginTop(topFrame);
         setActionbarMarginTop2(sliding);
+
         uuid = PropertyManagement.getUserId(this);
         Intent intent = getIntent();
         cardData = (CardDataModel) intent.getSerializableExtra( "cardInfo" );
-        int beforeActivity = intent.getIntExtra("beforeAct",1);
-        initView(beforeActivity);
+
+        initView();
     }
 
-    private void initView(int beforAct) {
-//        if( beforAct == Constants.ACTIVITY_STACKCARD ) {
-//            backImage.setVisibility(View.INVISIBLE);
-//        }
-        Glide.with( this ).load(cardData.image_url).crossFade()
-                .into(backImage);
+    private void initView() {
+        Glide.with( this ).load(cardData.image_url).crossFade().into(backImage);
         String currentColor = cardData.color;
         contents.setText(cardData.description);
         contents.setTextColor(Color.parseColor(currentColor));
         scroll  = new ScrollingMovementMethod();
         contents.setMovementMethod(scroll);
+        contents.setOnClickListener(new DoubleClickListener() {
+            @Override
+            public void onSingleClick(View v) { }
 
+            @Override
+            public void onDoubleClick(View v) {
+                motionLikeAnimation();
+
+                if(!cardData.is_liked)
+                {
+                    postDoLike();
+                }
+            }
+        });
         btn_back.setColorFilter(Color.parseColor(currentColor));
         getCommentHeader();
 
@@ -126,7 +139,7 @@ public class DetailCardActivity extends AppCompatActivity {
         CommentListView.setItemAnimator( new DefaultItemAnimator() );
         CommentListView.addItemDecoration( new RecyclerViewDecoration( 2 ) );
 
-//        getCommentHeader();
+
         getCommentContent();
 
         sliding.addPanelSlideListener( new SlidingUpPanelLayout.PanelSlideListener() {
@@ -188,6 +201,7 @@ public class DetailCardActivity extends AppCompatActivity {
                 likeCount.setText( items.like_count + "");
                 commentsCount.setText( String.valueOf( items.comment_count ) );
                 contents_like.setSelected(items.is_liked);
+                cardData = items;
                 if( items.is_liked ){
                     contents_like.setColorFilter(null);
                 }
@@ -237,12 +251,24 @@ public class DetailCardActivity extends AppCompatActivity {
         } );
     }
     public void motionLikeAnimation(){
+        motionView.setVisibility(View.VISIBLE);
+        GlideDrawableImageViewTarget imageViewTarget = new GlideDrawableImageViewTarget(motionImg,1);
+        Glide.with( this ).load(R.raw.motion_like).into(imageViewTarget);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                motionView.setVisibility(View.INVISIBLE);
+            }
+        },2800);
+    }
+    public void postDoLike()
+    {
         MooDumDumService.of().postDoLike( cardData.id, uuid ).enqueue(new Callback<ServerResponse>() {
             @Override
             public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
                 if (response.isSuccessful()) {
                     Log.d("postDoLike()","Success!");
-                    cardData.is_liked = true;
                     getCommentHeader();
                 }
                 else{
@@ -255,24 +281,12 @@ public class DetailCardActivity extends AppCompatActivity {
                 Log.e( "PostDoLike Fail",  t.toString() );
             }
         } );
-        motionView.setVisibility(View.VISIBLE);
-        ImageView motionImageView = motionView.findViewById(R.id.motionImage);
-        GlideDrawableImageViewTarget imageViewTarget = new GlideDrawableImageViewTarget(motionImageView,1);
-        Glide.with( this ).load(R.raw.motion_like).into(imageViewTarget);
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                motionView.setVisibility(View.GONE);
-            }
-        },2800);
     }
     public void cancelContentsLike(){
         MooDumDumService.of().deleteContentsLike( uuid, cardData.id ).enqueue( new Callback<ServerResponse>() {
             @Override
             public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
-                cardData.is_liked = false;
-                getCommentContent();
+//                getCommentContent();
                 getCommentHeader();
             }
 
@@ -285,17 +299,18 @@ public class DetailCardActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        closeDetaileCard();
+        closeDetailCard();
     }
 
     @OnClick(R.id.btn_back)
-    public void closeDetaileCard() {
+    public void closeDetailCard() {
         Intent resultIntent = new Intent();
         resultIntent.putExtra("IS_LIKE",cardData.is_liked);
         resultIntent.putExtra("COUNT_LIKE",Integer.parseInt(likeCount.getText().toString()));
         resultIntent.putExtra("COUNT_COMMENT",Integer.parseInt(commentsCount.getText().toString()));
         setResult(RESULT_OK,resultIntent);
         finish();
+        overridePendingTransition(R.anim.load_fadein,R.anim.load_fadeout);
     }
 
     @OnClick(R.id.onClickToPostComment)
@@ -305,10 +320,11 @@ public class DetailCardActivity extends AppCompatActivity {
 
     @OnClick({R.id.contents_like,R.id.likeCount})
     public void setLike() {
-        if (contents_like.isSelected()) {
+        if (cardData.is_liked) {
             cancelContentsLike();
         } else {
             motionLikeAnimation();
+            postDoLike();
         }
     }
 }

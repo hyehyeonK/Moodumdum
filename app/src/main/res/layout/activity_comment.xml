@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.nexters.moodumdum.CommentActivity"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <include
@@ -115,7 +114,7 @@
                     </LinearLayout>
 
                     <View
-                        android:id="@+id/view"
+                        android:id="@+id/line"
                         android:layout_width="320dp"
                         android:layout_gravity="center"
                         android:layout_height="1dp"

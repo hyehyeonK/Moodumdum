@@ -64,10 +64,15 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     public List<CardDataModel> getData() {
         return cardList;
     }
-    public void addMoreItem(List<CardDataModel> cardList){
-        this.cardList.addAll(cardList);
-        notifyDataSetChanged();
+
+    public void clearData()
+    {
+        cardList.clear();
     }
+//    public void addMoreItem(List<CardDataModel> cardList){
+//        this.cardList.addAll(cardList);
+//        notifyDataSetChanged();
+//    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         View view;
@@ -93,29 +98,28 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         }
 
         void bind( final Context context, final CardDataModel cardInfo, final CategoryAdapter.OnItemClickListener clickListener, final int position) {
-            String fontColor = "#e27171";
-            if (cardInfo.color != "") {
-                fontColor = cardInfo.color;
-            }
+
+            int fontColor = Color.parseColor(cardInfo.color);
             UserModel user = cardInfo.user;
             Glide.with(context).load(cardInfo.image_url).into(backImage);
             nickName.setText(user.name);
-            nickName.setTextColor(Color.parseColor(fontColor));
+            nickName.setTextColor(fontColor);
             contents.setText(cardInfo.description);
-            contents.setTextColor(Color.parseColor(fontColor));
+            contents.setTextColor(fontColor);
             commentsCount.setText(String.valueOf( cardInfo.comment_count ));
-            commentsCount.setTextColor(Color.parseColor(fontColor));
+            commentsCount.setTextColor(fontColor);
             likeCount.setText(String.valueOf( cardInfo.like_count ));
-            likeCount.setTextColor(Color.parseColor(fontColor));
-            commentImg.setColorFilter(Color.parseColor(fontColor));
+            likeCount.setTextColor(fontColor);
+            commentImg.setColorFilter(fontColor);
+            favoriteImg.clearColorFilter();
             if (cardInfo.is_liked) {
                 Glide.with(context).load(R.drawable.like_after).into(favoriteImg);
-                favoriteImg.setColorFilter(null);
-            } else {
-                favoriteImg.setColorFilter(Color.parseColor(fontColor));
+            }
+            else {
+                favoriteImg.setColorFilter(fontColor);//??
             }
 
-            if(null != clickListener)
+            if (null != clickListener)
             {
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override

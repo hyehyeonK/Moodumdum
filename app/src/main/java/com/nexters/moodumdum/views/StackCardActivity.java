@@ -18,7 +18,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.fashare.stack_layout.StackLayout;
 import com.fashare.stack_layout.transformer.AngleTransformer;
-import com.nexters.moodumdum.PlusActivity;
 import com.nexters.moodumdum.R;
 import com.nexters.moodumdum.adpater.CardAdapter;
 import com.nexters.moodumdum.api.MooDumDumService;
@@ -102,6 +101,7 @@ public class StackCardActivity extends AppCompatActivity {
                 intent.putExtra( "cardInfo", cardInfo);
                 intent.putExtra( "beforeAct", Constants.ACTIVITY_STACKCARD);
                 startActivityForResult(intent,Constants.ACTIVITY_RESULT_STACKCARD);
+                overridePendingTransition(R.anim.load_fadein,R.anim.load_fadeout);
             }
 
             @Override
@@ -142,7 +142,7 @@ public class StackCardActivity extends AppCompatActivity {
         mStackLayout.setOnSwipeListener(new StackLayout.OnSwipeListener() {
             @Override
             public void onSwiped(View swipedView, int swipedItemPos, boolean isSwipeLeft, int itemLeft) {
-                if(itemLeft < 3) {
+                if(itemLeft < 5) {
                     curPage += 10;
                     loadData( curPage );
                 }
@@ -271,18 +271,21 @@ public class StackCardActivity extends AppCompatActivity {
         Intent intent = new Intent( this, Mypage.class );
         intent.putExtra( "plusContents", "no" );
         startActivity( intent );
+        overridePendingTransition(R.anim.load_fadein,R.anim.load_fadeout);
     }
 
     @OnClick(R.id.onClickToMenu)
     void onClickToMenu() {
         Intent intent = new Intent( this, CategoryActivity.class );
         startActivity( intent );
+        overridePendingTransition(R.anim.load_fadein,R.anim.load_fadeout);
     }
 
     @OnClick(R.id.onClickToPlus)
     public void onViewClicked() {
         Intent intent = new Intent( this, PlusActivity.class );
         startActivity( intent );
+        overridePendingTransition(R.anim.load_fadein,R.anim.load_fadeout);
     }
 
 

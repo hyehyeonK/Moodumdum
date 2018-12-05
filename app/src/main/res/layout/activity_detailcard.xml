@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.nexters.moodumdum.CommentActivity"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <ImageView
         android:id="@+id/backImage"
@@ -19,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom"
-        sothree:umanoPanelHeight="300dp"
+        sothree:umanoPanelHeight="230dp"
         sothree:umanoOverlay="true"
         sothree:umanoDragView="@id/CommentListView"
         sothree:umanoScrollableView="@id/CommentListView"
@@ -185,10 +184,10 @@
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="320dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginBottom="250dp"
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"
+        android:layout_marginTop="75dp"
         android:textSize="20dp"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toTopOf="parent"
@@ -198,8 +197,20 @@
     <include
         android:id="@+id/include2"
         layout="@layout/fragment_top2" />
-    <include
-        android:id="@+id/motion"
-        layout="@layout/motion_like"
-        android:visibility="gone"/>
+    <FrameLayout
+        android:id="@+id/motionLikeView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#000000"
+            android:alpha="0.5"/>
+        <ImageView
+            android:id="@+id/motionImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </FrameLayout>
 </android.support.constraint.ConstraintLayout>

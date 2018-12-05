@@ -18,19 +18,19 @@
 
         <ImageView
             android:id="@+id/backImage"
-            android:transitionName="@string/ts_backImg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitXY"/>
+            android:scaleType="fitXY"
+            android:transitionName="@string/ts_backImg"
+            app:layout_constraintTop_toTopOf="@+id/tv_writer" />
 
 
         <View
-            android:id="@+id/view"
+            android:id="@+id/line"
             android:layout_width="40dp"
             android:layout_height="1dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:visibility="invisible"
             android:background="#4f4f4f"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -49,85 +49,74 @@
             android:gravity="center"
             android:maxLines="9"
             android:text="글귀"
-            android:textSize="22sp"
+            android:textSize="20sp"
             android:transitionName="@string/ts_text"
-            app:layout_constraintBottom_toTopOf="@+id/view"
+            app:layout_constraintBottom_toTopOf="@+id/line"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/contents_comment"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="24dp"
-            android:background="@android:color/transparent"
-            android:scaleType="fitXY"
-            android:src="@drawable/contents_comment"
-            android:transitionName="@string/ts_countImg"
-            app:layout_constraintEnd_toStartOf="@+id/commentCount"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view" />
-
-
         <TextView
-            android:id="@+id/commentCount"
+            android:id="@+id/tv_writer"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:textSize="15sp"
+            android:text="글쓴이"
+            app:layout_constraintTop_toBottomOf="@+id/line"/>
+
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="9dp"
-            android:layout_marginTop="24dp"
-            android:text="0"
-            android:transitionName="@string/ts_countTxt"
-            app:layout_constraintEnd_toStartOf="@+id/contents_like"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/contents_comment"
-            app:layout_constraintTop_toBottomOf="@+id/view" />
-
-        <ImageButton
-            android:id="@+id/contents_like"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="17dp"
-            android:src="@drawable/selector_like_btn"
-            android:background="@color/transparent"
-            android:padding="4dp"
-            android:scaleType="fitCenter"
-            android:transitionName="@string/ts_likeImg"
-            app:layout_constraintEnd_toStartOf="@+id/likeCount"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/commentCount"
-            app:layout_constraintTop_toBottomOf="@+id/view" />
-
-        <TextView
-            android:id="@+id/likeCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            android:layout_marginTop="24dp"
-            android:text="0"
-            android:transitionName="@string/ts_likeTxt"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/contents_like"
-            app:layout_constraintTop_toBottomOf="@+id/view" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_writer"
+            android:layout_marginTop="40dp">
+
+            <ImageView
+                android:id="@+id/contents_comment"
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                app:srcCompat="@drawable/contents_comment"
+                android:transitionName="@string/ts_countImg" />
 
 
-        <TextView
-            android:id="@+id/board_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="8dp"
-            android:text="board_id"
-            android:textColor="#ffff"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            <TextView
+                android:id="@+id/commentCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/contents_comment"
+                android:layout_marginStart="6dp"
+                android:textSize="15sp"
+                android:text="000"
+                android:transitionName="@string/ts_countTxt" />
+
+            <ImageButton
+                android:id="@+id/contents_like"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@color/transparent"
+                android:padding="4dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/selector_like_btn"
+                android:layout_toEndOf="@+id/commentCount"
+                android:layout_marginStart="20dp"
+                android:transitionName="@string/ts_likeImg" />
+
+            <TextView
+                android:id="@+id/likeCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/contents_like"
+                android:textSize="15sp"
+                android:text="000"
+                android:transitionName="@string/ts_likeTxt" />
+        </RelativeLayout>
+
+
 
         <include
             android:id="@+id/motion"

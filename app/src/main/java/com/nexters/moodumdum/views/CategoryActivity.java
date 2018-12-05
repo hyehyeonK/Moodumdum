@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.nexters.moodumdum.PlusActivity;
 import com.nexters.moodumdum.R;
 
 import butterknife.BindView;
@@ -36,17 +35,23 @@ public class CategoryActivity extends AppCompatActivity {
         String selectBtn = button.getTag() + "";//카테고리 태그
         intent.putExtra("categoryID", selectBtn);
         startActivity(intent);
+        overridePendingTransition(R.anim.load_fadein,R.anim.load_fadeout);
     }
 
+    @Override
+    public void onBackPressed() {
+        gotoMain();
+    }
     @OnClick(R.id.btn_back)
     public void gotoMain() {
         this.finish();
-        overridePendingTransition(R.anim.not_move_activity,R.anim.leftout_activity);
+        overridePendingTransition(R.anim.load_fadein,R.anim.load_fadeout);
     }
 
     @OnClick(R.id.onClickToPlus)
     public void onViewClicked() {
         Intent intent = new Intent( getApplicationContext(), PlusActivity.class );
         startActivity( intent );
+        overridePendingTransition(R.anim.load_fadein,R.anim.load_fadeout);
     }
 }

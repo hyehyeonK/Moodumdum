@@ -1,8 +1,9 @@
-package com.nexters.moodumdum;
+package com.nexters.moodumdum.views;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
@@ -23,13 +24,14 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.nexters.moodumdum.R;
 import com.nexters.moodumdum.adpater.SelectViewOfBackgroundAdapter;
 import com.nexters.moodumdum.api.MooDumDumService;
+import com.nexters.moodumdum.common.GridSpacingItemDecoration;
 import com.nexters.moodumdum.common.PropertyManagement;
 import com.nexters.moodumdum.model.ImageModel;
 import com.nexters.moodumdum.model.PostContentsModel;
 import com.nexters.moodumdum.model.ServerResponse;
-import com.nexters.moodumdum.views.Mypage;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -47,6 +49,7 @@ public class PlusBackimgActivity extends AppCompatActivity {
     private SelectViewOfBackgroundAdapter adapterBackImg;
     GridLayoutManager gridLayoutManager;
     PostContentsModel contentsModel;
+    int StatusBarHeight;
     List<ImageModel.Result> images = new ArrayList<>();
     public static Activity plusBackimgActivity ;
     public static Context PlusBackimgActivity_context;
@@ -90,8 +93,8 @@ public class PlusBackimgActivity extends AppCompatActivity {
         contentsModel = (PostContentsModel) intent.getSerializableExtra("newContents");
         contentOfPlus.setText( contentsModel.getDescription() + "" );
         //top
-//        int height = ((MainCardStackFragment) MainCardStackFragment.MainCardFragment).StatusBarHeight;
-//        setActionbarMarginTop(topMenue, height);
+        int height = getStatusBarHeight();
+        setActionbarMarginTop(topMenue, height);
         //서버에서 이미지 가져오기 (랜덤으로 가져오는 걸로 변경 요청하기)
         getBackgroundImage();
 
@@ -103,6 +106,21 @@ public class PlusBackimgActivity extends AppCompatActivity {
         gridViewImagesRV.setAdapter(adapterBackImg);
         gridViewImagesRV.setLayoutManager(gridLayoutManager);
         gridViewImagesRV.setItemAnimator(new DefaultItemAnimator());
+        gridViewImagesRV.addItemDecoration(new GridSpacingItemDecoration(4,3));
+    }
+    public int getStatusBarHeight(){
+        int statusHeight = 0;
+        int screenSizeType = (this.getResources().getConfiguration().screenLayout &
+                Configuration.SCREENLAYOUT_SIZE_MASK);
+
+        if(screenSizeType != Configuration.SCREENLAYOUT_SIZE_XLARGE) {
+            int resourceId = this.getResources().getIdentifier("status_bar_height", "dimen", "android");
+
+            if (resourceId > 0) {
+                statusHeight = this.getResources().getDimensionPixelSize(resourceId);
+            }
+        }
+        return statusHeight;
     }
     public void setActionbarMarginTop(final View view, int height){
         ConstraintLayout.LayoutParams topLayoutParams = (ConstraintLayout.LayoutParams) view.getLayoutParams();
@@ -134,18 +152,19 @@ public class PlusBackimgActivity extends AppCompatActivity {
                     public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
                         Log.d("@@@@@", response.message());
                         if (response.isSuccessful()) {
-                            //요청사항 성공 페이지 만들어야 함
                             Toast.makeText(getBaseContext(), "당신의 기억을 묻었어요.", Toast.LENGTH_SHORT).show();
                             Log.d("postMyMemory",response.message());
+
                             Intent intent = new Intent(getApplication(), Mypage.class);
                             intent.putExtra("plusContents", "Success");
                             startActivity(intent);
+                            overridePendingTransition(R.anim.load_fadein,R.anim.load_fadeout);
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ServerResponse> call, Throwable t) {
-                        Log.d("postMyMemoryErr","error");
+                        Log.d("postMyMemoryErr","error : "+t);
                     }
                 });
     }
@@ -184,9 +203,10 @@ public class PlusBackimgActivity extends AppCompatActivity {
                 loading.setVisibility(View.GONE); return false; }
         }).into(selectedBackImg);
 
-        contentOfPlus.setTextColor(Color.parseColor(image.getFont_color()));
-        onClickToFinish.setTextColor(Color.parseColor(image.getFont_color()));
-        onClickToCancle.setColorFilter(Color.parseColor(image.getFont_color()));
+        int fontColor = Color.parseColor(image.getFont_color());
+        contentOfPlus.setTextColor(fontColor);
+        onClickToFinish.setTextColor(fontColor);
+        onClickToCancle.setColorFilter(fontColor);
         contentsModel.setImage_url( image.getImage_url() );
         contentsModel.setFontColor( image.getFont_color());
     }

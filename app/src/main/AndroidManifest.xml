@@ -37,7 +37,7 @@
         <activity android:name=".views.Mypage" />
         <activity android:name=".views.CategoryActivity"/>
         <activity
-            android:name=".PlusActivity"
+            android:name=".views.PlusActivity"
             android:windowSoftInputMode="stateAlwaysVisible|adjustResize">
 
             <!-- <intent-filter> -->
@@ -46,7 +46,7 @@
             <!-- </intent-filter> -->
         </activity>
         <activity android:name=".views.NameEditActivity"/>
-        <activity android:name=".PlusBackimgActivity"
+        <activity android:name=".views.PlusBackimgActivity"
             android:theme="@style/AppThemeTransparent"/>
         <activity android:name=".views.CategorySelectedActivity"/>
         <activity android:name=".DetailContentsActivity"

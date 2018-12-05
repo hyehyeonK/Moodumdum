@@ -222,20 +222,20 @@ public class CommentModel implements Serializable {
 
 
 
-        @Override
-        public String toString() {
-            return "\"Result\" : {" +
-                    "\"id\" :" + id +
-                    ", \"board_id\" : " + board_id +
-                    ", \"user\" : '" + user + '\'' +
-                    ", \"description\" : '" + description + '\'' +
-                    ", \"like_count\" : '" + like_count + '\'' +
-                    ", \"is_liked\" : '" + is_liked + '\'' +
-                    ", \"created\" : '" + created + '\'' +
-                    ", \"updated\" : '" + updated + '\'' +
-                    '}';
-
-        }
+//        @Override
+//        public String toString() {
+//            return "\"Result\" : {" +
+//                    "\"id\" :" + id +
+//                    ", \"board_id\" : " + board_id +
+//                    ", \"user\" : '" + user + '\'' +
+//                    ", \"description\" : '" + description + '\'' +
+//                    ", \"like_count\" : '" + like_count + '\'' +
+//                    ", \"is_liked\" : '" + is_liked + '\'' +
+//                    ", \"created\" : '" + created + '\'' +
+//                    ", \"updated\" : '" + updated + '\'' +
+//                    '}';
+//
+//        }
     }
     public ArrayList<CommentModel.Result> getResult() {
         return result;
@@ -253,15 +253,15 @@ public class CommentModel implements Serializable {
         return previous;
     }
 
-    @Override
-    public String toString() {
-        return "CommentModel{" +
-                "count=" + count +
-                ", next=" + next +
-                ", previous=" + previous +
-                ", result=" + result +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "CommentModel{" +
+//                "count=" + count +
+//                ", next=" + next +
+//                ", previous=" + previous +
+//                ", result=" + result +
+//                '}';
+//    }
 
 
 }

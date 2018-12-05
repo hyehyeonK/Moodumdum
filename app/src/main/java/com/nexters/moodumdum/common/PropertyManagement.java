@@ -40,10 +40,10 @@ public class PropertyManagement {
         return preferences.getString(DATA_USER_NICKNAME, null);
     }
 
-    public static String getCommentLikeCount(Context context) {
-        SharedPreferences preferences = context.getSharedPreferences(KEY_ID, Context.MODE_PRIVATE);
-        return preferences.getString(DATA_COMMENT_LIKE_COUNT, null);
-    }
+//    public static String getCommentLikeCount(Context context) {
+//        SharedPreferences preferences = context.getSharedPreferences(KEY_ID, Context.MODE_PRIVATE);
+//        return preferences.getString(DATA_COMMENT_LIKE_COUNT, null);
+//    }
 
 //    public static String putCommentLikeCount(Context context, String like_count) {
 //        SharedPreferences preferences = context.getSharedPreferences(KEY_ID, Context.MODE_PRIVATE);

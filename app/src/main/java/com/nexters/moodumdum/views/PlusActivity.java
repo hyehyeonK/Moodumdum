@@ -1,4 +1,4 @@
-package com.nexters.moodumdum;
+package com.nexters.moodumdum.views;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,10 +13,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nexters.moodumdum.R;
 import com.nexters.moodumdum.model.PostContentsModel;
 
 import java.math.BigInteger;
-import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,7 +24,6 @@ import butterknife.OnClick;
 
 public class PlusActivity extends AppCompatActivity {
     public static Activity plusActivity;
-    private UUID uuid;
     PostContentsModel contentsModel = new PostContentsModel();
     @BindView(R.id.onClickToCancle)
     ImageButton onClickToCancel;
@@ -73,22 +72,28 @@ public class PlusActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        onOnClickToCancelClicked();
+    }
+
     @OnClick(R.id.onClickToCancle)
     public void onOnClickToCancelClicked() {
         this.finish();
+        overridePendingTransition(R.anim.load_fadein,R.anim.load_fadeout);
     }
 
     @OnClick(R.id.onClickToNext)
     public void onOnClickToNextClicked() {
 
-        if(contentOfPlus.getText().toString().length() > 0 ){
-        contentsModel.setDescription(contentOfPlus.getText() + "");
-        Intent intent = new Intent( this, PlusBackimgActivity.class );
-        intent.putExtra( "newContents", contentsModel);
-        startActivity( intent );
-        overridePendingTransition(R.anim.rightin_activity,R.anim.not_move_activity);
+        if (contentOfPlus.getText().toString().length() > 0 ) {
+            contentsModel.setDescription(contentOfPlus.getText() + "");
+            Intent intent = new Intent( this, PlusBackimgActivity.class );
+            intent.putExtra( "newContents", contentsModel);
+            startActivity( intent );
+            overridePendingTransition(R.anim.rightin_activity,R.anim.not_move_activity);
         }
-        else{
+        else {
             Toast.makeText(getBaseContext(), "묻을 기억을 작성 해 주세요.", Toast.LENGTH_SHORT).show();
         }
     }
@@ -97,6 +102,7 @@ public class PlusActivity extends AppCompatActivity {
     public void onViewClicked(Button button) {
         String selectBtn = button.getTag() + "";//카테고리 태그
         BigInteger categoryId = new BigInteger(selectBtn);
+
         btnRelationship.setSelected( false );
         btnFamily.setSelected( false );
         btnJob.setSelected( false );
@@ -104,9 +110,7 @@ public class PlusActivity extends AppCompatActivity {
         btnDarkhistory.setSelected( false );
         btnEct.setSelected( false );
 
-
         contentsModel.setCategory_id(categoryId);
-        //여기 선택했을때 contentsModel.setImage_url() 추가하기
         button.setSelected( true );
     }
 

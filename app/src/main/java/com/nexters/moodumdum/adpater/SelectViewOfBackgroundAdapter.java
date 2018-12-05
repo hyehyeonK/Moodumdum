@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.nexters.moodumdum.PlusBackimgActivity;
+import com.nexters.moodumdum.views.PlusBackimgActivity;
 import com.nexters.moodumdum.R;
 import com.nexters.moodumdum.model.ImageModel;
 
