@@ -93,7 +93,7 @@ public class PlusBackimgActivity extends AppCompatActivity {
 //        int height = ((MainCardStackFragment) MainCardStackFragment.MainCardFragment).StatusBarHeight;
 //        setActionbarMarginTop(topMenue, height);
         //서버에서 이미지 가져오기 (랜덤으로 가져오는 걸로 변경 요청하기)
-        getBackgroundImag();
+        getBackgroundImage();
 
         //RecyclerView 연결
         gridLayoutManager = new GridLayoutManager(this,4);
@@ -118,18 +118,12 @@ public class PlusBackimgActivity extends AppCompatActivity {
     // 묻기 버튼 클릭
     @OnClick(R.id.onClickToFinish)
     public void onOnClickToFinishClicked() {
-//
-//        Toast.makeText(this, "으앙아ㅏ아아아ㅏㅇ누름.", Toast.LENGTH_SHORT).show();
         postMyMemory(); // 데이터 서버로 보내기
-//        Intent intent = new Intent( this, Mypage.class );
-//        startActivity( intent );
     }
 
     private void postMyMemory() {
         String uuid = PropertyManagement.getUserId(PlusBackimgActivity.this);
         BigInteger category_id = contentsModel.getCategory_id();
-//        String user = contentsModel.getUser();
-//        String name = contentsModel.getName();
         String description = contentsModel.getDescription();
         String image_url = contentsModel.getImage_url();
         String font_color = contentsModel.getFontColor();
@@ -155,7 +149,7 @@ public class PlusBackimgActivity extends AppCompatActivity {
                     }
                 });
     }
-    private void getBackgroundImag() {
+    private void getBackgroundImage() {
         MooDumDumService.of().getBackgroundImage().enqueue( new Callback<ImageModel>() {
             @Override
             public void onResponse(Call<ImageModel> call, Response<ImageModel> response) {
@@ -174,7 +168,7 @@ public class PlusBackimgActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ImageModel> call, Throwable t) {
-                Log.e( "getBackgroundImag()", "Result: onFailure" );
+                Log.e( "getBackgroundImage()", "Result: onFailure" );
             }
         } );
     }

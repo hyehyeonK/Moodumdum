@@ -31,7 +31,7 @@ import retrofit2.Response;
  */
 
 public class MainActivity extends AppCompatActivity {
-    private String[] nickNameList = {"지나가는", "상처받은", "떠도는", "배회하는", "마음다친", "녹초가 된", "기진맥진", "가여운", "굶주린", "끄적이는", "목마른"};
+    private String[] nickNameList = {"지나가는", "상처받은", "떠도는", "배회하는", "마음다친", "녹초가된", "기진맥진", "가여운", "굶주린", "끄적이는", "목마른"};
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
     private String UUID;

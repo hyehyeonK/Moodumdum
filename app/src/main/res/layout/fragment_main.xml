@@ -34,19 +34,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/noDataImg" />
 
-    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/srl_refresh"
+
+
+    <com.fashare.stack_layout.StackLayout
+        android:id="@+id/stack_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipChildren="false">
+        android:padding="0dp"
+        android:transitionName="cardStack" />
 
-        <com.fashare.stack_layout.StackLayout
-            android:id="@+id/stack_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="0dp"
-            android:transitionName="cardStack" />
-    </android.support.v4.widget.SwipeRefreshLayout>
     <include
     android:id="@+id/firstView"
     layout="@layout/activity_main_start"
@@ -54,6 +50,21 @@
     <include
         android:id="@+id/topView"
         layout="@layout/fragment_top" />
-
+    <FrameLayout
+        android:id="@+id/motionLikeView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#000000"
+            android:alpha="0.5"/>
+        <ImageView
+            android:id="@+id/motionImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </FrameLayout>
     <include layout="@layout/fragment_bottom" />
 </android.support.constraint.ConstraintLayout>

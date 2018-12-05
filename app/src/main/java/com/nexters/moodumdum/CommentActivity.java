@@ -1,8 +1,8 @@
-package com.nexters.moodumdum;
+/*package com.nexters.moodumdum;
 
 public class CommentActivity{
 
 
-}
+}*/
 
 

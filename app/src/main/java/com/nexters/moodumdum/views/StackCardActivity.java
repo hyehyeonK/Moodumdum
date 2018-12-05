@@ -11,8 +11,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import com.fashare.stack_layout.StackLayout;
 import com.fashare.stack_layout.transformer.AngleTransformer;
 import com.nexters.moodumdum.PlusActivity;
@@ -27,6 +30,7 @@ import com.nexters.moodumdum.utils.Constants;
 import com.nexters.moodumdum.utils.MyAlphaTransformer;
 import com.nexters.moodumdum.utils.MyStackPageTransformer;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +54,11 @@ public class StackCardActivity extends AppCompatActivity {
     int StatusBarHeight;
     @BindView(R.id.topFrame)
     ConstraintLayout topFrame;
+    @BindView(R.id.motionLikeView)
+    FrameLayout motionLikeView;
+    @BindView(R.id.motionImage)
+    ImageView motionImg;
+
 
 
     @Override
@@ -89,7 +98,6 @@ public class StackCardActivity extends AppCompatActivity {
             @Override
             public void onSingleTapConfirmed(CardDataModel cardInfo, int position) {
                 curPosition = position;
-//                Toast.makeText(StackCardActivity.this ,"Position : " +position,Toast.LENGTH_LONG).show();
                 Intent intent = new Intent( getBaseContext(), DetailCardActivity.class );
                 intent.putExtra( "cardInfo", cardInfo);
                 intent.putExtra( "beforeAct", Constants.ACTIVITY_STACKCARD);
@@ -97,40 +105,40 @@ public class StackCardActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onDoubleTap(final int postion) {
-                CardDataModel currData = results.get(postion);
-                String uuid =  PropertyManagement.getUserId(getBaseContext());
-                MooDumDumService.of().postDoLike( currData.id, uuid ).enqueue(new Callback<ServerResponse>() {
-                    @Override
-                    public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
-                        if (response.isSuccessful()) {
-                            Log.d("postDoLike()","Success!");
-                            results.get(postion).is_liked = true;
-                            results.get(postion).like_count ++;
-                            stackCardAdapter.notifyDataSetChanged();
-                        }
-                        else{
-                            Log.e("postDoLike()Fail",response.message());
-                            Toast.makeText(StackCardActivity.this ,"국화 주기에 문제가 발생했습니다.",Toast.LENGTH_LONG).show();
-                        }
-                    }
+            public void onDoubleTap(final int position) {
+                CardDataModel currData = results.get(position);
 
-                    @Override
-                    public void onFailure(Call<ServerResponse> call, Throwable t) {
-                        Log.e( "postDoLikeError", "좋아요 실패" );
-                        Toast.makeText(StackCardActivity.this ,"국화Err : " + t,Toast.LENGTH_LONG).show();
-                    }
-                } );
+                likeMotion();
+                if(!currData.is_liked)
+                {
+                    postDoLike(currData.id, position);
+                }
 
             }
 
         });
+        stackCardAdapter.setOnItemClickListener(new CardAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(CardDataModel cardInfo, int position) {
+                CardDataModel currData = results.get(position);
+                if (currData.is_liked) {
+                    cancelDoLike(currData.id, position);
+                }
+                else
+                {
+                    likeMotion();
+                    postDoLike(currData.id, position);
+                }
+            }
+        });
+
         mStackLayout.setAdapter(stackCardAdapter);
         mStackLayout.addPageTransformer(
                 new MyStackPageTransformer(),
                 new MyAlphaTransformer(),
                 new AngleTransformer()
         );
+
         mStackLayout.setOnSwipeListener(new StackLayout.OnSwipeListener() {
             @Override
             public void onSwiped(View swipedView, int swipedItemPos, boolean isSwipeLeft, int itemLeft) {
@@ -141,6 +149,76 @@ public class StackCardActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void likeMotion()
+    {
+        motionLikeView.setVisibility(View.VISIBLE);
+        GlideDrawableImageViewTarget imageViewTarget = new GlideDrawableImageViewTarget(motionImg,1);
+        Glide.with(getBaseContext()).load(R.raw.motion_like)
+                .crossFade()
+                .into(imageViewTarget);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                motionLikeView.setVisibility(View.INVISIBLE);
+
+            }
+        },2500);
+    }
+
+    private void postDoLike(final BigInteger cardId, final int position)
+    {
+        String uuid =  PropertyManagement.getUserId(getBaseContext());
+        MooDumDumService.of().postDoLike( cardId, uuid ).enqueue(new Callback<ServerResponse>() {
+            @Override
+            public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
+                if (response.isSuccessful()) {
+                    Log.d("postDoLike()","Success!");
+                    results.get(position).is_liked = true;
+                    results.get(position).like_count ++;
+                    stackCardAdapter.notifyDataSetChanged();
+                }
+                else{
+                    Log.e("postDoLike()Fail",response.message());
+                    Toast.makeText(StackCardActivity.this ,"국화 주기에 문제가 발생했습니다.",Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ServerResponse> call, Throwable t) {
+                Log.e( "postDoLikeError", "좋아요 실패" );
+                Toast.makeText(StackCardActivity.this ,"국화Err : " + t,Toast.LENGTH_LONG).show();
+            }
+        } );
+    }
+
+    private void cancelDoLike(final BigInteger cardId, final int position) {
+        String uuid =  PropertyManagement.getUserId(getBaseContext());
+        MooDumDumService.of().deleteContentsLike( uuid, cardId ).enqueue(new Callback<ServerResponse>() {
+            @Override
+            public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
+                if (response.isSuccessful()) {
+                    Log.d("cancelDoLike()","Success!");
+                    results.get(position).is_liked = false;
+                    results.get(position).like_count --;
+                    stackCardAdapter.notifyDataSetChanged();
+                }
+                else{
+                    Log.e("cancelDoLike()Fail",response.message());
+                    Toast.makeText(StackCardActivity.this ,"국화 취소에 문제가 발생했습니다.",Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ServerResponse> call, Throwable t) {
+                Log.d( "cancelLikeError", "좋아요 취소 실패" );
+                Toast.makeText(StackCardActivity.this ,"LikeErr : " + t,Toast.LENGTH_LONG).show();
+            }
+        } );
+
+    }
+
     public void loadData(final int dataOffset) {
         String uuid =  PropertyManagement.getUserId(this);
         MooDumDumService.of().getContents( uuid , dataOffset ).enqueue(new Callback<CardListModel>() {

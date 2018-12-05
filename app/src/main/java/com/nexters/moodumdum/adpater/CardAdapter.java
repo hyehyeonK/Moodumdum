@@ -30,12 +30,16 @@ public class CardAdapter extends StackLayout.Adapter<CardAdapter.ViewHolder>{
     private static Context context;
     List<CardDataModel> cardList;
     private CardAdapter.SimpleOnGestureListener gestureListener;
+    private CardAdapter.OnItemClickListener onClickListener;
 
     public interface SimpleOnGestureListener {
         void onSingleTapConfirmed(CardDataModel cardInfo, int position);
         void onDoubleTap(int position);
     }
 
+    public interface OnItemClickListener {
+        void onItemClick(CardDataModel cardInfo, int position);
+    }
 
     public void setData(List<CardDataModel> data) {
         cardList = data;
@@ -53,6 +57,10 @@ public class CardAdapter extends StackLayout.Adapter<CardAdapter.ViewHolder>{
     public void setOnItemGestureListener(CardAdapter.SimpleOnGestureListener listener) {
         gestureListener = listener;
     }
+    public void setOnItemClickListener(CardAdapter.OnItemClickListener listener) {
+        onClickListener = listener;
+    }
+
     @Override
     public CardAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int position) {
         return new CardAdapter.ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_card, parent, false));
@@ -61,7 +69,7 @@ public class CardAdapter extends StackLayout.Adapter<CardAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(CardAdapter.ViewHolder holder, final int position) {
         final CardAdapter.ViewHolder viewHolder = (CardAdapter.ViewHolder) holder;
-        viewHolder.bind(context, cardList.get(position), gestureListener, position);
+        viewHolder.bind(context, cardList.get(position), gestureListener, onClickListener,position);
     }
 
     @Override
@@ -97,7 +105,8 @@ public class CardAdapter extends StackLayout.Adapter<CardAdapter.ViewHolder>{
             ButterKnife.bind( this, view );
         }
 
-        void bind (final Context context, final CardDataModel cardInfo, final CardAdapter.SimpleOnGestureListener gestureListener, final int position){
+        void bind (final Context context, final CardDataModel cardInfo, final CardAdapter.SimpleOnGestureListener gestureListener,
+                   final CardAdapter.OnItemClickListener clickListener, final int position){
             Glide.with(context).load(cardInfo.image_url).into(backImage);
 //            boardId.setText( cardInfo.id.toString() );
             contents.setText( cardInfo.description );
@@ -128,6 +137,16 @@ public class CardAdapter extends StackLayout.Adapter<CardAdapter.ViewHolder>{
                     @Override
                     public void onDoubleClick(View v) {
                         gestureListener.onDoubleTap(position);
+                    }
+                });
+            }
+
+            if (clickListener !=  null)
+            {
+                contents_like.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        clickListener.onItemClick(cardInfo, position);
                     }
                 });
             }

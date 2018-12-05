@@ -25,6 +25,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+
+/**
+ * 이름 받을 떄 StringBuffer or StringBuilder 사용해서 마지막에 "영혼"을 제외한 글자만 띄우긴
+ */
 public class NameEditActivity extends AppCompatActivity {
 
     @BindView(R.id.countOfLength)
