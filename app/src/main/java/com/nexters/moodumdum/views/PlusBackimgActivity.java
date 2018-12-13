@@ -49,7 +49,7 @@ public class PlusBackimgActivity extends AppCompatActivity {
     private SelectViewOfBackgroundAdapter adapterBackImg;
     GridLayoutManager gridLayoutManager;
     PostContentsModel contentsModel;
-    int StatusBarHeight;
+
     List<ImageModel.Result> images = new ArrayList<>();
     public static Activity plusBackimgActivity ;
     public static Context PlusBackimgActivity_context;

@@ -103,12 +103,12 @@ public class MainActivity extends AppCompatActivity {
         postUserData(uuid + "", nickName + " 영혼");
     }
 
-    public void setCardFragment(){
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.remove( initialFragment );
-        fragmentTransaction.commit();
-    }
+//    public void setCardFragment(){
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.remove( initialFragment );
+//        fragmentTransaction.commit();
+//    }
 
     // 유저 서버에 등록
     private void postUserData(final String uuid, String nickName) {

@@ -8,8 +8,7 @@
     android:layout_height="match_parent"
     app:cardBackgroundColor="@android:color/transparent"
     card_view:cardCornerRadius="0dp">
-
-
+    
     <android.support.constraint.ConstraintLayout
         android:id="@+id/mainCard"
         android:layout_width="match_parent"
@@ -115,14 +114,6 @@
                 android:text="000"
                 android:transitionName="@string/ts_likeTxt" />
         </RelativeLayout>
-
-
-
-        <include
-            android:id="@+id/motion"
-            layout="@layout/motion_like"
-            android:visibility="gone"/>
-
     </android.support.constraint.ConstraintLayout>
 
 </android.support.v7.widget.CardView>

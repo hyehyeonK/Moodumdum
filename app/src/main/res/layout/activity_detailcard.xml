@@ -52,7 +52,7 @@
 
                 <TextView
                     android:id="@+id/textView2"
-                    android:textColor="@color/darkgray"
+                    android:textColor="@color/darkGray"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -159,7 +159,7 @@
             app:layout_constraintEnd_toStartOf="@+id/onClickToPostComment"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:backgroundTint="@color/darkgray" />
+            android:backgroundTint="@color/darkGray" />
 
         <ImageButton
             android:id="@+id/onClickToPostComment"

@@ -5,62 +5,52 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".common.BaseApplication"
         android:allowBackup="true"
-        android:icon="@drawable/icon"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.StatusBar"
         android:configChanges="orientation|screenSize">
 
         <activity android:name=".SplashActivity"></activity>
-        <!--<activity android:name=".MainActivity"-->
-             <!--android:theme="@style/AppThemeTransparent">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        <!--</activity>-->
-        <activity android:name=".views.StackCardActivity"
-            android:theme="@style/AppThemeTransparent">
+        <activity android:name=".views.MainActivity"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".views.StackCardActivity"
+            android:theme="@style/AppThemeTransparent">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
         <activity android:name=".views.DetailCardActivity"
             android:theme="@style/Theme.AppCompat.Translucent"
             android:windowSoftInputMode="adjustPan">
         </activity>
         <activity android:name=".views.Mypage" />
-        <activity android:name=".views.CategoryActivity"/>
+        <activity android:name=".views.CategoryActivity"
+            android:launchMode="singleTask" />
         <activity
             android:name=".views.PlusActivity"
-            android:windowSoftInputMode="stateAlwaysVisible|adjustResize">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+            android:windowSoftInputMode="stateAlwaysVisible|adjustResize"
+            android:launchMode="singleTask">
         </activity>
-        <activity android:name=".views.NameEditActivity"/>
+        <activity android:name=".views.NameEditActivity"
+            android:launchMode="singleTask"/>
         <activity android:name=".views.PlusBackimgActivity"
             android:theme="@style/AppThemeTransparent"/>
-        <activity android:name=".views.CategorySelectedActivity"/>
-        <activity android:name=".DetailContentsActivity"
-            android:theme="@style/Theme.AppCompat.Translucent"
-            android:windowSoftInputMode="adjustPan">
-            <!--android:theme="@style/Theme.AppCompat.Translucent">-->
-
-        </activity>
-        <!--<activity android:name=".DetailContentsActivity"-->
-            <!--android:windowSoftInputMode="stateAlwaysHidden|adjustResize"-->
-            <!--android:theme="@style/AppThemeTransitions">-->
-            <!--&lt;!&ndash;android:theme="@style/Theme.AppCompat.Translucent">&ndash;&gt;-->
-
-        <!--</activity>-->
+        <activity android:name=".views.CategorySelectedActivity"
+            android:launchMode="singleInstance"/>
+        <activity android:name=".views.AppInfoActivity"
+            android:launchMode="singleTask"/>
     </application>
 
 </manifest>

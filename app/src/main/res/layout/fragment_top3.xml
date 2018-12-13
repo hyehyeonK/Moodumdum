@@ -39,6 +39,17 @@
             app:layout_constraintStart_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageButton
+            android:id="@+id/btn_info"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:paddingRight="16dp"
+            android:paddingLeft="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@android:color/transparent"
+            android:src="@drawable/btn_info"
+            android:scaleType="fitCenter"/>
+
     </android.support.constraint.ConstraintLayout>
 
 </FrameLayout>

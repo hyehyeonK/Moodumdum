@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +23,7 @@ import com.nexters.moodumdum.R;
 import com.nexters.moodumdum.adpater.CategoryAdapter;
 import com.nexters.moodumdum.anim.RecyclerViewDecoration;
 import com.nexters.moodumdum.api.MooDumDumService;
+import com.nexters.moodumdum.common.BaseActivity;
 import com.nexters.moodumdum.common.PropertyManagement;
 import com.nexters.moodumdum.model.CardDataModel;
 import com.nexters.moodumdum.model.CardListModel;
@@ -44,7 +44,7 @@ import retrofit2.Response;
  * Created by kimhyehyeon on 2018. 2. 19..
  */
 
-public class CategorySelectedActivity extends AppCompatActivity {
+public class CategorySelectedActivity extends BaseActivity {
     private LinearLayoutManager linearLayoutManager;
     private CategoryAdapter categoryAdapter;
     List<CardDataModel> results;
@@ -88,7 +88,6 @@ public class CategorySelectedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_selected);
         ButterKnife.bind(this);
-
         dataOffset = 0;
         currentState = LATEST;
         noMoreData = false;
@@ -107,7 +106,7 @@ public class CategorySelectedActivity extends AppCompatActivity {
 //        categoryAdapter.reloadInfo(newInfo);
 //    }
     private void initView() {
-
+        progressON();
         categoryAdapter.setOnItemClickListener(new CategoryAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(CardDataModel cardInfo, int position) {
@@ -187,6 +186,7 @@ public class CategorySelectedActivity extends AppCompatActivity {
                     categoryAdapter.notifyDataSetChanged();
                     dataOffset += 10;
                     loadingBar.setVisibility(View.INVISIBLE);
+                    progressOFF();
                 }
             }
 

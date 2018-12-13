@@ -2,7 +2,6 @@ package com.nexters.moodumdum.adpater;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.constraint.ConstraintLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,8 +93,6 @@ public class CardAdapter extends StackLayout.Adapter<CardAdapter.ViewHolder>{
         ImageButton contents_like;
         @BindView(R.id.contents_comment)
         ImageView contents_comment;
-        @BindView(R.id.motion)
-        ConstraintLayout motionView;
         @BindView(R.id.tv_writer)
         TextView tv_writer;
 

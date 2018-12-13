@@ -31,6 +31,7 @@ public class SplashActivity extends Activity {
         ButterKnife.bind(this);
         startLoding();
     }
+
     private void startLoding() {
 
 

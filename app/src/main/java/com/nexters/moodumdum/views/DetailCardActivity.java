@@ -33,6 +33,7 @@ import com.nexters.moodumdum.common.PropertyManagement;
 import com.nexters.moodumdum.model.CardDataModel;
 import com.nexters.moodumdum.model.CommentModel;
 import com.nexters.moodumdum.model.ServerResponse;
+import com.nexters.moodumdum.utils.CustomDialog;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import butterknife.BindView;
@@ -53,6 +54,7 @@ public class DetailCardActivity extends AppCompatActivity {
     ScrollingMovementMethod scroll;
     private String uuid;
     private int StatusBarHeight;
+    CustomDialog dialog;
 
     @BindView(R.id.topFrame)
     ConstraintLayout topFrame;
@@ -326,5 +328,19 @@ public class DetailCardActivity extends AppCompatActivity {
             motionLikeAnimation();
             postDoLike();
         }
+    }
+
+    @OnClick(R.id.btn_more)
+    public void onClickBtnMore()
+    {
+        dialog = CustomDialog.closeDialog(dialog);
+        dialog = new CustomDialog(this, R.string.dialog_delete_title, R.string.dialog_delete, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog = CustomDialog.closeDialog(dialog);
+                //글 삭제
+            }
+        });
+        dialog.show();
     }
 }

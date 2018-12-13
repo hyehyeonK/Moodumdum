@@ -3,6 +3,7 @@ package com.nexters.moodumdum.views;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -10,8 +11,12 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -25,6 +30,7 @@ import com.nexters.moodumdum.common.PropertyManagement;
 import com.nexters.moodumdum.model.CardDataModel;
 import com.nexters.moodumdum.model.CardListModel;
 import com.nexters.moodumdum.model.ServerResponse;
+import com.nexters.moodumdum.model.UserModel;
 import com.nexters.moodumdum.utils.Constants;
 import com.nexters.moodumdum.utils.MyAlphaTransformer;
 import com.nexters.moodumdum.utils.MyStackPageTransformer;
@@ -47,29 +53,82 @@ import retrofit2.Response;
 public class StackCardActivity extends AppCompatActivity {
     StackLayout mStackLayout;
     CardAdapter stackCardAdapter;
+
     List<CardDataModel> results = new ArrayList<>();
+
+    boolean isFirstTouch = true;
     int curPage = 0;
     int curPosition = 0;
     int StatusBarHeight;
+
     @BindView(R.id.topFrame)
     ConstraintLayout topFrame;
     @BindView(R.id.motionLikeView)
     FrameLayout motionLikeView;
     @BindView(R.id.motionImage)
     ImageView motionImg;
+    @BindView(R.id.introGif)
+    ImageView intro;
+    @BindView(R.id.layout_top)
+    FrameLayout layout_top;
+    @BindView(R.id.layout_bottom)
+    FrameLayout layout_bottom;
 
-
+    //FirstCardView
+    @BindView(R.id.contents)
+    TextView first_contents;
+    @BindView(R.id.commentCount)
+    TextView first_commentCount;
+    @BindView(R.id.likeCount)
+    TextView first_likeCount;
+    @BindView(R.id.line)
+    View first_line;
+    @BindView(R.id.backImage)
+    ImageView first_backImage;
+    @BindView(R.id.contents_like)
+    ImageButton first_contents_like;
+    @BindView(R.id.contents_comment)
+    ImageView first_contents_comment;
+    @BindView(R.id.tv_writer)
+    TextView first_tv_writer;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_main);
+        setContentView(R.layout.activity_main_start);
         ButterKnife.bind(this);
         getStatusBarHeight();
         setActionbarMarginTop(topFrame);
         initView();
         loadData(0);
     }
+
+    private void setFirstCard(CardDataModel cardInfo)
+    {
+        Glide.with(getBaseContext()).load(cardInfo.image_url).into(first_backImage);
+        first_contents.setText( cardInfo.description );
+
+        int fontColor = Color.parseColor(cardInfo.color);
+
+        UserModel user = cardInfo.user;
+        first_tv_writer.setText(user.name);
+        first_tv_writer.setTextColor(fontColor);
+
+        first_contents.setTextColor(fontColor);
+        first_commentCount.setText( String.valueOf( cardInfo.comment_count ) );
+        first_commentCount.setTextColor(fontColor);
+        first_likeCount.setText( String.valueOf( cardInfo.like_count ) );
+        first_likeCount.setTextColor(fontColor);
+        if(cardInfo.is_liked) {
+            first_contents_like.setSelected(true);
+            first_contents_like.setColorFilter(null);
+        } else {
+            first_contents_like.setColorFilter(fontColor);
+        }
+        first_contents_comment.setColorFilter(fontColor);
+        first_line.setBackgroundColor(fontColor);
+    }
+
     public void getStatusBarHeight(){
         int statusHeight = 0;
         int screenSizeType = (this.getResources().getConfiguration().screenLayout &
@@ -90,33 +149,39 @@ public class StackCardActivity extends AppCompatActivity {
         topLayoutParams.topMargin = StatusBarHeight;
         view.setLayoutParams(topLayoutParams);
     }
+
     private void initView() {
         mStackLayout = (StackLayout) findViewById(R.id.stack_layout);
         stackCardAdapter = new CardAdapter( this,results = new ArrayList<>());
         stackCardAdapter.setOnItemGestureListener(new CardAdapter.SimpleOnGestureListener() {
             @Override
             public void onSingleTapConfirmed(CardDataModel cardInfo, int position) {
-                curPosition = position;
-                Intent intent = new Intent( getBaseContext(), DetailCardActivity.class );
-                intent.putExtra( "cardInfo", cardInfo);
-                intent.putExtra( "beforeAct", Constants.ACTIVITY_STACKCARD);
-                startActivityForResult(intent,Constants.ACTIVITY_RESULT_STACKCARD);
-                overridePendingTransition(R.anim.load_fadein,R.anim.load_fadeout);
+                if(!isFirstTouch)
+                {
+                    curPosition = position;
+                    Intent intent = new Intent( getBaseContext(), DetailCardActivity.class );
+                    intent.putExtra( "cardInfo", cardInfo);
+                    intent.putExtra( "beforeAct", Constants.ACTIVITY_STACKCARD);
+                    startActivityForResult(intent,Constants.ACTIVITY_RESULT_STACKCARD);
+                    overridePendingTransition(R.anim.load_fadein,R.anim.load_fadeout);
+                }
             }
 
             @Override
             public void onDoubleTap(final int position) {
-                CardDataModel currData = results.get(position);
-
-                likeMotion();
-                if(!currData.is_liked)
+                if(!isFirstTouch)
                 {
-                    postDoLike(currData.id, position);
+                    CardDataModel currData = results.get(position);
+
+                    likeMotion();
+                    if(!currData.is_liked)
+                    {
+                        postDoLike(currData.id, position);
+                    }
                 }
-
             }
-
         });
+
         stackCardAdapter.setOnItemClickListener(new CardAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(CardDataModel cardInfo, int position) {
@@ -148,6 +213,18 @@ public class StackCardActivity extends AppCompatActivity {
                 }
             }
         });
+
+//        View.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                Toast.makeText(getBaseContext(),"xjcl",Toast.LENGTH_SHORT).show();
+//                if(isFirstTouch){
+//                    moveToTopAnimation();
+////                    isFirstTouch = false;
+//                }
+//                return false;
+//            }
+//        });
     }
 
     private void likeMotion()
@@ -219,6 +296,7 @@ public class StackCardActivity extends AppCompatActivity {
 
     }
 
+
     public void loadData(final int dataOffset) {
         String uuid =  PropertyManagement.getUserId(this);
         MooDumDumService.of().getContents( uuid , dataOffset ).enqueue(new Callback<CardListModel>() {
@@ -226,10 +304,15 @@ public class StackCardActivity extends AppCompatActivity {
             public void onResponse(Call<CardListModel> call, final Response<CardListModel> response) {
                 if (response.isSuccessful()) {
                     final CardListModel items = response.body();
+                    setFirstCard(items.result.get(0));
 //                    results = items.getResult();
                     if( items.next == null) {
 //                        noMoreData = true;
                     }
+
+//                    Glide.with(getBaseContext()).load(data.image_url).into(img_back_first);
+//                    tv_contents_first.setText(data.description);
+//                    tv_writer_first.setText(data.user.name);
                     new Handler().postDelayed(new Runnable() {
 
                         @Override
@@ -288,10 +371,27 @@ public class StackCardActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.load_fadein,R.anim.load_fadeout);
     }
 
+    @OnClick({R.id.layout_top, R.id.layout_bottom})
+    public void clike(View view)
+    {
+        if(isFirstTouch)
+        {
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    layout_bottom.setVisibility(View.INVISIBLE);
+                    layout_top.setVisibility(View.INVISIBLE);
+                    isFirstTouch = false;
+    //                ConstraintLayout.LayoutParams pControl = (ConstraintLayout.LayoutParams) layout_bottom.getLayoutParams();
+    //                pControl.topToTop = 0;
+    //                layout_bottom.setLayoutParams(pControl);
+                }
+            }, 1000);
+            Animation animation = AnimationUtils.loadAnimation(this, R.anim.anim_move_top);
+            layout_top.startAnimation(animation);
+            layout_bottom.startAnimation(animation);
+        }
 
-//    @Override
-//    public void onDestroyView() {
-//        super.onDestroyView();
-////        null.unbind();
-//    }
+    }
 }

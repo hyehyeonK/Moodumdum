@@ -37,6 +37,19 @@
             app:layout_constraintStart_toEndOf="@+id/btn_back"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageButton
+            android:id="@+id/btn_more"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="right"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:padding="15dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/btn_more"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
     </android.support.constraint.ConstraintLayout>
 
 </FrameLayout>

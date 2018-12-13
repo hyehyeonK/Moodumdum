@@ -1,86 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/view"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#ffff"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <ImageView
+        android:id="@+id/noDataImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/nullwrite"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/noDataText"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="@string/noAnyContents"
+        android:textAlignment="center"
+        android:textColor="#d3d3d3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/noDataImg" />
+
+    <com.fashare.stack_layout.StackLayout
+        android:id="@+id/stack_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:transitionName="cardStack" />
 
-        <FrameLayout
-            android:id="@+id/up"
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:background="@drawable/top_gradient"/>
+
+    <FrameLayout
+        android:id="@+id/layout_top"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#ffff"
+        app:layout_constraintBottom_toTopOf="@+id/guidelines"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/iv_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="70dp"
+            app:srcCompat="@drawable/start_top" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/layout_bottom"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guidelines">
+      <include layout="@layout/item_card"/>
+    </FrameLayout>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guidelines"
+        app:layout_constraintGuide_percent="0.45"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <include
+        android:id="@+id/topView"
+        layout="@layout/fragment_top" />
+    <include layout="@layout/fragment_bottom" />
+    <FrameLayout
+        android:id="@+id/motionLikeView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible">
+        <View
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="4.5">
-
-            <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="30dp"
-                android:layout_marginTop="70dp"
-                app:srcCompat="@drawable/start_top" />
-
-        </FrameLayout>
-
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/mainLayoutForCardView"
+            android:layout_height="match_parent"
+            android:background="#000000"
+            android:alpha="0.5"/>
+        <ImageView
+            android:id="@+id/motionImage"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="5.5"
-            android:transitionName="cardStack">
-
-            <ImageView
-                android:id="@+id/firstbackImage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="fitXY" />
-
-            <TextView
-                android:id="@+id/firstContents"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:ellipsize="end"
-                android:maxLines="6"
-                android:textAlignment="center"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_chainStyle="packed" />
-
-            <!--<TextView-->
-                <!--android:id="@+id/firstWriter"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginBottom="70dp"-->
-                <!--android:layout_marginEnd="16dp"-->
-                <!--android:layout_marginStart="16dp"-->
-                <!--android:ellipsize="end"-->
-                <!--android:maxLines="1"-->
-                <!--android:textStyle="bold"-->
-                <!--app:layout_constraintBottom_toBottomOf="parent"-->
-                <!--app:layout_constraintEnd_toEndOf="parent"-->
-                <!--app:layout_constraintHorizontal_bias="0.5"-->
-                <!--app:layout_constraintStart_toStartOf="parent"-->
-                <!--app:layout_constraintTop_toBottomOf="@+id/firstContents" />-->
-        </android.support.constraint.ConstraintLayout>
-
-    </LinearLayout>
-
+            android:layout_height="match_parent"
+            />
+    </FrameLayout>
+    <ImageView
+        android:id="@+id/introGif"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent"
+        android:scaleType="fitXY"/>
 </android.support.constraint.ConstraintLayout>

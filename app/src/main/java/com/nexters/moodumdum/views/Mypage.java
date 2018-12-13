@@ -131,5 +131,11 @@ public class Mypage extends AppCompatActivity implements FragmentMyJomun.OnFragm
         startActivityForResult( intent, 1  );
         overridePendingTransition(R.anim.load_fadein,R.anim.load_fadeout);
     }
+    @OnClick(R.id.btn_info)
+    public void onBtnInfoClicked() {
+        Intent intent = new Intent( this, AppInfoActivity.class );
+        startActivity( intent );
+        overridePendingTransition(R.anim.load_fadein,R.anim.load_fadeout);
+    }
 
 }

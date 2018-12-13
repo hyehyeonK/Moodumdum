@@ -37,6 +37,6 @@ public class InitialSecondFragment extends Fragment {
     @OnClick(R.id.startBtn)
     public void startMooDumDum(){
         MainActivity mainActivity = (MainActivity) getActivity();
-        mainActivity.setCardFragment();
+//        mainActivity.setCardFragment();
     }
 }
