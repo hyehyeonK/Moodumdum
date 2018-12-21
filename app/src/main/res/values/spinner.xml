@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="report">
+        <item>가장 적절한 범주 선택하세요</item>
+        <item>음란성 글</item>
+        <item>광고성 글</item>
+        <item>부적절한 언어</item>
+        <item>상대방을 모함하는 내용</item>
+        <item>직접적 상호 / 타인 언급 </item>
+        <item>기타 (개인 작성)</item>
+    </string-array>
+</resources>

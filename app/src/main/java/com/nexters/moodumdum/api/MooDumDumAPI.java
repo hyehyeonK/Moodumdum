@@ -148,4 +148,11 @@ public interface MooDumDumAPI {
     @DELETE("api/board/like/{user}/{board}/")
     Call<ServerResponse> deleteContentsLike( @Path( "user" ) String user_id,
                                              @Path( "board" ) BigInteger boardId);
+
+    @FormUrlEncoded
+    @POST("api/declare/")
+    Call<ServerResponse> declareBadThings(@Field("user") String user_id,
+                                          @Field("title") String title,
+                                          @Field("description") String description,
+                                          @Field("board_id") BigInteger boardId);
 }

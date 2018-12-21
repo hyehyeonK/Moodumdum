@@ -34,6 +34,7 @@ import com.nexters.moodumdum.model.CardDataModel;
 import com.nexters.moodumdum.model.CommentModel;
 import com.nexters.moodumdum.model.ServerResponse;
 import com.nexters.moodumdum.utils.CustomDialog;
+import com.nexters.moodumdum.utils.CustomReportDialog;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import butterknife.BindView;
@@ -55,6 +56,7 @@ public class DetailCardActivity extends AppCompatActivity {
     private String uuid;
     private int StatusBarHeight;
     CustomDialog dialog;
+    CustomReportDialog reportDialog;
 
     @BindView(R.id.topFrame)
     ConstraintLayout topFrame;
@@ -358,6 +360,9 @@ public class DetailCardActivity extends AppCompatActivity {
         else
         {
             //신고 다이얼로그
+            reportDialog = CustomReportDialog.closeDialog(reportDialog);
+            reportDialog = new CustomReportDialog(this, cardData.user.user, cardData.id);
+            reportDialog.show();
         }
 
     }

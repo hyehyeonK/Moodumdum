@@ -25,4 +25,9 @@
     <string name="dialog_out">이용 제한 내요오오옹옹</string>
     <string name="dialog_btn_ok">네, 알겠습니다.</string>
 
+    <string name="report_title">신고를 총 3회 받은 사용자는 무덤덤에서 글을 쓸 수 없습니다.</string>
+    <string name="report_select">가장 적절한 범주 선택하세요</string>
+    <string name="report_reject">신고 사유를 선택주세요.</string>
+    <string name="report_btn">신고하기</string>
+
 </resources>

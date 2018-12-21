@@ -93,4 +93,8 @@ public class MooDumDumService {
         return api.deleteContentsLike(user_id, board_id);
     }
 
+    public Call<ServerResponse> declareBadThings(String user_id, String title, String descript, BigInteger board_id) {
+        return api.declareBadThings(user_id,title,descript,board_id);
+    }
+
 }
