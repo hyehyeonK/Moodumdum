@@ -74,6 +74,11 @@ public class StackCardActivity extends AppCompatActivity {
     @BindView(R.id.layout_bottom)
     FrameLayout layout_bottom;
 
+    @BindView(R.id.onClickToMenu)
+    ImageButton btn_Menu;
+    @BindView(R.id.onClickToMyPage)
+    ImageButton btn_Mypage;
+
     //FirstCardView
     @BindView(R.id.contents)
     TextView first_contents;
@@ -151,6 +156,8 @@ public class StackCardActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        btn_Menu.setColorFilter(Color.DKGRAY);
+        btn_Mypage.setColorFilter(Color.DKGRAY);
         mStackLayout = (StackLayout) findViewById(R.id.stack_layout);
         stackCardAdapter = new CardAdapter( this,results = new ArrayList<>());
         stackCardAdapter.setOnItemGestureListener(new CardAdapter.SimpleOnGestureListener() {
@@ -213,18 +220,6 @@ public class StackCardActivity extends AppCompatActivity {
                 }
             }
         });
-
-//        View.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                Toast.makeText(getBaseContext(),"xjcl",Toast.LENGTH_SHORT).show();
-//                if(isFirstTouch){
-//                    moveToTopAnimation();
-////                    isFirstTouch = false;
-//                }
-//                return false;
-//            }
-//        });
     }
 
     private void likeMotion()
@@ -297,7 +292,7 @@ public class StackCardActivity extends AppCompatActivity {
     }
 
 
-    public void loadData(final int dataOffset) {
+    private void loadData(final int dataOffset) {
         String uuid =  PropertyManagement.getUserId(this);
         MooDumDumService.of().getContents( uuid , dataOffset ).enqueue(new Callback<CardListModel>() {
             @Override
@@ -305,14 +300,11 @@ public class StackCardActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     final CardListModel items = response.body();
                     setFirstCard(items.result.get(0));
-//                    results = items.getResult();
+
                     if( items.next == null) {
 //                        noMoreData = true;
                     }
 
-//                    Glide.with(getBaseContext()).load(data.image_url).into(img_back_first);
-//                    tv_contents_first.setText(data.description);
-//                    tv_writer_first.setText(data.user.name);
                     new Handler().postDelayed(new Runnable() {
 
                         @Override
@@ -336,6 +328,7 @@ public class StackCardActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (resultCode == Activity.RESULT_OK && requestCode == Constants.ACTIVITY_RESULT_STACKCARD) {
             boolean isLike = data.getBooleanExtra("IS_LIKE",false);
             int countLike = data.getIntExtra("COUNT_LIKE",0);
@@ -344,13 +337,11 @@ public class StackCardActivity extends AppCompatActivity {
             results.get(curPosition).like_count = countLike;
             results.get(curPosition).comment_count = countComment;
             stackCardAdapter.notifyDataSetChanged();
-
         }
     }
 
     @OnClick(R.id.onClickToMyPage)
     void onClickToMyPage() {
-
         Intent intent = new Intent( this, Mypage.class );
         intent.putExtra( "plusContents", "no" );
         startActivity( intent );
@@ -372,7 +363,7 @@ public class StackCardActivity extends AppCompatActivity {
     }
 
     @OnClick({R.id.layout_top, R.id.layout_bottom})
-    public void clike(View view)
+    public void click(View view)
     {
         if(isFirstTouch)
         {
@@ -382,6 +373,8 @@ public class StackCardActivity extends AppCompatActivity {
                 public void run() {
                     layout_bottom.setVisibility(View.INVISIBLE);
                     layout_top.setVisibility(View.INVISIBLE);
+                    btn_Menu.setColorFilter(null);
+                    btn_Mypage.setColorFilter(null);
                     isFirstTouch = false;
     //                ConstraintLayout.LayoutParams pControl = (ConstraintLayout.LayoutParams) layout_bottom.getLayoutParams();
     //                pControl.topToTop = 0;

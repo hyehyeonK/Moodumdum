@@ -42,7 +42,6 @@ public class FragmentMyJomun extends Fragment {
     private MyPageRecyclerViewAdapter myPageMyJomunAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     List<CardDataModel> cardList;
-    private int currPostion = 0;
 
     @BindView(R.id.recyclerView)
     RecyclerView myPageRecyclerView;
@@ -77,10 +76,8 @@ public class FragmentMyJomun extends Fragment {
         myPageMyJomunAdapter.setOnItemClickListener(new MyPageRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(CardDataModel cardInfo, int postion) {
-                currPostion = postion;
                 Intent intent = new Intent( getContext(), DetailCardActivity.class );
                 intent.putExtra( "cardInfo", cardInfo);
-//                startActivityForResult(intent, Constants.ACTIVITY_RESULT_MYPAGE);
                 startActivity(intent);
             }
         });
@@ -145,20 +142,7 @@ public class FragmentMyJomun extends Fragment {
 
             }
         });
-
     }
-
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (resultCode == Activity.RESULT_OK && requestCode == Constants.ACTIVITY_RESULT_MYPAGE) {
-//            boolean isLike = data.getBooleanExtra("IS_LIKE",true);
-//            if(!isLike){
-//                cardList.remove(currPostion);
-//                myPageMyJomunAdapter.notifyDataSetChanged();
-//            }
-//        }
-//    }
 
     @Override
     public void onDestroyView() {

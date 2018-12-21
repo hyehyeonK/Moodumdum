@@ -53,7 +53,6 @@ public class FragmentMyWrite extends Fragment {
 
     private MyPageRecyclerViewAdapter myPageMyContentsAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-//    private ArrayList<MywriteData> mMywriteData;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -82,6 +81,7 @@ public class FragmentMyWrite extends Fragment {
             public void onItemClick(CardDataModel cardInfo, int postion) {
                 Intent intent = new Intent( getContext(), DetailCardActivity.class );
                 intent.putExtra( "cardInfo", cardInfo);
+                startActivity(intent);
             }
         });
         myPageRecyclerView.setAdapter( myPageMyContentsAdapter );

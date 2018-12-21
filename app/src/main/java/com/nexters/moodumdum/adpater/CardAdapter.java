@@ -40,14 +40,6 @@ public class CardAdapter extends StackLayout.Adapter<CardAdapter.ViewHolder>{
         void onItemClick(CardDataModel cardInfo, int position);
     }
 
-    public void setData(List<CardDataModel> data) {
-        cardList = data;
-    }
-
-    public List<CardDataModel> getData() {
-        return cardList;
-    }
-
     public CardAdapter(Context context, List<CardDataModel> cardList) {
         this.context = context;
         this.cardList = cardList;
@@ -58,6 +50,13 @@ public class CardAdapter extends StackLayout.Adapter<CardAdapter.ViewHolder>{
     }
     public void setOnItemClickListener(CardAdapter.OnItemClickListener listener) {
         onClickListener = listener;
+    }
+    public void setData(List<CardDataModel> data) {
+        cardList = data;
+    }
+
+    public List<CardDataModel> getData() {
+        return cardList;
     }
 
     @Override

@@ -42,6 +42,7 @@ public class CategoryActivity extends AppCompatActivity {
     public void onBackPressed() {
         gotoMain();
     }
+
     @OnClick(R.id.btn_back)
     public void gotoMain() {
         this.finish();

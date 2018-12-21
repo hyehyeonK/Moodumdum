@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Handler;
 import android.support.v7.app.AppCompatDialog;
 import android.widget.ImageView;
 
@@ -49,7 +50,14 @@ public class BaseApplication extends Application {
 
     public void progressOFF() {
         if (progressDialog != null && progressDialog.isShowing()) {
-            progressDialog.dismiss();
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+
+                    progressDialog.dismiss();
+                }
+            },500);
         }
     }
 }

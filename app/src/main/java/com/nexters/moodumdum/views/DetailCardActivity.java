@@ -88,6 +88,8 @@ public class DetailCardActivity extends AppCompatActivity {
     LinearLayout backlayout;
     @BindView(R.id.sliding)
     SlidingUpPanelLayout sliding;
+    @BindView(R.id.btn_more)
+    ImageButton btn_more;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -107,6 +109,10 @@ public class DetailCardActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        if(cardData.user.user.equals(uuid))
+        {
+            btn_more.setSelected(true);
+        }
         Glide.with( this ).load(cardData.image_url).crossFade().into(backImage);
         String currentColor = cardData.color;
         contents.setText(cardData.description);
@@ -128,6 +134,7 @@ public class DetailCardActivity extends AppCompatActivity {
             }
         });
         btn_back.setColorFilter(Color.parseColor(currentColor));
+        btn_more.setColorFilter(Color.parseColor(currentColor));
         getCommentHeader();
 
 
@@ -152,11 +159,13 @@ public class DetailCardActivity extends AppCompatActivity {
                     contents.setMovementMethod(scroll);
                     contents.setVisibility(View.VISIBLE);
                     btn_back.setVisibility(View.VISIBLE);
+                    btn_more.setVisibility(View.VISIBLE);
                 }
                 else {
                     contents.setMovementMethod(null);
                     contents.setVisibility(View.INVISIBLE);
                     btn_back.setVisibility(View.INVISIBLE);
+                    btn_more.setVisibility(View.INVISIBLE);
                 }
             }
 
@@ -333,14 +342,23 @@ public class DetailCardActivity extends AppCompatActivity {
     @OnClick(R.id.btn_more)
     public void onClickBtnMore()
     {
-        dialog = CustomDialog.closeDialog(dialog);
-        dialog = new CustomDialog(this, R.string.dialog_delete_title, R.string.dialog_delete, new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog = CustomDialog.closeDialog(dialog);
-                //글 삭제
-            }
-        });
-        dialog.show();
+        //MyContents
+        if(btn_more.isSelected())
+        {
+            dialog = CustomDialog.closeDialog(dialog);
+            dialog = new CustomDialog(this, R.string.dialog_delete_title, R.string.dialog_delete, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog = CustomDialog.closeDialog(dialog);
+                    //글 삭제
+                }
+            });
+            dialog.show();
+        }
+        else
+        {
+            //신고 다이얼로그
+        }
+
     }
 }

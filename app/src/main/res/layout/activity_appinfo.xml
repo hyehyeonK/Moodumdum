@@ -25,128 +25,131 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/gray"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout6"
         app:layout_constraintTop_toBottomOf="@+id/tv_hello" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout6"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="110dp"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="8dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view_line">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="인정민"
-            android:textColor="@color/darkGray"
-            android:textSize="15sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="wud4510@gmail.com"
-            android:textColor="@color/darkGray"
-            android:textSize="19sp" />
-
-        <View
+        <LinearLayout
+            android:id="@+id/linearLayout6"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="14dp"
-            android:background="@color/gray" />
-        <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="인정민"
-            android:textColor="@color/darkGray"
-            android:textSize="15sp" />
+            android:layout_marginEnd="110dp"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="wud4510@gmail.com"
-            android:textColor="@color/darkGray"
-            android:textSize="19sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="인정민"
+                android:textColor="@color/darkGray"
+                android:textSize="15sp" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="14dp"
-            android:background="@color/gray" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="인정민"
-            android:textColor="@color/darkGray"
-            android:textSize="15sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="wud4510@gmail.com"
+                android:textColor="@color/darkGray"
+                android:textSize="19sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="wud4510@gmail.com"
-            android:textColor="@color/darkGray"
-            android:textSize="19sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="14dp"
+                android:background="@color/gray" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="김세진"
+                android:textColor="@color/darkGray"
+                android:textSize="15sp" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="14dp"
-            android:background="@color/gray" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="인정민"
-            android:textColor="@color/darkGray"
-            android:textSize="15sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="kiasajin3350@naver.com"
+                android:textColor="@color/darkGray"
+                android:textSize="19sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="wud4510@gmail.com"
-            android:textColor="@color/darkGray"
-            android:textSize="19sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="14dp"
+                android:background="@color/gray" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="김혜현"
+                android:textColor="@color/darkGray"
+                android:textSize="15sp" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="14dp"
-            android:background="@color/gray" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="인정민"
-            android:textColor="@color/darkGray"
-            android:textSize="15sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="kskhh07@gmail.com"
+                android:textColor="@color/darkGray"
+                android:textSize="19sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="wud4510@gmail.com"
-            android:textColor="@color/darkGray"
-            android:textSize="19sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="14dp"
+                android:background="@color/gray" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="김소연"
+                android:textColor="@color/darkGray"
+                android:textSize="15sp" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="14dp"
-            android:background="@color/gray" />
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="ese2003@naver.com"
+                android:textColor="@color/darkGray"
+                android:textSize="19sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="14dp"
+                android:background="@color/gray" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="장호동"
+                android:textColor="@color/darkGray"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="jhd9206@gmail.com"
+                android:textColor="@color/darkGray"
+                android:textSize="19sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="14dp"
+                android:background="@color/gray" />
+        </LinearLayout>
+    </ScrollView>
+
 
     <ImageView
         android:layout_width="58dp"

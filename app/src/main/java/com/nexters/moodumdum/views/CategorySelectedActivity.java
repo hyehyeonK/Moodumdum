@@ -106,7 +106,7 @@ public class CategorySelectedActivity extends BaseActivity {
 //        categoryAdapter.reloadInfo(newInfo);
 //    }
     private void initView() {
-        progressON();
+        //progressON();
         categoryAdapter.setOnItemClickListener(new CategoryAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(CardDataModel cardInfo, int position) {
@@ -151,6 +151,7 @@ public class CategorySelectedActivity extends BaseActivity {
             }
         });
     }
+
     private void getCategoryInfo() {
         MooDumDumService.of().getCategoryInfo(categoryID).enqueue(new Callback<CategoryInfoModel>() {
             @Override
@@ -159,7 +160,6 @@ public class CategorySelectedActivity extends BaseActivity {
                     final CategoryInfoModel category = response.body();
                     categoryTitle.setText(category.getTitle() + " 무덤");
                     Glide.with(getBaseContext()).load(category.getBanner()).into(categoryBanner);
-
                 }
             }
             @Override
@@ -186,7 +186,7 @@ public class CategorySelectedActivity extends BaseActivity {
                     categoryAdapter.notifyDataSetChanged();
                     dataOffset += 10;
                     loadingBar.setVisibility(View.INVISIBLE);
-                    progressOFF();
+                    //progressOFF();
                 }
             }
 
@@ -207,8 +207,8 @@ public class CategorySelectedActivity extends BaseActivity {
                     if(0 == dataOffset )
                     {
                         categoryAdapter.clearData();
-
                     }
+
                     categoryAdapter.getData().addAll( items.result );
                     categoryAdapter.notifyDataSetChanged();
                     dataOffset += 10;
@@ -221,6 +221,7 @@ public class CategorySelectedActivity extends BaseActivity {
             }
         });
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -250,9 +251,10 @@ public class CategorySelectedActivity extends BaseActivity {
                     break;
             }
         } else {
-            Toast.makeText(getBaseContext(), "더이상 로드할 글이 없습니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), "더이상 불러 올 기억이 없어요.", Toast.LENGTH_SHORT).show();
         }
     }
+
     @OnClick(R.id.latestBtn)
     public void latestList(){
         loadingBar.setVisibility(View.VISIBLE);
@@ -281,6 +283,11 @@ public class CategorySelectedActivity extends BaseActivity {
                 scrollView.scrollTo(0,0);
             }
         },500);
+    }
+
+    @Override
+    public void onBackPressed() {
+        onBtnBackClicked();
     }
 
     @OnClick(R.id.btn_back)
