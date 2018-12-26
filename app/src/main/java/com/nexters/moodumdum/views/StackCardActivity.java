@@ -51,15 +51,16 @@ import retrofit2.Response;
  */
 
 public class StackCardActivity extends AppCompatActivity {
-    StackLayout mStackLayout;
-    CardAdapter stackCardAdapter;
+    public static Activity _StackCardActivity;
+    private StackLayout mStackLayout;
+    private CardAdapter stackCardAdapter;
 
-    List<CardDataModel> results = new ArrayList<>();
+    private List<CardDataModel> results = new ArrayList<>();
 
-    boolean isFirstTouch = true;
-    int curPage = 0;
-    int curPosition = 0;
-    int StatusBarHeight;
+    private boolean isFirstTouch = true;
+    private int curPage = 0;
+    private int curPosition = 0;
+    private int StatusBarHeight;
 
     @BindView(R.id.topFrame)
     ConstraintLayout topFrame;
@@ -102,12 +103,20 @@ public class StackCardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_start);
         ButterKnife.bind(this);
+        _StackCardActivity = StackCardActivity.this;
         getStatusBarHeight();
         setActionbarMarginTop(topFrame);
         initView();
         loadData(0);
     }
 
+    public void refreshActivity()
+    {
+        curPage = 0;
+        curPosition = 0;
+        results.clear();
+        loadData(0);
+    }
     private void setFirstCard(CardDataModel cardInfo)
     {
         Glide.with(getBaseContext()).load(cardInfo.image_url).into(first_backImage);
@@ -134,7 +143,7 @@ public class StackCardActivity extends AppCompatActivity {
         first_line.setBackgroundColor(fontColor);
     }
 
-    public void getStatusBarHeight(){
+    private void getStatusBarHeight(){
         int statusHeight = 0;
         int screenSizeType = (this.getResources().getConfiguration().screenLayout &
                 Configuration.SCREENLAYOUT_SIZE_MASK);
@@ -149,7 +158,7 @@ public class StackCardActivity extends AppCompatActivity {
         StatusBarHeight = statusHeight;
     }
 
-    public void setActionbarMarginTop(final View view){
+    private void setActionbarMarginTop(final View view){
         FrameLayout.LayoutParams topLayoutParams = (FrameLayout.LayoutParams) view.getLayoutParams();
         topLayoutParams.topMargin = StatusBarHeight;
         view.setLayoutParams(topLayoutParams);
@@ -299,8 +308,10 @@ public class StackCardActivity extends AppCompatActivity {
             public void onResponse(Call<CardListModel> call, final Response<CardListModel> response) {
                 if (response.isSuccessful()) {
                     final CardListModel items = response.body();
-                    setFirstCard(items.result.get(0));
-
+                    if(isFirstTouch)
+                    {
+                        setFirstCard(items.result.get(0));
+                    }
                     if( items.next == null) {
 //                        noMoreData = true;
                     }
@@ -341,7 +352,7 @@ public class StackCardActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.onClickToMyPage)
-    void onClickToMyPage() {
+    public void onClickToMyPage() {
         Intent intent = new Intent( this, Mypage.class );
         intent.putExtra( "plusContents", "no" );
         startActivity( intent );
@@ -349,7 +360,7 @@ public class StackCardActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.onClickToMenu)
-    void onClickToMenu() {
+    public void onClickToMenu() {
         Intent intent = new Intent( this, CategoryActivity.class );
         startActivity( intent );
         overridePendingTransition(R.anim.load_fadein,R.anim.load_fadeout);
@@ -363,7 +374,7 @@ public class StackCardActivity extends AppCompatActivity {
     }
 
     @OnClick({R.id.layout_top, R.id.layout_bottom})
-    public void click(View view)
+    public void firstClick(View view)
     {
         if(isFirstTouch)
         {
@@ -376,9 +387,6 @@ public class StackCardActivity extends AppCompatActivity {
                     btn_Menu.setColorFilter(null);
                     btn_Mypage.setColorFilter(null);
                     isFirstTouch = false;
-    //                ConstraintLayout.LayoutParams pControl = (ConstraintLayout.LayoutParams) layout_bottom.getLayoutParams();
-    //                pControl.topToTop = 0;
-    //                layout_bottom.setLayoutParams(pControl);
                 }
             }, 1000);
             Animation animation = AnimationUtils.loadAnimation(this, R.anim.anim_move_top);

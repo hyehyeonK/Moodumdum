@@ -144,15 +144,28 @@ public interface MooDumDumAPI {
                                         @Field( "profile_image" ) String profile_image);
 
 
-
+    //Card 좋아요 취소
     @DELETE("api/board/like/{user}/{board}/")
     Call<ServerResponse> deleteContentsLike( @Path( "user" ) String user_id,
                                              @Path( "board" ) BigInteger boardId);
 
+    //신고하기
     @FormUrlEncoded
     @POST("api/declare/")
     Call<ServerResponse> declareBadThings(@Field("user") String user_id,
                                           @Field("title") String title,
                                           @Field("description") String description,
                                           @Field("board_id") BigInteger boardId);
+
+    //차단하기
+    @FormUrlEncoded
+    @POST("api/block/user")
+    Call<ServerResponse> blockUser(@Field("from_user") String myId,
+                                          @Field("to_user") String otherIid);
+
+    //내 글 삭제하기
+    @DELETE("api/board/{boardId}/")
+    Call<ServerResponse> deleteMyContents(@Path("boardId") BigInteger boardId);
+
+
 }

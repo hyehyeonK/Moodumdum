@@ -86,7 +86,9 @@ public class MooDumDumService {
     public Call<ServerResponse> deleteCommentLike(String user, BigInteger comment_id) {return api.deleteCommentLike( user, comment_id );}
 
     public Call<UserDataModel> getUserData(String user_id) {return api.getUserData( user_id );}
-    public Call<PutUserDataModel> putUserData(String user_id, String user, String name, String profile_image) {return api.putUserData( user_id, user,name , profile_image);}
+    public Call<PutUserDataModel> putUserData(String user_id, String user, String name, String profile_image) {
+        return api.putUserData( user_id, user,name , profile_image);
+    }
 
     //글 좋아요 취소
     public Call<ServerResponse> deleteContentsLike(String user_id, BigInteger board_id) {
@@ -95,6 +97,12 @@ public class MooDumDumService {
 
     public Call<ServerResponse> declareBadThings(String user_id, String title, String descript, BigInteger board_id) {
         return api.declareBadThings(user_id,title,descript,board_id);
+    }
+    public Call<ServerResponse> blockUser(String myId, String otherId) {
+        return api.blockUser(myId,otherId);
+    }
+    public Call<ServerResponse> deleteMyContents(BigInteger boardId) {
+        return api.deleteMyContents(boardId);
     }
 
 }

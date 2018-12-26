@@ -1,5 +1,6 @@
 package com.nexters.moodumdum.views;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -13,12 +14,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +36,7 @@ import com.nexters.moodumdum.common.PropertyManagement;
 import com.nexters.moodumdum.model.CardDataModel;
 import com.nexters.moodumdum.model.CommentModel;
 import com.nexters.moodumdum.model.ServerResponse;
+import com.nexters.moodumdum.model.UserModel;
 import com.nexters.moodumdum.utils.CustomDialog;
 import com.nexters.moodumdum.utils.CustomReportDialog;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
@@ -49,6 +53,7 @@ import retrofit2.Response;
  */
 
 public class DetailCardActivity extends AppCompatActivity {
+    private Context context;
     private CardDataModel cardData;
     private CommentAdapter mCommentAdapter;
     private LinearLayoutManager mLinearLayoutManager;
@@ -57,6 +62,7 @@ public class DetailCardActivity extends AppCompatActivity {
     private int StatusBarHeight;
     CustomDialog dialog;
     CustomReportDialog reportDialog;
+    PopupMenu popup;
 
     @BindView(R.id.topFrame)
     ConstraintLayout topFrame;
@@ -99,11 +105,12 @@ public class DetailCardActivity extends AppCompatActivity {
         setContentView( R.layout.activity_detailcard );
         ButterKnife.bind( this );
 
+        context = this;
         getStatusBarHeight();
         setActionbarMarginTop(topFrame);
         setActionbarMarginTop2(sliding);
 
-        uuid = PropertyManagement.getUserId(this);
+        uuid = PropertyManagement.getUserId(context);
         Intent intent = getIntent();
         cardData = (CardDataModel) intent.getSerializableExtra( "cardInfo" );
 
@@ -115,6 +122,34 @@ public class DetailCardActivity extends AppCompatActivity {
         {
             btn_more.setSelected(true);
         }
+        popup = new PopupMenu(context, btn_more);
+        popup.getMenuInflater().inflate(R.menu.menu_more, popup.getMenu());
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId())
+                {
+                    case R.id.block_user:
+                        dialog = CustomDialog.closeDialog(dialog);
+                        dialog = new CustomDialog(context, R.string.dialog_block_title, R.string.dialog_block, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                blockUser();
+                                dialog = CustomDialog.closeDialog(dialog);
+                            }
+                        });
+                        dialog.show();
+                        return true;
+                    case R.id.report_post:
+                        //신고 다이얼로그
+                        reportDialog = CustomReportDialog.closeDialog(reportDialog);
+                        reportDialog = new CustomReportDialog(getBaseContext(), cardData.user.user, cardData.id);
+                        reportDialog.show();
+                        return true;
+                }
+                return false;
+            }
+        });
         Glide.with( this ).load(cardData.image_url).crossFade().into(backImage);
         String currentColor = cardData.color;
         contents.setText(cardData.description);
@@ -141,8 +176,8 @@ public class DetailCardActivity extends AppCompatActivity {
 
 
 
-        mLinearLayoutManager = new LinearLayoutManager( this );
-        mCommentAdapter = new CommentAdapter( DetailCardActivity.this, Glide.with( this ) , likeCount, commentsCount);
+        mLinearLayoutManager = new LinearLayoutManager( context );
+        mCommentAdapter = new CommentAdapter( context, Glide.with( this ) , likeCount, commentsCount);
         CommentListView.setAdapter( mCommentAdapter );
         CommentListView.setNestedScrollingEnabled( false );
         CommentListView.setHasFixedSize( false );
@@ -178,7 +213,7 @@ public class DetailCardActivity extends AppCompatActivity {
 
 
     }
-    public void getStatusBarHeight(){
+    private void getStatusBarHeight(){
         int statusHeight = 0;
         int screenSizeType = (this.getResources().getConfiguration().screenLayout &
                 Configuration.SCREENLAYOUT_SIZE_MASK);
@@ -193,12 +228,12 @@ public class DetailCardActivity extends AppCompatActivity {
         StatusBarHeight = statusHeight;
     }
 
-    public void setActionbarMarginTop(final View view){
+    private void setActionbarMarginTop(final View view){
         FrameLayout.LayoutParams topLayoutParams = (FrameLayout.LayoutParams) view.getLayoutParams();
         topLayoutParams.topMargin = StatusBarHeight;
         view.setLayoutParams(topLayoutParams);
     }
-    public void setActionbarMarginTop2(final View view){
+    private void setActionbarMarginTop2(final View view){
         ConstraintLayout.LayoutParams topLayoutParams = (ConstraintLayout.LayoutParams) view.getLayoutParams();
         topLayoutParams.topMargin = StatusBarHeight;
         view.setLayoutParams(topLayoutParams);
@@ -226,7 +261,7 @@ public class DetailCardActivity extends AppCompatActivity {
             }
         } );
     }
-    public void PostComment() {
+    private void PostComment() {
         String description = contentsTest.getText().toString();
 
         MooDumDumService.of().postComment( uuid, cardData.id, description ).enqueue( new Callback<ServerResponse>() {
@@ -245,7 +280,7 @@ public class DetailCardActivity extends AppCompatActivity {
             }
         } );
     }
-    public void getCommentContent() {
+    private void getCommentContent() {
         MooDumDumService.of().getComment( cardData.id, uuid ).enqueue(new Callback<CommentModel>() {
             @Override
             public void onResponse(Call<CommentModel> call, Response<CommentModel> response) {
@@ -263,7 +298,7 @@ public class DetailCardActivity extends AppCompatActivity {
             }
         } );
     }
-    public void motionLikeAnimation(){
+    private void motionLikeAnimation(){
         motionView.setVisibility(View.VISIBLE);
         GlideDrawableImageViewTarget imageViewTarget = new GlideDrawableImageViewTarget(motionImg,1);
         Glide.with( this ).load(R.raw.motion_like).into(imageViewTarget);
@@ -275,7 +310,7 @@ public class DetailCardActivity extends AppCompatActivity {
             }
         },2800);
     }
-    public void postDoLike()
+    private void postDoLike()
     {
         MooDumDumService.of().postDoLike( cardData.id, uuid ).enqueue(new Callback<ServerResponse>() {
             @Override
@@ -295,7 +330,8 @@ public class DetailCardActivity extends AppCompatActivity {
             }
         } );
     }
-    public void cancelContentsLike(){
+
+    private void cancelContentsLike(){
         MooDumDumService.of().deleteContentsLike( uuid, cardData.id ).enqueue( new Callback<ServerResponse>() {
             @Override
             public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
@@ -309,6 +345,61 @@ public class DetailCardActivity extends AppCompatActivity {
             }
         } );
     }
+
+    //차단하기
+    private void blockUser()
+    {
+        final UserModel user = cardData.user;
+        MooDumDumService.of().blockUser( uuid, user.user).enqueue(new Callback<ServerResponse>() {
+            @Override
+            public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
+                if (response.isSuccessful())
+                {
+                    resetActivities();
+                    Toast.makeText(context,"'" + user.name + "'을 차단했습니다.",Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Toast.makeText(context,"'" + user.name + "'을 차단 실패."+response.message(),Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ServerResponse> call, Throwable t) {
+                Log.e("BlockUserFailure", t.getMessage());
+            }
+        });
+    }
+
+    private  void deleteContents()
+    {
+        MooDumDumService.of().deleteMyContents(cardData.id).enqueue(new Callback<ServerResponse>() {
+            @Override
+            public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
+                if (response.isSuccessful())
+                {
+                    resetActivities();
+                    Toast.makeText(context,"당신의 기억을 영원히 묻었어요.",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ServerResponse> call, Throwable t) {
+                Log.e("DeleteContentsFailure", t.getMessage());
+            }
+        });
+    }
+
+
+    private void resetActivities()
+    {
+        StackCardActivity SA =(StackCardActivity)StackCardActivity._StackCardActivity;
+        SA.refreshActivity();
+
+        this.finish();
+    }
+
+
 
     @Override
     public void onBackPressed() {
@@ -348,21 +439,19 @@ public class DetailCardActivity extends AppCompatActivity {
         if(btn_more.isSelected())
         {
             dialog = CustomDialog.closeDialog(dialog);
-            dialog = new CustomDialog(this, R.string.dialog_delete_title, R.string.dialog_delete, new View.OnClickListener() {
+            dialog = new CustomDialog(context, R.string.dialog_delete_title, R.string.dialog_delete, new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    dialog = CustomDialog.closeDialog(dialog);
                     //글 삭제
+                    deleteContents();
+                    dialog = CustomDialog.closeDialog(dialog);
                 }
             });
             dialog.show();
         }
         else
         {
-            //신고 다이얼로그
-            reportDialog = CustomReportDialog.closeDialog(reportDialog);
-            reportDialog = new CustomReportDialog(this, cardData.user.user, cardData.id);
-            reportDialog.show();
+            popup.show();
         }
 
     }

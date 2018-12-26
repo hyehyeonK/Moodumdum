@@ -34,6 +34,7 @@ public class CustomDialog extends Dialog {
     private String title, msg, btnName;
     private View.OnClickListener btnListener;
 
+    //one button
     public CustomDialog(@NonNull Context context, @StringRes int title, @StringRes int msg, @StringRes int btnName) {
         super(context, android.R.style.Theme_Translucent_NoTitleBar);
         this.title = getContext().getResources().getString(title);
@@ -41,6 +42,7 @@ public class CustomDialog extends Dialog {
         this.btnName = getContext().getResources().getString(btnName);
     }
 
+    //two button default(네 아니오)
     public CustomDialog(@NonNull Context context, @StringRes int title, @StringRes int msg, View.OnClickListener listener) {
         super(context, android.R.style.Theme_Translucent_NoTitleBar);
         this.title = getContext().getResources().getString(title);
