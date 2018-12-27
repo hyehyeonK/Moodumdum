@@ -19,6 +19,7 @@ import com.nexters.moodumdum.common.PropertyManagement;
 import com.nexters.moodumdum.fragments.FragmentMyJomun;
 import com.nexters.moodumdum.fragments.FragmentMyWrite;
 import com.nexters.moodumdum.model.UserDataModel;
+import com.nexters.moodumdum.utils.Constants;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -74,11 +75,44 @@ public class Mypage extends AppCompatActivity implements FragmentMyJomun.OnFragm
         getMyData();
     }
 
+    public void resetJoumunCount()
+    {
+        int likeCount = Integer.parseInt(mylikeCount.getText().toString()) -1;
+        mylikeCount.setText(String.valueOf(likeCount));
+    }
+    public void resetWriteCount()
+    {
+        int writeCount = Integer.parseInt(myBoardCount.getText().toString()) -1;
+        myBoardCount.setText(String.valueOf(writeCount));
+    }
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult( requestCode, resultCode, data );
-        PropertyManagement.getUserId( this );
-        myName.setText( PropertyManagement.getUserProfile( this ) );
+        if(resultCode == Activity.RESULT_OK)
+        {
+            switch (requestCode)
+            {
+                case Constants.RESULT_EDIT_INFO:
+                    PropertyManagement.getUserId( this );
+                    myName.setText( PropertyManagement.getUserProfile( this ) );
+                    break;
+
+                case Constants.RESULT_MYWRITE:
+                    FragmentMyWrite FW = (FragmentMyWrite) FragmentMyWrite._FragmentMyWrite;
+                    FW.deleteMyWrite(data.getIntExtra("_position",-1));
+                    break;
+
+                case Constants.RESULT_MYJOMUN:
+                    if(!data.getBooleanExtra("IS_LIKE",true))
+                    {
+                        FragmentMyJomun FJ = (FragmentMyJomun) FragmentMyJomun._FragmentMyJomun;
+                        FJ.deleteMyJomun(data.getIntExtra("_position",-1));
+                    }
+                    break;
+            }
+        }
     }
 
     public void getMyData() {
@@ -128,7 +162,7 @@ public class Mypage extends AppCompatActivity implements FragmentMyJomun.OnFragm
     @OnClick(R.id.btn_editName)
     public void onBtnEditNameClicked() {
         Intent intent = new Intent( this, NameEditActivity.class );
-        startActivityForResult( intent, 1  );
+        startActivityForResult( intent, Constants.RESULT_EDIT_INFO);
         overridePendingTransition(R.anim.load_fadein,R.anim.load_fadeout);
     }
     @OnClick(R.id.btn_info)

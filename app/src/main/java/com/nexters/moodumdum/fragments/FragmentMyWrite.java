@@ -21,6 +21,7 @@ import com.nexters.moodumdum.api.MooDumDumService;
 import com.nexters.moodumdum.common.PropertyManagement;
 import com.nexters.moodumdum.model.CardDataModel;
 import com.nexters.moodumdum.model.CardListModel;
+import com.nexters.moodumdum.utils.Constants;
 import com.nexters.moodumdum.views.DetailCardActivity;
 import com.nexters.moodumdum.views.Mypage;
 
@@ -37,6 +38,7 @@ import retrofit2.Response;
 
 
 public class FragmentMyWrite extends Fragment {
+    public static Fragment _FragmentMyWrite;
     public RequestManager mGlideRequestManager;
     private UUID uuid;
     int dataOffset;
@@ -58,6 +60,7 @@ public class FragmentMyWrite extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         Mypage myPage = (Mypage) Mypage.activity;
+        _FragmentMyWrite = this;
         mGlideRequestManager = myPage.glideRequestManager;
         dataOffset = 0;
         noMoreData = false;
@@ -81,7 +84,8 @@ public class FragmentMyWrite extends Fragment {
             public void onItemClick(CardDataModel cardInfo, int postion) {
                 Intent intent = new Intent( getContext(), DetailCardActivity.class );
                 intent.putExtra( "cardInfo", cardInfo);
-                startActivity(intent);
+                intent.putExtra("_position", postion);
+                getActivity().startActivityForResult(intent, Constants.RESULT_MYWRITE);
             }
         });
         myPageRecyclerView.setAdapter( myPageMyContentsAdapter );
@@ -103,6 +107,17 @@ public class FragmentMyWrite extends Fragment {
 
         return view;
     }
+
+    public void deleteMyWrite(int position)
+    {
+        if(position != -1)
+        {
+           myPageMyContentsAdapter.deleteItem(position);
+            Mypage myPage = (Mypage) Mypage.activity;
+            myPage.resetWriteCount();
+        }
+    }
+
     public boolean isGridBottom(RecyclerView recyclerView) {
         GridLayoutManager layoutManager = (GridLayoutManager) recyclerView.getLayoutManager();
         int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();

@@ -113,7 +113,6 @@ public class DetailCardActivity extends AppCompatActivity {
         uuid = PropertyManagement.getUserId(context);
         Intent intent = getIntent();
         cardData = (CardDataModel) intent.getSerializableExtra( "cardInfo" );
-
         initView();
     }
 
@@ -355,7 +354,7 @@ public class DetailCardActivity extends AppCompatActivity {
             public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
                 if (response.isSuccessful())
                 {
-                    resetActivities();
+                    resetStackCard();
                     Toast.makeText(context,"'" + user.name + "'을 차단했습니다.",Toast.LENGTH_SHORT).show();
                 }
                 else
@@ -378,7 +377,11 @@ public class DetailCardActivity extends AppCompatActivity {
             public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
                 if (response.isSuccessful())
                 {
-                    resetActivities();
+                    resetStackCard();
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("_position",getIntent().getIntExtra("_position",-1));
+                    setResult(RESULT_OK, resultIntent);
+                    finish();
                     Toast.makeText(context,"당신의 기억을 영원히 묻었어요.",Toast.LENGTH_SHORT).show();
                 }
             }
@@ -391,12 +394,10 @@ public class DetailCardActivity extends AppCompatActivity {
     }
 
 
-    private void resetActivities()
+    private void resetStackCard()
     {
         StackCardActivity SA =(StackCardActivity)StackCardActivity._StackCardActivity;
         SA.refreshActivity();
-
-        this.finish();
     }
 
 
@@ -412,6 +413,7 @@ public class DetailCardActivity extends AppCompatActivity {
         resultIntent.putExtra("IS_LIKE",cardData.is_liked);
         resultIntent.putExtra("COUNT_LIKE",Integer.parseInt(likeCount.getText().toString()));
         resultIntent.putExtra("COUNT_COMMENT",Integer.parseInt(commentsCount.getText().toString()));
+        resultIntent.putExtra("_position",getIntent().getIntExtra("_position",-1));
         setResult(RESULT_OK,resultIntent);
         finish();
         overridePendingTransition(R.anim.load_fadein,R.anim.load_fadeout);

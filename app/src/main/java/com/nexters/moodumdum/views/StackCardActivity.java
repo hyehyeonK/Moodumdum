@@ -178,7 +178,7 @@ public class StackCardActivity extends AppCompatActivity {
                     Intent intent = new Intent( getBaseContext(), DetailCardActivity.class );
                     intent.putExtra( "cardInfo", cardInfo);
                     intent.putExtra( "beforeAct", Constants.ACTIVITY_STACKCARD);
-                    startActivityForResult(intent,Constants.ACTIVITY_RESULT_STACKCARD);
+                    startActivityForResult(intent,Constants.RESULT_STACKCARD);
                     overridePendingTransition(R.anim.load_fadein,R.anim.load_fadeout);
                 }
             }
@@ -340,7 +340,7 @@ public class StackCardActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == Activity.RESULT_OK && requestCode == Constants.ACTIVITY_RESULT_STACKCARD) {
+        if (resultCode == Activity.RESULT_OK && requestCode == Constants.RESULT_STACKCARD) {
             boolean isLike = data.getBooleanExtra("IS_LIKE",false);
             int countLike = data.getIntExtra("COUNT_LIKE",0);
             int countComment = data.getIntExtra("COUNT_COMMENT",0);

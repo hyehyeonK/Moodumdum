@@ -64,6 +64,11 @@ public class MyPageRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         this.cardList.addAll(newCardList);
         notifyDataSetChanged();
     }
+    public void deleteItem(int position)
+    {
+        this.cardList.remove(position);
+        notifyDataSetChanged();
+    }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
         View view;

@@ -114,7 +114,7 @@ public class CategorySelectedActivity extends BaseActivity {
                 Intent intent = new Intent( getBaseContext(), DetailCardActivity.class );
                 intent.putExtra( "cardInfo", cardInfo);
                 intent.putExtra( "beforeAct", Constants.ACTIVITY_CATEGORY);
-                startActivityForResult(intent,Constants.ACTIVITY_RESULT_CATEGORY);
+                startActivityForResult(intent,Constants.RESULT_CATEGORY);
             }
         });
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -225,7 +225,7 @@ public class CategorySelectedActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK && requestCode == Constants.ACTIVITY_RESULT_CATEGORY) {
+        if (resultCode == Activity.RESULT_OK && requestCode == Constants.RESULT_CATEGORY) {
             boolean isLike = data.getBooleanExtra("IS_LIKE",false);
             int countLike = data.getIntExtra("COUNT_LIKE",0);
             int countComment = data.getIntExtra("COUNT_COMMENT",0);

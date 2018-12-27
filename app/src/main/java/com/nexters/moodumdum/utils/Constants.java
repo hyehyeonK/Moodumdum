@@ -14,9 +14,11 @@ public class Constants {
 
 
     /**
-     * ActivityForResult
+     * ActivityForResult (From DetailCard)
      */
-    public static final int ACTIVITY_RESULT_STACKCARD = 1000;
-    public static final int ACTIVITY_RESULT_MYPAGE = 1001;
-    public static final int ACTIVITY_RESULT_CATEGORY = 1002;
+    public static final int RESULT_STACKCARD = 1000;
+    public static final int RESULT_EDIT_INFO = 1010;
+    public static final int RESULT_MYWRITE = 1011;
+    public static final int RESULT_MYJOMUN = 1012;
+    public static final int RESULT_CATEGORY = 1100;
 }
