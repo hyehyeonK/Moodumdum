@@ -142,7 +142,7 @@ public class DetailCardActivity extends AppCompatActivity {
                     case R.id.report_post:
                         //신고 다이얼로그
                         reportDialog = CustomReportDialog.closeDialog(reportDialog);
-                        reportDialog = new CustomReportDialog(getBaseContext(), cardData.user.user, cardData.id);
+                        reportDialog = new CustomReportDialog(context, cardData.user.user, cardData.id);
                         reportDialog.show();
                         return true;
                 }
